@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/04 14:49:57 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/04 15:43:21 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,20 +23,22 @@ HDRS			:= -Iinclude -I$(SUBMODULE_DIR)/include
 LIBS			:= -L$(SUBMODULE_DIR)/build -lmlx42 -ldl -lglfw #-lm
 
 # Sources and objects
-SRCS			:= src/input_handler.c #src/main.c
+SRCS			:= src/input_handler.c src/write.c 
+SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
+OBJ_MAIN		:= $(SRC_MAIN:%.c=%.o)
 
 # RULES
 all: update-submodule build-submodule $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(HDRS) $(LIBS) -o $(NAME)
+$(NAME): $(OBJS) $(OBJ_MAIN)
+	$(CC) $(CFLAGS) $(OBJS) $(OBJ_MAIN) $(HDRS) $(LIBS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(HDRS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJ_MAIN)
 
 fclean: clean
 	rm -rf MLX42/build $(NAME)
