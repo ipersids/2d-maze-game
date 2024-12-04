@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/03 18:11:32 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/04 14:49:57 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,28 @@ SUBMODULE_DIR	:= MLX42
 CC				:= clang
 CFLAGS			:= -Wall -Wextra -Werror
 HDRS			:= -Iinclude -I$(SUBMODULE_DIR)/include
-LIBS			:= -L$(SUBMODULE_DIR)/build -lmlx42
+LIBS			:= -L$(SUBMODULE_DIR)/build -lmlx42 -ldl -lglfw #-lm
+
+# Sources and objects
+SRCS			:= src/input_handler.c #src/main.c
+OBJS			:= $(SRCS:%.c=%.o)
 
 # RULES
-# all:
+all: update-submodule build-submodule $(NAME)
 
-# clean:
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(HDRS) $(LIBS) -o $(NAME)
 
-# fclean:
+%.o: %.c
+	$(CC) $(CFLAGS) $(HDRS) -c $< -o $@
 
-# re: fclean all
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -rf MLX42/build $(NAME)
+
+re: fclean all
 
 # Rule: update submodule MLX42
 update-submodule:
@@ -38,3 +50,21 @@ update-submodule:
 # Rule: build Submodule MLX42
 build-submodule:
 	cd $(SUBMODULE_DIR) && cmake -B build && cmake --build build -j4
+	@echo "\nMLX42 is ready.\n"
+
+# TESTING
+TEST_NAME		:= test_main
+TEST_SRCS		:= test/test_main.c
+TEST_OBJS		:= $(TEST_SRCS:%.c=%.o)
+
+test: $(TEST_NAME)
+
+$(TEST_NAME): $(OBJS) $(TEST_OBJS)
+	$(CC) $(CFLAGS) -g $(TEST_OBJS) $(OBJS) $(HDRS) $(LIBS) -o $(TEST_NAME)
+
+tclean: clean
+	rm -f $(TEST_NAME) $(TEST_OBJS)
+
+
+
+.PHONY: all clean fclean re update-submodule build-submodule
