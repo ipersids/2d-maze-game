@@ -1,3 +1,6 @@
 [submodule "MLX42"]
 	path = MLX42
 	url = https://github.com/codam-coding-college/MLX42.git
+[submodule "ft-printf"]
+	path = ft-printf
+	url = https://github.com/ipersids/42-ft-printf.git
