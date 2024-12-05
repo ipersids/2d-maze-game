@@ -61,5 +61,5 @@ valgrind-out.txt
 .vscode
 
 # Tests
-test_main
+test_*
 test/*
