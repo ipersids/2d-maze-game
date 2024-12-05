@@ -59,6 +59,7 @@ valgrind-out.txt
 
 # EDA
 .vscode
+.DS_Store
 
 # Tests
 test_*
