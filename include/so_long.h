@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/04 19:24:55 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:29:39 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # include "ft_printf.h"		// ft_printf library
 
-
 # ifndef WIDTH
 #  define WIDTH 1366
 # endif
@@ -33,7 +32,20 @@
 # endif
 
 # define NAME "So loooooooooooong game!"
+# define MAP_EXTENSION ".ber"
+# define MAP_CODE "01CEP"
 
-void	input_key_hook(mlx_key_data_t keydata, void* param);
+typedef struct s_map
+{
+	int		item;
+	int		row;
+	int		col;
+	char	*map_arr;
+}			t_map;
+
+void	input_esc_hook(void *param);
+void	input_move_hook(mlx_key_data_t keydata, void *param);
+int		is_args_valid(int argc, char **argv);
+int		is_path_valid(char *path);
 
 #endif
