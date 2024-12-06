@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/05 18:29:39 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:00:21 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <string.h>		// strerror
 // # include <math.h>		// math library
 
-# include "ft_printf.h"		// ft_printf library
+# include "libft.h"		// ft_printf library
 
 # ifndef WIDTH
 #  define WIDTH 1366
