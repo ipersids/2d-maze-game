@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/06 19:00:21 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:32:57 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>			// open
-# include <unistd.h>		// close, read, write
-# include <stdlib.h>		// malloc, free, exit
 # include <stdio.h>			// perror
 # include <string.h>		// strerror
 // # include <math.h>		// math library
 
-# include "libft.h"		// ft_printf library
+# include "libft.h"			// libft library
 
 # ifndef WIDTH
 #  define WIDTH 1366
