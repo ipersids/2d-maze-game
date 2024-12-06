@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/05 18:29:39 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/06 10:29:31 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@
 
 typedef struct s_map
 {
-	int		item;
-	int		row;
-	int		col;
-	char	*map_arr;
-}			t_map;
+	size_t		item;
+	size_t		row;
+	size_t		col;
+	char		**map_arr;
+}				t_map;
 
 void	input_esc_hook(void *param);
 void	input_move_hook(mlx_key_data_t keydata, void *param);
