@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/06 10:29:31 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:39:58 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 
 # include <MLX42/MLX42.h>
 # include <fcntl.h>			// open
-# include <unistd.h>		// close, read, write
-# include <stdlib.h>		// malloc, free, exit
 # include <stdio.h>			// perror
 # include <string.h>		// strerror
 // # include <math.h>		// math library
 
-# include "ft_printf.h"		// ft_printf library
+# include "libft.h"			// libft library
 
 # ifndef WIDTH
 #  define WIDTH 1366
@@ -37,11 +35,11 @@
 
 typedef struct s_map
 {
-	size_t		item;
-	size_t		row;
-	size_t		col;
-	char		**map_arr;
-}				t_map;
+	int		item;
+	int		row;
+	int		col;
+	char	*map_arr;
+}			t_map;
 
 void	input_esc_hook(void *param);
 void	input_move_hook(mlx_key_data_t keydata, void *param);

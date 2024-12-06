@@ -6,9 +6,20 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/05 18:33:37 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/06 19:40:46 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# Platform-specific settings
+ifeq ($(OS),Windows_NT)
+    RM = del /q
+    RM_DIR = rmdir /s /q
+    LIB_EXT = .lib
+else
+    RM = rm -f
+    RM_DIR = rm -rf
+    LIB_EXT = .a
+endif
 
 # Program name
 NAME			:= so_long
@@ -16,16 +27,16 @@ NAME			:= so_long
 # Submodule MLX42
 SUBM_MLX_DIR	:= MLX42
 
-# Submodule ft_printf
-SUBM_PRINT_DIR	:= ft-printf
-SUBM_PRINT_LIB	:= $(SUBM_PRINT_DIR)/libftprintf.a
+# Submodule libft
+SUBM_LIBFT_DIR	:= libft
+SUBM_LIBFT_LIB	:= $(SUBM_LIBFT_DIR)/libft$(LIB_EXT)
 
 # Compilation variables
 CC				:= clang
 CFLAGS			:= -Wall -Wextra -Werror
-HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_PRINT_DIR)
+HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_LIBFT_DIR)/include
 LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
-				   -L$(SUBM_PRINT_DIR) -lftprintf \
+				   -L$(SUBM_LIBFT_DIR) -lft \
 				   -ldl -lglfw #-lm
 
 # Sources and objects
@@ -44,12 +55,12 @@ $(NAME): $(OBJS) $(OBJ_MAIN)
 	$(CC) $(CFLAGS) $(HDRS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(OBJ_MAIN)
-	$(MAKE) -C $(SUBM_PRINT_DIR) clean
+	$(RM) -f $(OBJS) $(OBJ_MAIN)
+	$(MAKE) -C $(SUBM_LIBFT_DIR) clean
 
 fclean: clean
-	rm -rf MLX42/build $(NAME)
-	$(MAKE) -C $(SUBM_PRINT_DIR) fclean
+	$(RM) -rf MLX42/build $(NAME)
+	$(MAKE) -C $(SUBM_LIBFT_DIR) fclean
 
 re: fclean all
 
@@ -61,7 +72,7 @@ update-submodule:
 build-submodule:
 	cd $(SUBM_MLX_DIR) && cmake -B build && cmake --build build -j4
 	@echo "\nMLX42 is ready.\n"
-	$(MAKE) -C $(SUBM_PRINT_DIR) 
+	$(MAKE) -C $(SUBM_LIBFT_DIR) 
 
 # TESTING
 TEST_NAME		:= test_main
@@ -74,7 +85,7 @@ $(TEST_NAME): $(OBJS) $(TEST_OBJS)
 	$(CC) $(CFLAGS) -g $(TEST_OBJS) $(OBJS) $(HDRS) $(LIBS) -o $(TEST_NAME)
 
 tclean: clean
-	rm -f $(TEST_NAME) $(TEST_OBJS)
+	$(RM) -f $(TEST_NAME) $(TEST_OBJS)
 
 
 
