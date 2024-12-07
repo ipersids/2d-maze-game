@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/06 19:40:46 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/07 12:39:11 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,10 @@ LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -ldl -lglfw #-lm
 
 # Sources and objects
-SRCS			:= src/hook.c src/arg_check.c
+SRCS			:= src/hook.c \
+				   src/arg_check.c \
+				   src/error.c \
+
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
 OBJ_MAIN		:= $(SRC_MAIN:%.c=%.o)
