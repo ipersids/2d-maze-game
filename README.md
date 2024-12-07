@@ -4,16 +4,11 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 ### Project plan
 
 <details>
-<summary>Active tasks</summary>  
+<summary>Active tasks</summary>    
 
-- [ ] Map reading and general validation:  
-	* Map is rectangular.
-	* There is exactly one start position and one exit position.  
-	* There is at least one one collectible item.
-	* Map is surrounded by walls.   
 - [ ] Check if the map is playable:  
 	* There's a valid path between the start and exit.  
-	* All collectibles are reachable.
+	* All collectibles are reachable.  
 
 </details>
 
@@ -38,7 +33,12 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 - [x] Program input validation:    
     * Takes exactly 2 parameters: `<program> <path>`.   
     * Map file has a `.ber` extension.    
-    * Path to the file is valid.  
+    * Path to the file is valid. 
+- [x] Map reading and general validation:  
+	* Map is rectangular.
+	* There is exactly one start position and one exit position.  
+	* There is at least one one collectible item.
+	* Map is surrounded by walls.  
 - [x] Handle user input:
 	* Implement movement in 4 directions: up, down, left, and right.  
 	* Handle closing the window with ESC.
