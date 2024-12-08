@@ -6,18 +6,23 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:11:16 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/07 18:02:13 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/09 00:29:51 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	so_free_str_close_fd(char *str1, char *str2, int fd)
+void	so_free_arr(char **arr, size_t arr_size)
 {
-	if (str1)
-		free(str1);
-	if (str2)
-		free(str2);
-	if (fd > 2)
-		close(fd);
+	size_t	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (i < arr_size)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

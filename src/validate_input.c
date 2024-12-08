@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 01:51:32 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/07 21:44:33 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/09 00:26:10 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,41 +51,37 @@ int	is_args_valid(int argc, char **argv)
  * and if the map rows have the same number of columns 
  * (the map should be rectangular).
  * 
- * @param line The current line of the map to be validated.
  * @param map A pointer to the map structure.
- * @param fd The file descriptor of the map file.
- * 
- * @return size_t The number of valid columns in the map line.
+ * @param y A current y-axis index (rows)
  * 
  * @note If an error occurs, the program exits with one of the codes:
  *			- 103: Invalid character detected in the map line.
  *			- 104: Incorrect number of columns.
  */
-size_t	is_line_valid(char *line, t_map *map, int fd)
+void	is_line_valid(t_map *map, size_t y)
 {
 	size_t	i;
 
 	i = 0;
-	while ('\0' != line[i] && '\n' != line[i])
+	while ('\0' != map->map_arr[y][i])
 	{
-		if (ft_strchr(MAP_CODE, line[i]) == NULL)
+		if (ft_strchr(MAP_CODE, map->map_arr[y][i]) == NULL)
 		{
-			so_free_str_close_fd(line, map->map_arr, fd);
+			so_free_arr(map->map_arr, map->row);
 			so_exit_error("Invalid map: check forbidden characters.", 103);
 		}
-		if (line[i] == MAP_CODE[2])
+		if (map->map_arr[y][i] == MAP_CODE[2])
 			map->item++;
-		if (line[i] == MAP_CODE[3])
+		if (map->map_arr[y][i] == MAP_CODE[3])
 			map->exit++;
-		if (line[i++] == MAP_CODE[4])
+		if (map->map_arr[y][i++] == MAP_CODE[4])
 			map->player++;
 	}
-	if (1 != map->row && (i != map->col || 0 == i))
+	if (i != map->col || 0 == i)
 	{
-		so_free_str_close_fd(line, map->map_arr, fd);
+		so_free_arr(map->map_arr, map->row);
 		so_exit_error("Invalid map: check the number of columns.", 104);
 	}
-	return (i);
 }
 
 /**
@@ -95,57 +91,71 @@ size_t	is_line_valid(char *line, t_map *map, int fd)
  * checks that the map is surrounded by walls. If any validation fails, 
  * the program terminates with an error message.
  * 
- * @param line The current map line being validated.
  * @param map A pointer to the map structure, which tracks map content.
- * @param fd The file descriptor of the map file.
- * @param last Indicator if the line is the last row of the map.
  * 
  * * @note If an error occurs, the program exits with one of the codes:
  *			- 106: More than one exit or player found in the map.
- *			- 107: More than one player found in the map.
+ *			- 107: There's no one collectible found in the map.
  *			- 108: The map isn't surrounded by walls.
- *			- 109: The final map statement is invalid.
+ *
  */
-void	is_map_valid(char *line, t_map *map, int fd, t_bool last)
+void	is_map_valid(t_map *map)
 {
-	if (1 < map->exit || 1 < map->player)
+	if (1 != map->exit || 1 != map->player)
 	{
-		so_free_str_close_fd(line, map->map_arr, fd);
-		so_exit_error("Invalid map: more than one exit/player.", 106);
+		so_free_arr(map->map_arr, map->row);
+		so_exit_error("Invalid map: wrong amount of exits/players.", 106);
 	}
-	if (1 < map->player)
+	if (0 == map->item)
 	{
-		so_free_str_close_fd(line, map->map_arr, fd);
-		so_exit_error("Invalid map: more than one player.", 107);
+		so_free_arr(map->map_arr, map->row);
+		so_exit_error("Invalid map: no one collectible found", 107);
 	}
-	if (((1 == map->row || TRUE == last) && !is_brow_valid(line, MAP_CODE[1]))
-		|| !(MAP_CODE[1] == line[0] && MAP_CODE[1] == line[map->col - 1]))
+	if (!is_borders_valid(map, MAP_CODE[1]))
 	{
-		so_free_str_close_fd(line, map->map_arr, fd);
-		so_exit_error("Invalid map: check if it's surrounded by walls.", 108);
-	}
-	if (TRUE == last && (1 != map->exit || 1 != map->player || 0 == map->item))
-	{
-		so_free_str_close_fd(line, map->map_arr, fd);
-		so_exit_error("Invalid map: check how many players/exits/items.", 109);
+		so_free_arr(map->map_arr, map->row);
+		so_exit_error("Invalid map: it isn't surrounded by walls", 108);
 	}
 }
 
 /**
- * @brief Checks if a row is fully bordered with the specified character.
+ * @brief  Checks if the map rows are fully bordered 
+ * 		   with the specified character
  * 
- * @param line The map row to check.
- * @param ch The border character (`1`)
- * @return t_bool Returns `TRUE` (1) if the row is fully bordered, 
- * 				  `FALSE` (0) otherwise.
+ * This function checks that the first and last rows of the map are entirely 
+ * composed of the specified border character and that the first and last 
+ * characters of each row are the specified border character.
+ * 
+ * @param map A pointer to the map structure.
+ * @param ch The character to check for as the border.
+ * @return t_bool Returns `TRUE` (1) if the map's borders are correct, 
+ * 				  otherwise returns `FALSE` (0).
  */
-t_bool	is_brow_valid(const char *line, const char ch)
+t_bool	is_borders_valid(t_map *map, const char ch)
 {
-	while ('\0' != *line && '\n' != *line)
+	size_t	y;
+	size_t	i;
+
+	y = 0;
+	while (y < map->row)
 	{
-		if (ch != *line)
+		if (0 == y || y == map->row - 1)
+		{
+			i = 0;
+			while ('\0' != map->map_arr[y][i])
+			{
+				if (map->map_arr[y][i] != ch)
+					return (FALSE);
+				i++;
+			}
+			y++;
+			continue ;
+		}
+		if (map->map_arr[y][0] != ch)
 			return (FALSE);
-		line++;
+		if (map->map_arr[y][map->col - 1] != ch)
+			return (FALSE);
+		y++;
 	}
 	return (TRUE);
 }
