@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:52:30 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 00:34:09 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:34:11 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,18 @@
 /* FOR TESTING */
 int	main(int argc, char **argv)
 {
-	t_map mapmap;
+	t_map map;
 
-	int fd = is_args_valid(argc, argv);
-	ft_printf("File opened!\n");
+	map.col = 0;
+	map.exit = 0;
+	map.item = 0;
+	map.player = 0;
+	map.row = 0;
+	map.map_arr = NULL;
+	so_validate_everything(argc, argv, &map);
 
-	char **map = so_read_map(fd);
-	ft_printf("\nMap is loaded!\n");
-	close(fd);
-
-	size_t i = 0;
-	for ( ; map[i] != NULL; i++) {
-		ft_printf("%s\n", map[i]);
-	}
-	ft_printf("\n<<< END OF MAP\n");
-
-	mapmap.col = ft_strlen(map[0]);
-	mapmap.row = i;
-	mapmap.exit = 0;
-	mapmap.item = 0;
-	mapmap.player = 0;
-	mapmap.map_arr = map;
-	i = 0;
-	ft_printf("\nValidating the map content:\n");
-	for ( ; map[i] != NULL; i++) {
-		ft_printf("line [%d] [ p = %p ]:", (int)i + 1, map[i]);
-		is_line_valid(&mapmap, i);
-		ft_printf("%s checked %s\n", YELLOW, DEFAULT);
-	}
-	ft_printf("%s\nRESULT%s >>> ", YELLOW, DEFAULT);
-	is_map_valid(&mapmap);
-	ft_printf("%sMap is valid.%s\n", GREEN, DEFAULT);
-
-	if (mapmap.map_arr)
-		so_free_arr(map, i);
+	if (map.map_arr)
+		so_free_arr(map.map_arr, map.row);
 	return (0);
 }
 

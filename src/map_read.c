@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:44 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 00:30:10 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:14:25 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 
 /* --------------------- Support function prototypes ----------------------- */
 
-static char	**so_realloc_matrix(char **arr, size_t i, size_t *size, int fd);
+static char	**so_realloc_matrix(char **arr, size_t i, size_t *size);
 
 /* ---------------------------- Implementation ----------------------------- */
-/* ------------------- Support Function Implementation --------------------- */
 
 char	**so_read_map(int fd)
 {
@@ -32,10 +31,7 @@ char	**so_read_map(int fd)
 	capacity = 10;
 	matrix = (char **) malloc(capacity * sizeof(char *));
 	if (!matrix)
-	{
-		close(fd);
-		so_exit_perror("Map memory allocation failed", 110);
-	}
+		return (NULL);
 	matrix[row] = get_next_line(fd, FALSE);
 	while (matrix[row])
 	{
@@ -43,13 +39,18 @@ char	**so_read_map(int fd)
 		if (nl)
 			*nl = '\0';
 		if (++row >= capacity - 1)
-			so_realloc_matrix(matrix, row, &capacity, fd);
+		{
+			if (!so_realloc_matrix(matrix, row, &capacity))
+				return (NULL);
+		}
 		matrix[row] = get_next_line(fd, FALSE);
 	}
 	return (matrix);
 }
 
-static char	**so_realloc_matrix(char **arr, size_t i, size_t *size, int fd)
+/* ------------------- Support Function Implementation --------------------- */
+
+static char	**so_realloc_matrix(char **arr, size_t i, size_t *size)
 {
 	char	**res;
 	size_t	j;
@@ -59,8 +60,7 @@ static char	**so_realloc_matrix(char **arr, size_t i, size_t *size, int fd)
 	if (!res)
 	{
 		so_free_arr(arr, i);
-		close(fd);
-		so_exit_perror("Memory reallocation failed", 111);
+		return (NULL);
 	}
 	j = 0;
 	while (j < i)

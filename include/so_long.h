@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 00:28:52 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:06:02 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,16 @@ typedef struct s_map
 	size_t	row;
 	size_t	col;
 	size_t	player;
+	size_t	p_xy[2];
 	size_t	exit;
+	size_t	e_xy[2];
 	char	**map_arr;
 }			t_map;
+
+typedef struct s_game
+{
+	t_map	*map;
+}			t_game;
 
 void	input_esc_hook(void *param);
 void	input_move_hook(mlx_key_data_t keydata, void *param);
@@ -85,16 +92,17 @@ char	**so_read_map(int fd);
 
 /* ---------------------------- Validate Input ----------------------------- */
 
+void		so_validate_everything(int argc, char **argv, t_map *map);
 int		is_args_valid(int argc, char **argv);
-void	is_line_valid(t_map *map, size_t y);
-
-void	is_map_valid(t_map *map);
-t_bool	is_borders_valid(t_map *map, const char ch);
+int		is_line_valid(t_map *map, size_t y);
+int		is_map_valid(t_map *map);
 
 /* ---------------------------- Error Handling ----------------------------- */
 
 void	so_exit_error(const char *message, int exit_code);
 void	so_exit_perror(const char *message, int exit_code);
+void	so_print_error(const char *message, int exit_code);
+void	so_print_perror(const char *message, int exit_code);
 
 /* ---------------------------- Memory Managing ----------------------------- */
 
@@ -116,6 +124,6 @@ void	so_free_arr(char **arr, size_t arr_size);
  * - 108: The map isn't surrounded by walls.
  * - 109: 
  * 
- * - 110: Map allocation failed.
- * - 111: Map reallocation failed.
+ * - 110: Memory allocation failed.
+ * - 111: 
  */

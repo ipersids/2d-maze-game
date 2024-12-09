@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/07 15:07:31 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/09 17:44:03 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,11 +40,14 @@ LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -ldl -lglfw #-lm
 
 # Sources and objects
-SRCS			:= src/hook.c \
-				   src/validate_input.c \
+SRCS			:= src/arg_check.c \
 				   src/error.c \
-				   src/free_memory.c \
-				   src/map.c \
+				   src/hook.c \
+				   src/map_check.c \
+				   src/map_read.c \
+				   src/dfs_algorithm.c \
+				   src/memory.c \
+				   src/validator.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
