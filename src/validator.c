@@ -6,14 +6,14 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:43:51 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 17:34:39 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/10 01:57:20 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 static void	so_validate_argv(int argc, char **argv, int *fd);
-static void so_validate_map_lines(t_map *map);
+static void	so_validate_map_lines(t_map *map);
 
 void	so_validate_everything(int argc, char **argv, t_map *map)
 {
@@ -31,7 +31,6 @@ void	so_validate_everything(int argc, char **argv, t_map *map)
 		so_exit_error("Invalid map: the given map is empty.", 105);
 	}
 	so_validate_map_lines(map);
-	/** @todo add check if map is playable to is_map_valid */
 	check = is_map_valid(map);
 	if (check)
 	{
@@ -41,7 +40,7 @@ void	so_validate_everything(int argc, char **argv, t_map *map)
 	ft_printf("%sMap is valid.%s\n", GREEN, DEFAULT);
 }
 
-static void so_validate_map_lines(t_map *map)
+static void	so_validate_map_lines(t_map *map)
 {
 	int		check;
 	size_t	i;

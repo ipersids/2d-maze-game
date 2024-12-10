@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 17:48:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/10 01:56:30 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,12 @@ int	is_map_valid(t_map *map)
 	if (is_borders_valid(map, MAP_CODE[1]))
 	{
 		so_print_error("Invalid map: it isn't surrounded by walls", 108);
-		return(108);
+		return (108);
+	}
+	if (is_map_playable(map))
+	{
+		so_print_error("Invalid map: there is no way to win", 112);
+		return (112);
 	}
 	return (0);
 }

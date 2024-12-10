@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 18:06:02 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/10 01:18:30 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ char	**so_read_map(int fd);
 
 /* ---------------------------- Validate Input ----------------------------- */
 
-void		so_validate_everything(int argc, char **argv, t_map *map);
+void	so_validate_everything(int argc, char **argv, t_map *map);
 int		is_args_valid(int argc, char **argv);
 int		is_line_valid(t_map *map, size_t y);
 int		is_map_valid(t_map *map);
+int		is_map_playable(t_map *map);
 
 /* ---------------------------- Error Handling ----------------------------- */
 
@@ -125,5 +126,5 @@ void	so_free_arr(char **arr, size_t arr_size);
  * - 109: 
  * 
  * - 110: Memory allocation failed.
- * - 111: 
+ * - 111: DFS failed
  */
