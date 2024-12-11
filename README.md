@@ -6,18 +6,16 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 <details>
 <summary>Active tasks</summary>    
 
-- [ ] Check if the map is playable:  
-	* There's a valid path between the start and exit.  
-	* All collectibles are reachable.  
+- [ ] Display the game background in the window.  
+	* Load sprites for walls, obstacles and empty spaces.   
+	* Manage window resizing.  
 
 </details>
 
 <details>
 <summary>Backlog</summary>   
 
-- [ ] Implement a basic game loop that handles rendering and events.  
-- [ ] Load sprite images (player, walls, exit, collectibles).   
-- [ ] Display game objects on the window.  
+- [ ] Implement a basic game loop that handles rendering and events.   
 - [ ] Implement sprite animation.  
 - [ ] Improve movement controls: collision detection.   
 - [ ] Handle player interaction with collectibles and counter.  
@@ -38,7 +36,10 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 	* Map is rectangular.
 	* There is exactly one start position and one exit position.  
 	* There is at least one one collectible item.
-	* Map is surrounded by walls.  
+	* Map is surrounded by walls. 
+- [x] Check if the map is playable:  
+	* There's a valid path between the start and exit.  
+	* All collectibles are reachable.   
 - [x] Handle user input:
 	* Implement movement in 4 directions: up, down, left, and right.  
 	* Handle closing the window with ESC.

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_map.c                                         :+:      :+:    :+:   */
+/*   map_read.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:44 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/09 11:14:25 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:31:17 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ char	**so_read_map(int fd)
 	matrix[row] = get_next_line(fd, FALSE);
 	while (matrix[row])
 	{
-		nl = ft_strchr(matrix[row], '\n');
+		nl = ft_strchr(matrix[row++], '\n');
 		if (nl)
 			*nl = '\0';
-		if (++row >= capacity - 1)
+		if (row >= capacity)
 		{
-			if (!so_realloc_matrix(matrix, row, &capacity))
+			matrix = so_realloc_matrix(matrix, row, &capacity);
+			if (!matrix)
 				return (NULL);
 		}
 		matrix[row] = get_next_line(fd, FALSE);
@@ -55,7 +56,7 @@ static char	**so_realloc_matrix(char **arr, size_t i, size_t *size)
 	char	**res;
 	size_t	j;
 
-	*size *= 2;
+	*size = *size * 2;
 	res = (char **) malloc(*size * sizeof(char *));
 	if (!res)
 	{
@@ -68,6 +69,6 @@ static char	**so_realloc_matrix(char **arr, size_t i, size_t *size)
 		res[j] = arr[j];
 		j++;
 	}
-	so_free_arr(arr, i);
+	free(arr);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:34:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/10 01:55:47 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:10:40 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	is_map_playable(t_map *map)
 		return (111);
 	items = dfs(map, map->p_xy, visited, direction);
 	free(visited);
-	ft_printf("DEBUG: items %d\n", (int)items);
 	if (items == (map->item + map->exit))
 		return (0);
 	return (112);
@@ -46,7 +45,6 @@ static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2])
 		return (0);
 	items = 0;
 	vis[p_xy[0] * map->col + p_xy[1]] = 1;
-	ft_printf("DEBUG: item %c\n", map->map_arr[p_xy[0]][p_xy[1]]);
 	if (map->map_arr[p_xy[0]][p_xy[1]] == MAP_CODE[2]
 		|| map->map_arr[p_xy[0]][p_xy[1]] == MAP_CODE[3])
 		items++;
