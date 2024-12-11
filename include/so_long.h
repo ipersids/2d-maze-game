@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/10 01:18:30 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:11:33 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 
 # ifndef HEIGHT
 #  define HEIGHT 768
+# endif
+
+# ifndef SPRITE_SIZE
+#  define SPRITE_SIZE 64
 # endif
 
 # define NAME "So loooooooooooong game!"
