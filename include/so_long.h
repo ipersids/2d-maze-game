@@ -6,10 +6,20 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/11 15:11:33 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:57:25 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/** 
+ * 	@todo small things:
+ *  1) 	dfs_algorithm.c -> dfs()
+ * 		Add termination when all items are visited. 
+ * 		Check "is_move_safe" separately.
+ * 	2)	error.c -> create an enum for error codes and a function to get error 
+ * 		messages from a list using code (mlx42 as reference).
+ * 	3)	map_check.c -> move some checks to private.
+ * 	4)	Add a final map check: if the map fits the maximum monitor size.
+ */
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -17,7 +27,7 @@
 # include <fcntl.h>			// open
 # include <stdio.h>			// perror
 # include <string.h>		// strerror
-// # include <math.h>		// math library
+// # include <math.h>			// math library
 
 # include "libft.h"			// libft library
 
@@ -85,10 +95,10 @@ typedef struct s_map
 	char	**map_arr;
 }			t_map;
 
-typedef struct s_game
-{
-	t_map	*map;
-}			t_game;
+// typedef struct s_game
+// {
+// 	t_map	*map;
+// }			t_game;
 
 void	input_esc_hook(void *param);
 void	input_move_hook(mlx_key_data_t keydata, void *param);

@@ -6,13 +6,17 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/10 01:56:30 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:50:36 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+/* --------------------- Private function prototypes ----------------------- */
+
 static int	is_borders_valid(t_map *map, const char ch);
+
+/* --------------------------- Public Functions ---------------------------- */
 
 /**
  * @brief Validates the content of a map line.
@@ -94,6 +98,8 @@ int	is_map_valid(t_map *map)
 	}
 	return (0);
 }
+
+/* ------------------- Private Function Implementation --------------------- */
 
 /**
  * @brief  Checks if the map rows are fully bordered 

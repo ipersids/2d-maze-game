@@ -6,15 +6,26 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:34:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/11 12:10:40 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:30:44 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+/* --------------------- Private function prototypes ----------------------- */
+
 static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2]);
 static void		so_set_start_and_exit(t_map *map);
 
+/* --------------------------- Public Functions ---------------------------- */
+
+/**
+ * @brief Checks if the map is playable by performing a depth-first search (DFS).
+ * 
+ * @param map Pointer to the map structure.
+ * @return int 0 if playable, overwise - error code.
+ * 
+ */
 int	is_map_playable(t_map *map)
 {
 	int			*visited;
@@ -31,8 +42,22 @@ int	is_map_playable(t_map *map)
 		return (0);
 	return (112);
 }
+/* ------------------- Private Function Implementation --------------------- */
 
-/// @todo Add termination when all items visited. Check is_move_safe separately
+/**
+ * @brief Depth-first search (DFS) to count reachable items and exits.
+ * 
+ * This function recursively explores the map from the player's starting 
+ * position, marking visited nodes and counting the number of reachable items 
+ * and exit.
+ * 
+ * @param map Pointer to the map structure.
+ * @param p_xy Array containing the player's current x and y coordinates.
+ * @param vis Pointer to the array tracking visited nodes.
+ * @param dir Array of direction vectors for moving up, down, left, and right.
+ * @return size_t The number of reachable items and exits.
+ * 
+ */
 static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2])
 {
 	size_t	items;
@@ -59,6 +84,11 @@ static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2])
 	return (items);
 }
 
+/**
+ * @brief Sets the starting and exit positions on the map.
+ * 
+ * @param map Pointer to the map structure.
+ */
 static void	so_set_start_and_exit(t_map *map)
 {
 	size_t	row;
