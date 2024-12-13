@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/13 23:57:25 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/14 00:08:34 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,32 @@ void	so_print_perror(const char *message, int exit_code);
 /* ---------------------------- Memory Managing ----------------------------- */
 
 void	so_free_arr(char **arr, size_t arr_size);
+
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
+
+# define RGBA 4						// Bytes Per Pixel equal sizeof(int32_t)
+# define DEFAULT_COLOR 0xFFFFFFFF	// RGBA {255, 255, 255, 255}
+
+# define SPRITE_SIZE_MIN 32
+
+typedef enum e_background_type
+{
+	WALL,
+	GROUND,
+	BG_MAX
+}	t_background_type;
+
+mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size);
+uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
+void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
+						uint32_t x, uint32_t y);
+mlx_image_t	*so_draw_background(mlx_t *mlx, uint32_t sp_size, char **map);
+
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
 
 #endif
 

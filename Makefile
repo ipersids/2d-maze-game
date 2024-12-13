@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/09 17:44:03 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/14 00:09:30 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_LIBFT_DIR)/include
 LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -L$(SUBM_LIBFT_DIR) -lft \
-				   -ldl -lglfw #-lm
+				   -ldl -lglfw -lm
 
 # Sources and objects
 SRCS			:= src/arg_check.c \
@@ -48,6 +48,8 @@ SRCS			:= src/arg_check.c \
 				   src/dfs_algorithm.c \
 				   src/memory.c \
 				   src/validator.c \
+				   \
+				   src/draw/background.c src/draw/image.c src/draw/sprite.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
@@ -63,18 +65,18 @@ $(NAME): $(OBJS) $(OBJ_MAIN)
 	$(CC) $(CFLAGS) $(HDRS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJS) $(OBJ_MAIN)
+	$(RM) $(OBJS) $(OBJ_MAIN)
 	$(MAKE) -C $(SUBM_LIBFT_DIR) clean
 
 fclean: clean
-	$(RM) -rf MLX42/build $(NAME)
+	$(RM) MLX42/build $(NAME)
 	$(MAKE) -C $(SUBM_LIBFT_DIR) fclean
 
 re: fclean all
 
-# Rule: update submodule MLX42
+# Rule: update submodule MLX42 --init
 update-submodule:
-	git submodule update --init --recursive
+	git submodule update --recursive
 
 # Rule: build Submodule MLX42
 build-submodule:
@@ -89,11 +91,11 @@ TEST_OBJS		:= $(TEST_SRCS:%.c=%.o)
 
 test: update-submodule build-submodule $(TEST_NAME)
 
-$(TEST_NAME): $(OBJS) $(TEST_OBJS)
-	$(CC) $(CFLAGS) -g $(TEST_OBJS) $(OBJS) $(HDRS) $(LIBS) -o $(TEST_NAME)
+$(TEST_NAME): $(TEST_OBJS) $(OBJS)
+	$(CC) $(CFLAGS) -g $(TEST_OBJS) $(OBJS) $(HDRS) $(LIBS) -o $(TEST_NAME) -I.
 
 tclean: clean
-	$(RM) -f $(TEST_NAME) $(TEST_OBJS)
+	$(RM) $(TEST_NAME) $(TEST_OBJS)
 
 
 
