@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:41:37 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/14 00:10:15 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/17 23:13:34 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,32 @@ uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y)
 	channel = img->pixels + (px_y * img->width + px_x) * RGBA;
 	rgba = get_rgba(*(channel), *(channel + 1), *(channel + 2), *(channel + 3));
 	return (rgba);
+}
+
+/**
+ * @brief Creates a new image with specified dimensions and 
+ * 		  initializes its pixels.
+ * 
+ * This function creates a new image using the MLX42 library with the specified 
+ * width and height. It then initializes the image's pixels with the provided 
+ * channel value.
+ * 
+ * @param mlx Pointer to the MLX42 window.
+ * @param w Width of the new image.
+ * @param h Height of the new image.
+ * @param channel Value to initialize the image's pixels with.
+ * @return mlx_image_t* Pointer to the newly created image, 
+ * 						or NULL if creation fails.
+ */
+mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, uint8_t *channel)
+{
+	mlx_image_t	*img;
+
+	img = mlx_new_image(mlx, w, h);
+	if (!img)
+		return (NULL);
+	ft_memset(img->pixels, channel, w * h * RGBA);
+	return (img);
 }
 
 /* ------------------- Private Function Implementation --------------------- */

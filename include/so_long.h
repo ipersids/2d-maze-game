@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/14 00:08:34 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/17 22:42:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,22 @@ typedef struct s_map
 	char	**map_arr;
 }			t_map;
 
-// typedef struct s_game
-// {
-// 	t_map	*map;
-// }			t_game;
+typedef struct s_game
+{
+	mlx_image_t *layer[3];
+	t_map		*map;
+	double 		elapsed_time;
+	mlx_t 		*mlx;
+	t_anim		*coin;
+	uint32_t 	spite_size;
+}			t_game;
+
+typedef struct s_anim
+{
+	mlx_image_t *img[10];
+	int 		curr_frame;
+	int			cnt_frame;
+}				t_anim;
 
 void	input_esc_hook(void *param);
 void	input_move_hook(mlx_key_data_t keydata, void *param);
@@ -134,8 +146,16 @@ void	so_free_arr(char **arr, size_t arr_size);
 
 typedef enum e_background_type
 {
-	WALL,
-	GROUND,
+	CORNER_UR,
+	CORNER_DR,
+	CORNER_UL,
+	CORNER_DL,
+	WALL_U,
+	WALL_D,
+	WALL_L,
+	WALL_R,
+	FLOOR_WALL,
+	FLOOR_FREE,
 	BG_MAX
 }	t_background_type;
 
@@ -144,6 +164,7 @@ uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
 void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
 						uint32_t x, uint32_t y);
 mlx_image_t	*so_draw_background(mlx_t *mlx, uint32_t sp_size, char **map);
+mlx_image_t *so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, uint8_t *channel);
 
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
