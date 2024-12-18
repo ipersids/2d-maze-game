@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:41:37 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/17 23:13:34 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:44:12 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y)
  * @return mlx_image_t* Pointer to the newly created image, 
  * 						or NULL if creation fails.
  */
-mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, uint8_t *channel)
+mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel)
 {
 	mlx_image_t	*img;
 

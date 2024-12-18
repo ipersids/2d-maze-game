@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/17 23:21:03 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:43:30 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static void	destroy_images(mlx_t *mlx, uint32_t i, mlx_image_t **images)
 {
 	uint32_t	j;
 
+	j = 0;
 	while (j < i)
 	{
 		if (images[j])

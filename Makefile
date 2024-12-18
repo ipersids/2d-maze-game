@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/14 00:09:30 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/18 17:18:56 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,10 @@ SRCS			:= src/arg_check.c \
 				   src/validator.c \
 				   \
 				   src/draw/background.c src/draw/image.c src/draw/sprite.c \
+				   \
+				   src/service/game_init.c src/service/window_init.c \
+				   \
+				   src/ft_min.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
@@ -69,7 +73,8 @@ clean:
 	$(MAKE) -C $(SUBM_LIBFT_DIR) clean
 
 fclean: clean
-	$(RM) MLX42/build $(NAME)
+	$(RM_DIR) MLX42/build 
+	$(RM) $(NAME)
 	$(MAKE) -C $(SUBM_LIBFT_DIR) fclean
 
 re: fclean all
