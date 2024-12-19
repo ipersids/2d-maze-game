@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/18 13:43:30 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:02:58 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,35 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static const char	*get_bg_path(t_background_type type);
-static mlx_image_t	**get_bg_img(mlx_t *mlx, uint32_t sp_size, \
-									mlx_image_t **bg);
-static void			destroy_images(mlx_t *mlx, uint32_t i, \
-									mlx_image_t **images);
+static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX]);
+static int			get_background_type(t_map *map, int32_t x, int32_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
 
-mlx_image_t	*so_draw_background(mlx_t *mlx, uint32_t sp_size, char **map)
+mlx_image_t	*so_draw_background(t_game *game)
 {
-	mlx_image_t	**images;
+	mlx_image_t	*images[BG_MAX];
 	int32_t		x;
 	int32_t		y;
-	mlx_image_t	*bg;
+	int32_t		type;
 
-	images = get_bg_img(mlx, sp_size, &bg);
-	if (!images)
+	if (!get_bg_img(game, images))
 		return (NULL);
 	y = 0;
-	while (map[y] != NULL)
+	while (y < game->map->col)
 	{
 		x = 0;
-		while (map[y][x] != '\0')
+		while ('\0' != game->map->map_arr[y][x])
 		{
-			if (map[y][x] == MAP_CODE[1])
-				so_draw_img(bg, images[FLOOR_WALL], x * sp_size, y * sp_size);
-			else
-				so_draw_img(bg, images[FLOOR_FREE], x * sp_size, y * sp_size);
+			type = get_background_type(game->map, x, y);
+			so_draw_img(game->layout[BACKGRND], images[type], \
+						x * game->spite_size, y * game->spite_size);
 			x++;
 		}
 		y++;
 	}
-	destroy_images(mlx, BG_MAX, images);
-	return (bg);
+	so_destroy_images(game->mlx, BG_MAX, images);
+	return (game->layout[BACKGRND]);
 }
 
 /* ------------------- Private Function Implementation --------------------- */
@@ -64,50 +60,52 @@ static const char	*get_bg_path(t_background_type type)
 		"textures/kenney/background/wall_left.png",
 		"textures/kenney/background/wall_right.png",
 		"textures/kenney/background/floor_wall_tree.png",
-		"textures/kenney/background/floor_free_plants.png"
+		"textures/kenney/background/floor_free_plants.png",
+		"textures/kenney/background/exit_stairs_down.png"
 	};
 
 	return (list[type]);
 }
 
-static mlx_image_t	**get_bg_img(mlx_t *mlx, uint32_t sp_size, mlx_image_t **bg)
+static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX])
 {
-	static mlx_image_t	*images[BG_MAX];
-	int					i;
+	int	i;
 
 	i = 0;
-	while (i < BG_MAX)
+	while(i < BG_MAX)
 	{
-		images[i] = so_load_sprite(get_bg_path(i), mlx, sp_size);
+		images[i] = so_load_sprite(get_bg_path(i), game->mlx, game->spite_size);
 		if (!images[i])
 		{
-			destroy_images(mlx, i, images);
+			so_destroy_images(game->mlx, BG_MAX, images);
 			return (NULL);
 		}
 		i++;
 	}
-	*bg = mlx_new_image(mlx, mlx->width, mlx->height);
-	if (!*bg)
-	{
-		destroy_images(mlx, BG_MAX, images);
-		return (NULL);
-	}
-	ft_memset((*bg)->pixels, 255, (*bg)->width * (*bg)->height * RGBA);
 	return (images);
 }
 
-static void	destroy_images(mlx_t *mlx, uint32_t i, mlx_image_t **images)
+static int	get_background_type(t_map *map, int32_t x, int32_t y)
 {
-	uint32_t	j;
-
-	j = 0;
-	while (j < i)
+	if (map->map_arr[y][x] == MAP_CODE[1])
 	{
-		if (images[j])
-		{
-			mlx_delete_image(mlx, images[j]);
-			images[j] = NULL;
-		}
-		j++;
+		if (0 == x && 0 == y)
+			return (CORNER_UL);
+		if (map->col - 1 == x && 0 == y)
+			return (CORNER_UR);
+		if (0 == x && map->row - 1 == y)
+			return (CORNER_DL);
+		if (map->col - 1 == x && map->row - 1 == y)
+			return (CORNER_DR);
+		if (0 == x)
+			return (WALL_L);
+		if (map->row - 1 == y)
+			return (WALL_D);
+		if (0 == y)
+			return (WALL_U);
+		if (map->col - 1 == x)
+			return (WALL_R);
+		return (FLOOR_WALL);
 	}
+	return (FLOOR_FREE);
 }

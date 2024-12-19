@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:41:37 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/18 13:44:12 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:42:45 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel)
 	img = mlx_new_image(mlx, w, h);
 	if (!img)
 		return (NULL);
-	ft_memset(img->pixels, channel, w * h * RGBA);
+	if (channel)
+		ft_memset(img->pixels, channel, w * h * RGBA);
 	return (img);
 }
 

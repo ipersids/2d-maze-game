@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/18 18:56:47 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:43:38 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@
 # include "libft.h"			// libft library
 
 # ifndef WIDTH
-#  define WIDTH 1920
+#  define WIDTH 3840
 # endif
 
 # ifndef HEIGHT
-#  define HEIGHT 1200
+#  define HEIGHT 2160
 # endif
 
 # define NAME "So loooooooooooong game!"
@@ -119,6 +119,14 @@ typedef enum e_xy
 	Y
 }	t_xy;
 
+typedef enum e_layout
+{
+	FOREGRND,
+	BACKGRND,
+	WHITEGRND,
+	LAY_MAX
+}	t_layout;
+
 /* ---------------------------- Initialisation ----------------------------- */
 
 void		so_map_init(t_map *map);
@@ -147,9 +155,10 @@ void		so_exit_perror(const char *message, int exit_code);
 void		so_print_error(const char *message, int exit_code);
 void		so_print_perror(const char *message, int exit_code);
 
-/* ---------------------------- Memory Managing ----------------------------- */
+/* ----------------------- Memory and MLX42 Managing ------------------------ */
 
 void		so_free_arr(char **arr, size_t arr_size);
+void		*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images);
 
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */
@@ -173,6 +182,7 @@ typedef enum e_background_type
 	WALL_R,
 	FLOOR_WALL,
 	FLOOR_FREE,
+	WAY_OUT,
 	BG_MAX
 }	t_background_type;
 
@@ -180,7 +190,7 @@ mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size);
 uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
 void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
 						uint32_t x, uint32_t y);
-mlx_image_t	*so_draw_background(mlx_t *mlx, uint32_t sp_size, char **map);
+mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
 
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
