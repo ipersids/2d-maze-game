@@ -6,15 +6,26 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:43:51 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/10 01:57:20 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:53:10 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+/* --------------------- Private function prototypes ----------------------- */
+
 static void	so_validate_argv(int argc, char **argv, int *fd);
 static void	so_validate_map_lines(t_map *map);
 
+/* --------------------------- Public Functions ---------------------------- */
+
+/**
+ * @brief Validates the command-line arguments and the map.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @param map Pointer to the map structure.
+ */
 void	so_validate_everything(int argc, char **argv, t_map *map)
 {
 	int	fd;
@@ -40,6 +51,16 @@ void	so_validate_everything(int argc, char **argv, t_map *map)
 	ft_printf("%sMap is valid.%s\n", GREEN, DEFAULT);
 }
 
+/* ------------------- Private Function Implementation --------------------- */
+
+/**
+ * @brief Validates the lines of the map.
+ * 
+ * This function checks the length of each line in the map to ensure 
+ * they are consistent. It also counts the number of rows in the map.
+ * 
+ * @param map Pointer to the map structure.
+ */
 static void	so_validate_map_lines(t_map *map)
 {
 	int		check;
@@ -61,6 +82,13 @@ static void	so_validate_map_lines(t_map *map)
 	}
 }
 
+/**
+ * @brief Validates the command-line arguments.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @param fd Pointer to the file descriptor.
+ */
 static void	so_validate_argv(int argc, char **argv, int *fd)
 {
 	int	check;

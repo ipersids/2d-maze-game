@@ -1,0 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window_init.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
+/*   Updated: 2024/12/19 15:15:23 by ipersids         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
+/* --------------------- Private function prototypes ----------------------- */
+
+static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height);
+
+/* --------------------------- Public Functions ---------------------------- */
+
+
+/**
+ * @brief Checks if the map size fits the window size and init Main MLX handle.
+ * 
+ * Set the window size and limits. Store information about width, height and
+ * sprite size into game object.
+ * 
+ * @param t_game pointer to the game object.
+ * @return mlx_t* pointer to the MLX42 main object.
+ *
+ */
+mlx_t	*so_mlx_init(t_game *game)
+{
+	if (!is_map_size_valid(game, WIDTH, HEIGHT))
+	{
+		so_free_arr(game->map->map_arr, game->map->row);
+		so_exit_error("The map doesn't fit the maximum monitor size", 109);
+	}
+	game->mlx = mlx_init(game->m_width, game->m_height, NAME, true);
+	if (!game->mlx)
+	{
+		so_free_arr(game->map->map_arr, game->map->row);
+		so_exit_error(mlx_strerror(mlx_errno), mlx_errno);
+	}
+	mlx_set_window_size(game->mlx, game->m_width, game->m_height);
+	mlx_set_window_limit(game->mlx,
+		game->map->col * SPRITE_SIZE_MIN, game->map->row * SPRITE_SIZE_MIN,
+		game->map->col * SPRITE_SIZE_MAX, game->map->row * SPRITE_SIZE_MAX);
+	return (game->mlx);
+}
+
+/* ------------------- Private Function Implementation --------------------- */
+
+static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height)
+{
+	int32_t		w_sprite;
+	int32_t		h_sprite;
+	uint32_t	sprite_size;
+
+	w_sprite = width / game->map->col;
+	h_sprite = height / game->map->row;
+	sprite_size = ft_min(w_sprite, h_sprite);
+	if (sprite_size < SPRITE_SIZE_MIN)
+		return (FALSE);
+	if (sprite_size > SPRITE_SIZE_MAX)
+		sprite_size = SPRITE_SIZE_MAX;
+	game->m_height = sprite_size * game->map->row;
+	game->m_width = sprite_size * game->map->col;
+	game->spite_size = sprite_size;
+	return (TRUE);
+}

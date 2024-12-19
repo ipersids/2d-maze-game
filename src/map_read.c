@@ -6,20 +6,25 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:44 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/11 15:31:17 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:49:02 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-/** @note so_exit_error("Invalid map: the given map is empty.", 105); */
-
-/* --------------------- Support function prototypes ----------------------- */
+/* --------------------- Private function prototypes ----------------------- */
 
 static char	**so_realloc_matrix(char **arr, size_t i, size_t *size);
 
-/* ---------------------------- Implementation ----------------------------- */
+/* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Read the map from a file descriptor and allocate memory for a matrix.
+ * 
+ * @param fd File descriptor to read the map from.
+ * @return char** Pointer to the dynamically allocated matrix of map, 
+ * 				  or NULL if an error occurs.
+ */
 char	**so_read_map(int fd)
 {
 	size_t	row;
@@ -49,8 +54,20 @@ char	**so_read_map(int fd)
 	return (matrix);
 }
 
-/* ------------------- Support Function Implementation --------------------- */
+/* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Reallocates the matrix to a larger size.
+ * 
+ * This function reallocates the given matrix to a new size that is double the 
+ * current size. It copies the existing elements to the new matrix and frees 
+ * the old matrix.
+ * 
+ * @param arr Pointer to the current matrix.
+ * @param i Current number of rows in the matrix.
+ * @param size Pointer to the current size of the matrix, which will be updated.
+ * @return char** Pointer to the reallocated matrix, or NULL if an error occurs.
+ */
 static char	**so_realloc_matrix(char **arr, size_t i, size_t *size)
 {
 	char	**res;
