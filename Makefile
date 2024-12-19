@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/18 17:18:56 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/19 23:58:33 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SRCS			:= src/arg_check.c \
 				   src/memory.c \
 				   src/validator.c \
 				   \
-				   src/draw/background.c src/draw/image.c src/draw/sprite.c \
+				   src/draw/background.c src/draw/layout.c src/draw/image.c  \
+				   src/draw/sprite.c \
 				   \
 				   src/service/game_init.c src/service/window_init.c \
 				   \

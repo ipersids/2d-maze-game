@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/19 16:43:38 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 00:02:59 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@
 # include "libft.h"			// libft library
 
 # ifndef WIDTH
-#  define WIDTH 3840
+#  define WIDTH 1920 //3840
 # endif
 
 # ifndef HEIGHT
-#  define HEIGHT 2160
+#  define HEIGHT 1200 // 2160
 # endif
 
 # define NAME "So loooooooooooong game!"
@@ -132,6 +132,7 @@ typedef enum e_layout
 void		so_map_init(t_map *map);
 void		so_game_init(t_game *game, t_map *map);
 mlx_t		*so_mlx_init(t_game *game);
+mlx_image_t	**so_init_layout(t_game *g);
 
 /* --------------------------------- Hooks --------------------------------- */
 

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/19 20:02:58 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 00:19:17 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,29 @@
 
 static const char	*get_bg_path(t_background_type type);
 static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX]);
-static int			get_background_type(t_map *map, int32_t x, int32_t y);
+static int			get_background_type(t_map *map, size_t x, size_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
 
 mlx_image_t	*so_draw_background(t_game *game)
 {
 	mlx_image_t	*images[BG_MAX];
-	int32_t		x;
-	int32_t		y;
+	size_t		x;
+	size_t		y;
 	int32_t		type;
 
-	if (!get_bg_img(game, images))
+	printf("back 1\n");
+	if (!get_bg_images(game, images))
 		return (NULL);
 	y = 0;
-	while (y < game->map->col)
+	printf("back 2\n");
+	while (y < game->map->row)
 	{
 		x = 0;
+		printf("back y=%zu\n", y);
 		while ('\0' != game->map->map_arr[y][x])
 		{
+			printf("back x=%zu\n", x);
 			type = get_background_type(game->map, x, y);
 			so_draw_img(game->layout[BACKGRND], images[type], \
 						x * game->spite_size, y * game->spite_size);
@@ -42,6 +46,7 @@ mlx_image_t	*so_draw_background(t_game *game)
 		}
 		y++;
 	}
+	printf("back out\n");
 	so_destroy_images(game->mlx, BG_MAX, images);
 	return (game->layout[BACKGRND]);
 }
@@ -85,7 +90,7 @@ static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX])
 	return (images);
 }
 
-static int	get_background_type(t_map *map, int32_t x, int32_t y)
+static int	get_background_type(t_map *map, size_t x, size_t y)
 {
 	if (map->map_arr[y][x] == MAP_CODE[1])
 	{
@@ -107,5 +112,7 @@ static int	get_background_type(t_map *map, int32_t x, int32_t y)
 			return (WALL_R);
 		return (FLOOR_WALL);
 	}
+	if (map->map_arr[y][x] == MAP_CODE[3])
+		return(WAY_OUT);
 	return (FLOOR_FREE);
 }
