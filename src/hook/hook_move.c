@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 18:42:49 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 22:31:20 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,23 @@ void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 
 static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 {
-	int32_t	y_coor;
-	int32_t	x_coor;
+	int32_t	y_arr;
+	int32_t	x_arr;
 
-	y_coor = y_px / game->player->width;
-	x_coor = x_px / game->player->width;
-	if (MAP_CODE[1] == game->map->map_arr[y_coor][x_coor])
+	y_arr = y_px / game->player->width;
+	x_arr = x_px / game->player->width;
+	if (MAP_CODE[1] == game->map->map_arr[y_arr][x_arr])
 		return ;
+	if (MAP_CODE[2] == game->map->map_arr[y_arr][x_arr])
+	{
+		ft_printf("Wow, coin!\n");
+		game->map->map_arr[y_arr][x_arr] = 'c';
+		game->map->item--;
+	}
+	if (MAP_CODE[3] == game->map->map_arr[y_arr][x_arr] && 0 == game->map->item)
+		ft_printf("You can go... Later! :)\n");
 	game->player->instances->y = y_px;
 	game->player->instances->x = x_px;
+	game->move_cnt++;
+	ft_printf("Number of movements: %s%u%s\n", PURPLE, game->move_cnt, DEFAULT);
 }

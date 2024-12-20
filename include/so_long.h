@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 18:19:54 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:23:29 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@
  * 	2)	error.c -> create an enum for error codes and a function to get error 
  * 		messages from a list using code (mlx42 as reference).
  * 	3)	map_check.c -> move some checks to private.
- * 	4)	Add a final map check: if the map fits the maximum monitor size.
- *  5)	Move ft_* to libft
- * 	6)	check why mlx_set_setting(MLX_STRETCH_IMAGE, true) desable the sprite 
- * 		size and force to drow everythig in max size (window_init.c)
+ * 	4)	check why mlx_set_setting(MLX_STRETCH_IMAGE, true) disable the sprite 
+ * 		size and force to drow everything in max size (window_init.c)
  */
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -68,6 +66,7 @@
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define YELLOW "\033[0;33m"
+# define PURPLE "\033[0;35m"
 # define DEFAULT "\033[0m"
 
 /**
@@ -99,6 +98,7 @@ typedef struct s_anim
 	mlx_image_t	*img[10];
 	int			curr_frame;
 	int			cnt_frame;
+	double		speed;
 }				t_anim;
 
 typedef struct s_game
@@ -112,6 +112,7 @@ typedef struct s_game
 	int32_t		m_height;
 	t_anim		*coin;
 	uint32_t	sprite_size;
+	uint32_t	move_cnt;
 }			t_game;
 
 typedef enum e_xy
