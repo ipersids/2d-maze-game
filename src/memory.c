@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:11:16 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:25:49 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 19:16:07 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,18 @@ void	*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images)
 		j++;
 	}
 	return (NULL);
+}
+
+void	so_destroy_game(t_game *game)
+{
+	if (*game->layout)
+		so_destroy_images(game->mlx, LAY_MAX, game->layout);
+	if (game->coin)
+		so_destroy_images(game->mlx, game->coin->cnt_frame, game->coin->img);
+	if (game->player)
+		mlx_delete_image(game->mlx, game->player);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
+	if (game->map->map_arr)
+		so_free_arr(game->map->map_arr, game->map->row);
 }

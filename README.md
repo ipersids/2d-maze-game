@@ -6,9 +6,8 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 <details>
 <summary>Active tasks</summary>    
 
-   - [ ] Implement sprite animation. 
-   - [ ] Handle player interaction with collectibles and counter. 
-   - [ ] Implement a basic game loop that handles rendering and events.  
+   - [ ] Implement sprite animation for collectibles. 
+   - [ ] Implement a basic game loop that handles rendering and events.   
 
 
 </details>
@@ -16,11 +15,17 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 <details>
 <summary>Backlog</summary>   
   
+- [ ] Display the movement count on-screen. 
 - [ ] Improve movement controls: collision detection.    
-- [ ] Implement the game conditions: win, lose, chose a character...   
-- [ ] Implement enemies that move and interact with the player.  
-- [ ] Display the movement count directly on screen.  
-- [ ] check if window resizing needed.
+- [ ] Implement game states:  
+	* Create layout for win and lose states.  
+	* Add main menu.  
+	* Allow player to choose a character at the start of the game.  
+- [ ] Implement enemies:  
+	* Add enemies with movement patterns and interactions with the player.  
+	* Add animation for enemy.
+- [ ] Window resizing support?  
+- [ ] Check how to add sounds whit mlx42.   
 
 </details>
 
@@ -34,7 +39,7 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 - [x] Map reading and general validation:  
 	* Map is rectangular.
 	* There is exactly one start position and one exit position.  
-	* There is at least one one collectible item.
+	* There is at least one collectible item.  
 	* Map is surrounded by walls. 
 	* Map fits the monitor size.
 - [x] Check if the map is playable:  
@@ -45,6 +50,10 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 - [x] Handle user input:
 	* Implement movement in 4 directions: up, down, left, and right.  
 	* Handle closing the window with ESC.
+- [x] Handle player interaction with collectibles and counter:  
+	* Detect the collectables and unset it on the map.  
+	* Decrease amount of collectables to handle the exit from the game later.  
+	* Print number of movements to stdout.
 
 </details>
 
