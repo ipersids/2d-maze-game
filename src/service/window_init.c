@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/19 15:15:23 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:19:34 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height);
 
 /* --------------------------- Public Functions ---------------------------- */
-
 
 /**
  * @brief Checks if the map size fits the window size and init Main MLX handle.
@@ -51,6 +50,19 @@ mlx_t	*so_mlx_init(t_game *game)
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Checks if the map size is valid for the given window dimensions.
+ * 
+ * This function calculates the sprite size based on the window dimensions 
+ * and the map dimensions. It checks if the calculated sprite size is within 
+ * the valid range and updates the game object's sprite size, width, 
+ * and height accordingly.
+ * 
+ * @param game Pointer to the game object.
+ * @param width The width of the window.
+ * @param height The height of the window.
+ * @return t_bool True if the map size is valid, false otherwise.
+ */
 static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height)
 {
 	int32_t		w_sprite;
@@ -66,6 +78,6 @@ static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height)
 		sprite_size = SPRITE_SIZE_MAX;
 	game->m_height = sprite_size * game->map->row;
 	game->m_width = sprite_size * game->map->col;
-	game->spite_size = sprite_size;
+	game->sprite_size = sprite_size;
 	return (TRUE);
 }

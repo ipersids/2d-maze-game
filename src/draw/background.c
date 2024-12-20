@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 00:19:17 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:01:11 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static const char	*get_bg_path(t_background_type type);
-static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX]);
+static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX]);
 static int			get_background_type(t_map *map, size_t x, size_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Draws the map as a background image.
+ * 
+ * @param game Pointer to the game structure containing the map.
+ * @return mlx_image_t* Pointer to the newly created background image, 
+ * 						or NULL if creation fails.
+ */
 mlx_image_t	*so_draw_background(t_game *game)
 {
 	mlx_image_t	*images[BG_MAX];
@@ -27,32 +34,33 @@ mlx_image_t	*so_draw_background(t_game *game)
 	size_t		y;
 	int32_t		type;
 
-	printf("back 1\n");
 	if (!get_bg_images(game, images))
 		return (NULL);
 	y = 0;
-	printf("back 2\n");
 	while (y < game->map->row)
 	{
 		x = 0;
-		printf("back y=%zu\n", y);
 		while ('\0' != game->map->map_arr[y][x])
 		{
-			printf("back x=%zu\n", x);
 			type = get_background_type(game->map, x, y);
 			so_draw_img(game->layout[BACKGRND], images[type], \
-						x * game->spite_size, y * game->spite_size);
+						x * game->sprite_size, y * game->sprite_size);
 			x++;
 		}
 		y++;
 	}
-	printf("back out\n");
 	so_destroy_images(game->mlx, BG_MAX, images);
 	return (game->layout[BACKGRND]);
 }
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Gets the file path for a background texture based on its type.
+ * 
+ * @param type The background type.
+ * @return const char* The file path for the background texture.
+ */
 static const char	*get_bg_path(t_background_type type)
 {
 	static char	list[BG_MAX][100] = {
@@ -72,17 +80,25 @@ static const char	*get_bg_path(t_background_type type)
 	return (list[type]);
 }
 
-static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX])
+/**
+ * @brief Loads background images for different background types.
+ * 
+ * @param g Pointer to the game structure.
+ * @param images Array of pointers to store the loaded background images.
+ * @return mlx_image_t** Array of pointers to the loaded background images, 
+ * 						 or NULL if loading fails.
+ */
+static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX])
 {
 	int	i;
 
 	i = 0;
-	while(i < BG_MAX)
+	while (i < BG_MAX)
 	{
-		images[i] = so_load_sprite(get_bg_path(i), game->mlx, game->spite_size);
+		images[i] = so_load_sprite(get_bg_path(i), g->mlx, g->sprite_size);
 		if (!images[i])
 		{
-			so_destroy_images(game->mlx, BG_MAX, images);
+			so_destroy_images(g->mlx, BG_MAX, images);
 			return (NULL);
 		}
 		i++;
@@ -90,6 +106,14 @@ static mlx_image_t	**get_bg_images(t_game *game, mlx_image_t *images[BG_MAX])
 	return (images);
 }
 
+/**
+ * @brief Determines the background type for a given map position.
+ * 
+ * @param map Pointer to the map structure.
+ * @param x The x-coordinate on the map.
+ * @param y The y-coordinate on the map.
+ * @return int The background type for the given map position.
+ */
 static int	get_background_type(t_map *map, size_t x, size_t y)
 {
 	if (map->map_arr[y][x] == MAP_CODE[1])
@@ -113,6 +137,6 @@ static int	get_background_type(t_map *map, size_t x, size_t y)
 		return (FLOOR_WALL);
 	}
 	if (map->map_arr[y][x] == MAP_CODE[3])
-		return(WAY_OUT);
+		return (WAY_OUT);
 	return (FLOOR_FREE);
 }

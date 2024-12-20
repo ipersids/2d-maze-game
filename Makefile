@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/19 23:58:33 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/20 10:31:24 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,21 +40,16 @@ LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -ldl -lglfw -lm
 
 # Sources and objects
-SRCS			:= src/arg_check.c \
-				   src/error.c \
-				   src/hook.c \
-				   src/map_check.c \
-				   src/map_read.c \
-				   src/dfs_algorithm.c \
-				   src/memory.c \
-				   src/validator.c \
+SRCS			:= src/check/arg_check.c src/check/dfs_algorithm.c src/check/map_check.c \
+				   src/check/map_read.c src/check/validator.c \
 				   \
-				   src/draw/background.c src/draw/layout.c src/draw/image.c  \
-				   src/draw/sprite.c \
+				   src/draw/background.c src/draw/image.c src/draw/layout.c src/draw/sprite.c \
 				   \
 				   src/service/game_init.c src/service/window_init.c \
 				   \
-				   src/ft_min.c \
+				   src/error.c \
+				   src/hook.c \
+				   src/memory.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
