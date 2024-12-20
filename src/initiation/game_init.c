@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:10:41 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:20:31 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	so_game_init(t_game *game, t_map *map)
 	game->sprite_size = SPRITE_SIZE_MAX;
 	game->m_width = WIDTH;
 	game->m_height = HEIGHT;
+	game->player = NULL;
 }
 
 /**

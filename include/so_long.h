@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 09:50:02 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:19:54 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_anim
 typedef struct s_game
 {
 	mlx_image_t	*layout[3];
+	mlx_image_t	*player;
 	t_map		*map;
 	double		elapsed_time;
 	mlx_t		*mlx;
@@ -136,8 +137,9 @@ mlx_image_t	**so_init_layout(t_game *g);
 
 /* --------------------------------- Hooks --------------------------------- */
 
-void		input_esc_hook(void *param);
-void		input_move_hook(mlx_key_data_t keydata, void *param);
+void		so_set_esc_hook(void *param);
+void		so_set_close_hook(void *param);
+void		so_set_move_hook(mlx_key_data_t keydata, void *param);
 
 /* ---------------------------- Validate Input ----------------------------- */
 
@@ -160,6 +162,7 @@ void		so_print_perror(const char *message, int exit_code);
 
 void		so_free_arr(char **arr, size_t arr_size);
 void		*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images);
+void		so_destroy_game(t_game *game);
 
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */
