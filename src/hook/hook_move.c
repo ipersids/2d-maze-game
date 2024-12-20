@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 22:31:20 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:44:56 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Sets the hook for player movement based on key input.
+ * 
+ * This function handles player movement based on key input. 
+ * It calls the function to make a decision to move the player.
+ * 
+ * @param keydata The key data structure containing info about the key event.
+ * @param param Pointer to the game structure.
+ */
 void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
@@ -43,6 +52,17 @@ void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Makes a decision to move the player based on the new position.
+ * 
+ * This function checks if the new position is valid and updates the player's 
+ * position on the map. It also handles interactions with map elements 
+ * such as walls and items.
+ * 
+ * @param game Pointer to the game structure.
+ * @param x_px The new x-coordinate in pixels.
+ * @param y_px The new y-coordinate in pixels.
+ */
 static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 {
 	int32_t	y_arr;

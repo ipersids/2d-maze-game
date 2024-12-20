@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:41:18 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 22:31:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 23:42:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Sets the hook for the ESC key to close the game window.
+ * 
+ * This function checks if the ESC key is pressed. If it is, the function closes
+ * the game window, destroys the game resources, and exits the program.
+ * 
+ * @param param Pointer to the game structure.
+ */
 void	so_set_esc_hook(void *param)
 {
 	t_game	*game;
@@ -27,6 +35,14 @@ void	so_set_esc_hook(void *param)
 	}
 }
 
+/**
+ * @brief Sets the hook to close the game window.
+ * 
+ * This function is called when the game window is closed. It destroys the game
+ * resources and exits the program.
+ * 
+ * @param param Pointer to the game structure.
+ */
 void	so_set_close_hook(void *param)
 {
 	t_game	*game;
