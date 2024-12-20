@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 00:02:59 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:50:02 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_game
 	int32_t		m_width;
 	int32_t		m_height;
 	t_anim		*coin;
-	uint32_t	spite_size;
+	uint32_t	sprite_size;
 }			t_game;
 
 typedef enum e_xy

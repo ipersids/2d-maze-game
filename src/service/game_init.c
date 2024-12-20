@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/18 18:46:17 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:10:41 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Initializes the game structure with default values.
+ * 
+ * @param game Pointer to the game structure to be initialized.
+ * @param map Pointer to the map structure to be associated with the game.
+ */
 void	so_game_init(t_game *game, t_map *map)
 {
 	game->elapsed_time = 0.0;
@@ -24,11 +30,16 @@ void	so_game_init(t_game *game, t_map *map)
 	so_map_init(map);
 	game->map = map;
 	game->mlx = NULL;
-	game->spite_size = SPRITE_SIZE_MAX;
+	game->sprite_size = SPRITE_SIZE_MAX;
 	game->m_width = WIDTH;
 	game->m_height = HEIGHT;
 }
 
+/**
+ * @brief Initializes the map structure with default values.
+ * 
+ * @param map Pointer to the map structure to be initialized.
+ */
 void	so_map_init(t_map *map)
 {
 	map->col = 0;
