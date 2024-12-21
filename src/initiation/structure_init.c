@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
+/*   structure_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 22:12:16 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:37:03 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
  * 
  * @param game Pointer to the game structure to be initialized.
  * @param map Pointer to the map structure to be associated with the game.
+ * @param map Pointer to the animation structure to be associated with 
+ * 			 the collectibles in the game.
  */
-void	so_game_init(t_game *game, t_map *map)
+void	so_game_init(t_game *game, t_map *map, t_anim *coin)
 {
 	game->elapsed_time = 0.0;
-	game->coin = NULL;
+	so_coin_init(coin);
+	game->coin = coin;
 	game->layout[0] = NULL;
 	game->layout[1] = NULL;
 	game->layout[2] = NULL;
@@ -54,4 +57,19 @@ void	so_map_init(t_map *map)
 	map->e_xy[Y] = 0;
 	map->p_xy[X] = 0;
 	map->p_xy[Y] = 0;
+}
+
+/**
+ * @brief Initializes the animation structure for collectibles
+ * 		  with default values.
+ * 
+ * @param map Pointer to the anim structure to be initialized.
+ */
+void	so_coin_init(t_anim *coin)
+{
+	coin->cnt_frame = COIN_CNT;
+	coin->curr_frame = 0;
+	coin->img[0] = NULL;
+	coin->speed = COIN_SPEED;
+	coin->fps = 1.0 / (COIN_SPEED * COIN_CNT);
 }

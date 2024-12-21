@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:01:11 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:11:05 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX])
 		images[i] = so_load_sprite(get_bg_path(i), g->mlx, g->sprite_size);
 		if (!images[i])
 		{
-			so_destroy_images(g->mlx, BG_MAX, images);
+			so_destroy_images(g->mlx, i, images);
 			return (NULL);
 		}
 		i++;
