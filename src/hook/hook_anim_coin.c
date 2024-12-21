@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:16:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 18:55:28 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:32:36 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Sets the hook for updating the coin animation.
+ * 
+ * This function updates the coin animation based on the elapsed time. 
+ * It increments the current frame of the coin animation and redraws the coins
+ * on the foreground layout.
+ * 
+ * @param param Pointer to the game structure.
+ */
 void	so_set_coin_hook(void *param)
 {
 	t_game		*g;

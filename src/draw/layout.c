@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:16:43 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 18:44:31 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:28:19 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ mlx_image_t	**so_set_layout(t_game *g)
 	return (g->layout);
 }
 
+/**
+ * @brief Cleans the specified layout by setting all its pixels to 0.
+ * 
+ * @param game Pointer to the game structure.
+ * @param type The layout type to be cleaned.
+ */
 void	so_clean_layout(t_game *game, t_layout type)
 {
 	mlx_image_t	*layout;
