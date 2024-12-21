@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/20 19:11:19 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/21 18:54:37 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,10 +44,11 @@ SRCS			:= src/check/arg_check.c src/check/dfs_algorithm.c src/check/map_check.c 
 				   src/check/map_read.c src/check/validator.c \
 				   \
 				   src/draw/background.c src/draw/image.c src/draw/layout.c src/draw/sprite.c \
+				   src/draw/animation_coin.c \
 				   \
-				   src/initiation/game_init.c src/initiation/window_init.c \
+				   src/initiation/structure_init.c src/initiation/window_init.c \
 				   \
-				   src/hook/hook_close.c src/hook/hook_move.c \
+				   src/hook/hook_close.c src/hook/hook_move.c src/hook/hook_anim_coin.c \
 				   \
 				   src/error.c \
 				   src/memory.c \

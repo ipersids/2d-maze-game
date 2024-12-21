@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 23:23:29 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:54:17 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
  * 	3)	map_check.c -> move some checks to private.
  * 	4)	check why mlx_set_setting(MLX_STRETCH_IMAGE, true) disable the sprite 
  * 		size and force to drow everything in max size (window_init.c)
+ * 	5)	the image loading for bg and anim could be implemented on more abstract 
+ * 		level.
  */
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -69,6 +71,9 @@
 # define PURPLE "\033[0;35m"
 # define DEFAULT "\033[0m"
 
+# define COIN_SPEED 1.0 	// 1 loop per second
+# define COIN_CNT 10		// 10 frames in the animation
+
 /**
  * @brief Structure representing a map with its elements.
  * 
@@ -99,6 +104,7 @@ typedef struct s_anim
 	int			curr_frame;
 	int			cnt_frame;
 	double		speed;
+	double		fps;
 }				t_anim;
 
 typedef struct s_game
@@ -132,15 +138,21 @@ typedef enum e_layout
 /* ---------------------------- Initialisation ----------------------------- */
 
 void		so_map_init(t_map *map);
-void		so_game_init(t_game *game, t_map *map);
+void		so_game_init(t_game *game, t_map *map, t_anim *coin);
+void		so_coin_init(t_anim *coin);
 mlx_t		*so_mlx_init(t_game *game);
-mlx_image_t	**so_init_layout(t_game *g);
+
+mlx_image_t	**so_set_layout(t_game *g);
+mlx_image_t	**so_set_coin_animation(t_game *game);
+void		so_clean_layout(t_game *game, t_layout type);
+void 		so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
 
 /* --------------------------------- Hooks --------------------------------- */
 
 void		so_set_esc_hook(void *param);
 void		so_set_close_hook(void *param);
 void		so_set_move_hook(mlx_key_data_t keydata, void *param);
+void		so_set_coin_hook(void *param);
 
 /* ---------------------------- Validate Input ----------------------------- */
 

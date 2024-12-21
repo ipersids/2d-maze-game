@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:19:34 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 19:03:52 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ mlx_t	*so_mlx_init(t_game *game)
 	mlx_set_window_size(game->mlx, game->m_width, game->m_height);
 	mlx_set_window_limit(game->mlx,
 		game->map->col * SPRITE_SIZE_MIN, game->map->row * SPRITE_SIZE_MIN,
-		game->map->col * SPRITE_SIZE_MAX, game->map->row * SPRITE_SIZE_MAX);
+		game->map->col * game->sprite_size, game->map->row * game->sprite_size);
 	return (game->mlx);
 }
 

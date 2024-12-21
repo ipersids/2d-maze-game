@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:16:43 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:05:28 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:44:31 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
  * and returns NULL.
  * 
  * @param g Pointer to the game structure.
- * @return mlx_image_t** Array of pointers to the initialized layout images, 
- * 						 or NULL if initialization fails.
+ * @return mlx_image_t** Array of pointers to the set layout images, 
+ * 						 or NULL if creation fails.
  */
-mlx_image_t	**so_init_layout(t_game *g)
+mlx_image_t	**so_set_layout(t_game *g)
 {
 	int	i;
 
@@ -52,4 +52,12 @@ mlx_image_t	**so_init_layout(t_game *g)
 		return (NULL);
 	}
 	return (g->layout);
+}
+
+void	so_clean_layout(t_game *game, t_layout type)
+{
+	mlx_image_t	*layout;
+
+	layout = game->layout[type];
+	ft_memset(layout->pixels, 0, layout->width * layout->height * RGBA);
 }
