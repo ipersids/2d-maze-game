@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:08:45 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 00:53:24 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
  *  1) 	dfs_algorithm.c -> dfs()
  * 		Add termination when all items are visited. 
  * 		Check "is_move_safe" separately.
- * 	2)	error.c -> create an enum for error codes and a function to get error 
- * 		messages from a list using code (mlx42 as reference).
- * 	3)	map_check.c -> move some checks to private.
- * 	4)	the image loading for bg and anim could be implemented on more abstract 
+ * 	2)	the image loading for bg and anim could be implemented on more abstract 
  * 		level.
- * 	5)	It might be a good idea to re-add a check for the actual monitor size.
+ * 	3)	It might be a good idea to re-add a check for the actual monitor size.
  */
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -29,6 +26,7 @@
 # include <fcntl.h>			// open
 # include <stdio.h>			// perror
 # include <string.h>		// strerror
+# include <errno.h>			// strerror dependency
 // # include <math.h>			// math library
 
 # include "libft.h"			// libft library
@@ -45,6 +43,10 @@
 
 # define NAME "So loooooooooooong game!"
 # define EXTENSION ".ber"
+
+# define SPRITE_SIZE_MIN 32
+# define SPRITE_SIZE_MAX 108
+# define RGBA 4					// Bytes Per Pixel equal sizeof(int32_t)
 
 /**
  * @brief Map decoder
@@ -160,6 +162,22 @@ typedef enum e_anim_type
 	ANIM_MAX
 }	t_anim_type;
 
+typedef enum e_background_type
+{
+	CORNER_UR,
+	CORNER_DR,
+	CORNER_UL,
+	CORNER_DL,
+	WALL_U,
+	WALL_D,
+	WALL_L,
+	WALL_R,
+	FLOOR_WALL,
+	FLOOR_FREE,
+	WAY_OUT,
+	BG_MAX
+}	t_background_type;
+
 /* ---------------------------- Initialisation ----------------------------- */
 
 void		so_map_init(t_map *map);
@@ -183,20 +201,17 @@ void		so_set_coin_hook(void *param);
 
 /* ---------------------------- Validate Input ----------------------------- */
 
-void		so_validate_everything(int argc, char **argv, t_map *map);
-int			is_args_valid(int argc, char **argv);
-int			is_line_valid(t_map *map, size_t y);
-int			is_map_valid(t_map *map);
-int			is_map_playable(t_map *map);
+int			so_validate_level(char *path, t_map *map);
+int			so_validate_path(char *path, int *fd);
+int			so_validate_map(t_map *map);
+int			so_validate_map_playable(t_map *map);
 
 char		**so_read_map(int fd);
 
 /* ---------------------------- Error Handling ----------------------------- */
 
-void		so_exit_error(const char *message, int exit_code);
-void		so_exit_perror(const char *message, int exit_code);
-void		so_print_error(const char *message, int exit_code);
-void		so_print_perror(const char *message, int exit_code);
+void		so_exit_error(int exit_code);
+void		so_print_error(int exit_code);
 
 /* ----------------------- Memory and MLX42 Managing ------------------------ */
 
@@ -204,31 +219,7 @@ void		so_free_arr(char **arr, size_t arr_size);
 void		*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images);
 void		so_destroy_game(t_game *game);
 
-/* ------------------ TESTING ----- START ----- TESTING --------------------- */
-/* ------------------ TESTING ----- START ----- TESTING --------------------- */
-/* ------------------ TESTING ----- START ----- TESTING --------------------- */
-
-# define RGBA 4						// Bytes Per Pixel equal sizeof(int32_t)
-# define DEFAULT_COLOR 0xFFFFFFFF	// RGBA {255, 255, 255, 255}
-
-# define SPRITE_SIZE_MIN 32
-# define SPRITE_SIZE_MAX 108
-
-typedef enum e_background_type
-{
-	CORNER_UR,
-	CORNER_DR,
-	CORNER_UL,
-	CORNER_DL,
-	WALL_U,
-	WALL_D,
-	WALL_L,
-	WALL_R,
-	FLOOR_WALL,
-	FLOOR_FREE,
-	WAY_OUT,
-	BG_MAX
-}	t_background_type;
+/* -------------------------- Working with Images --------------------------- */
 
 mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size);
 uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
@@ -237,17 +228,20 @@ void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
 mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
 
-/* ------------------ TESTING ------ END ------ TESTING --------------------- */
-/* ------------------ TESTING ------ END ------ TESTING --------------------- */
-/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
+/* ------------------ TESTING ----- START ----- TESTING --------------------- */
 
-#endif
+# define DEFAULT_COLOR 0xFFFFFFFF	// RGBA {255, 255, 255, 255}
 
 /**
  * @note Error codes:
+ * 
+ * - 98:  System error
+ * - 99:  MLX error
  * - 100: The program received the wrong number of arguments.
  * - 101: The map file has an incorrect extension (not '.ber').
- * - 102: Failed to open the map file..
+ * - 98: Failed to open the map file..
  * 
  * - 103: Invalid character detected in the map line.
  * - 104: Incorrect number of columns. Map isn't rectangular.
@@ -260,3 +254,47 @@ mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
  * - 110: Memory allocation failed.
  * - 111: DFS failed
  */
+
+/**
+ * @brief 
+ * 
+ * - ERR_SYSTEM: callback strerror(errno);
+ * - ERR_MLX42: callback mlx_strerror(mlx_errno);
+ * 
+ * 1. ERR_AGRC: The program received the wrong number of arguments.
+ * 2. ERR_EXTENSION: The map file has an incorrect extension (not '.ber').
+ * 3. ERR_INVALID_CH: Invalid character detected in the map line.
+ * 4. ERR_RECTANGULAR: Incorrect number of columns. Map isn't rectangular.
+ * 5. ERR_EMPTY_MAP: The map file is empty.
+ * 6. ERR_PLAYER_CNT: Incorrect number of players. Should be only one.
+ * 7. ERR_EXIT_CNT: Incorrect number of exits. Should be only one.
+ * 8. ERR_ITEM_CNT: Incorrect number of collectibles.
+ * 9. ERR_BORDERS: The map isn't surrounded by walls.
+ * 10. ERR_MAP_SIZE: The map doesn't fit the maximum monitor size.
+ * 11. ERR_DFS: Invalid map: there is no way to win.
+ * 
+ * ERR_MAX - limiter for array of error messages.
+ */
+typedef enum s_error
+{
+	ERR_SYSTEM = 98,
+	ERR_MLX42,
+	ERR_AGRC,
+	ERR_EXTENSION,
+	ERR_INVALID_CH,
+	ERR_RECTANGULAR,
+	ERR_EMPTY_MAP,
+	ERR_PLAYER_CNT,
+	ERR_EXIT_CNT,
+	ERR_ITEM_CNT,
+	ERR_BORDERS,
+	ERR_MAP_SIZE,
+	ERR_DFS,
+	ERR_MAX
+}	t_error;
+
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+/* ------------------ TESTING ------ END ------ TESTING --------------------- */
+
+#endif

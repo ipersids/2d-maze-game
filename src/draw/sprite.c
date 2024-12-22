@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:45:19 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/20 10:21:35 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 00:35:13 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size)
 	texture = mlx_load_png(path);
 	if (!texture)
 	{
-		ft_printf("MLX42: %s\n", mlx_strerror(mlx_errno));
+		so_print_error(ERR_MLX42);
 		return (NULL);
 	}
 	img = mlx_texture_to_image(mlx, texture);
 	mlx_delete_texture(texture);
 	if (!img)
 	{
-		ft_printf("MLX42: %s\n", mlx_strerror(mlx_errno));
+		so_print_error(ERR_MLX42);
 		return (NULL);
 	}
 	if (!mlx_resize_image(img, sprite_size, sprite_size))
 	{
-		ft_printf("MLX42: %s\n", mlx_strerror(mlx_errno));
+		so_print_error(ERR_MLX42);
 		return (NULL);
 	}
 	return (img);

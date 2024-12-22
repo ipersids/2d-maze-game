@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:34:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 13:24:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 00:40:20 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static size_t	dfs(t_map *map, size_t *p_yx, int *vis, const int dir[4][2]);
-static void		so_set_start(t_map *map);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -26,21 +25,20 @@ static void		so_set_start(t_map *map);
  * @return int 0 if playable, overwise - error code.
  * 
  */
-int	is_map_playable(t_map *map)
+int	so_validate_map_playable(t_map *map)
 {
 	int			*visited;
 	size_t		items;
 	const int	direction[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-	so_set_start(map);
 	visited = (int *) ft_calloc(map->col * map->row, sizeof(int));
 	if (!visited)
-		return (111);
+		return (ERR_SYSTEM);
 	items = dfs(map, map->p_yx, visited, direction);
 	free(visited);
 	if (items == (map->item + map->exit))
 		return (0);
-	return (112);
+	return (ERR_DFS);
 }
 /* ------------------- Private Function Implementation --------------------- */
 
@@ -82,31 +80,4 @@ static size_t	dfs(t_map *map, size_t *p_yx, int *vis, const int dir[4][2])
 		items += dfs(map, new_xy, vis, dir);
 	}
 	return (items);
-}
-
-/**
- * @brief Sets the starting and exit positions on the map.
- * 
- * @param map Pointer to the map structure.
- */
-static void	so_set_start(t_map *map)
-{
-	size_t	row;
-	size_t	col;
-
-	row = 0;
-	while (map->map_arr[row] != NULL)
-	{
-		col = 0;
-		while (map->map_arr[row][col] != '\0')
-		{
-			if (map->map_arr[row][col] == MAP_CODE[4])
-			{
-				map->p_yx[0] = row;
-				map->p_yx[1] = col;
-			}
-			col++;
-		}
-		row++;
-	}
 }

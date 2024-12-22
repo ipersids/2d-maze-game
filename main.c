@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:52:30 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 14:51:31 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 00:43:00 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,18 @@ int	main(int argc, char **argv)
 {
 	t_map	map;
 	t_game	game;
+	int		check;
+
+	if (2 != argc)
+	{
+		so_print_error(ERR_AGRC);
+		exit(ERR_AGRC);
+	}
 
 	so_map_init(&map);
-	so_validate_everything(argc, argv, &map);
+	check = so_validate_level(argv[1], &map);
+	if (check)
+		so_exit_error(check);
 	so_game_init(&game, &map);
 
 	so_mlx_init(&game);

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 14:54:47 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 00:36:58 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ mlx_t	*so_mlx_init(t_game *game)
 	if (!is_map_size_valid(game, WIDTH, HEIGHT))
 	{
 		so_free_arr(game->lvl.map, game->lvl.row);
-		so_exit_error("The map doesn't fit the maximum monitor size", 109);
+		so_exit_error(ERR_MAP_SIZE);
 	}
 	game->mlx = mlx_init(game->width, game->height, NAME, true);
 	if (!game->mlx)
 	{
 		so_free_arr(game->lvl.map, game->lvl.row);
-		so_exit_error(mlx_strerror(mlx_errno), mlx_errno);
+		so_exit_error(ERR_MLX42);
 	}
 	mlx_set_window_size(game->mlx, game->width, game->height);
 	mlx_set_window_limit(game->mlx,
