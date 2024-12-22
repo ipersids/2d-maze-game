@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 23:01:27 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 15:08:45 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@
 
 # include "libft.h"			// libft library
 
+// 3840
 # ifndef WIDTH
-#  define WIDTH 3840
+#  define WIDTH 1600
 # endif
 
+// 2160
 # ifndef HEIGHT
-#  define HEIGHT 2160
+#  define HEIGHT 900
 # endif
 
 # define NAME "So loooooooooooong game!"
@@ -91,11 +93,18 @@ typedef struct s_map
 	size_t	row;
 	size_t	col;
 	size_t	player;
-	size_t	p_xy[2];
+	size_t	p_yx[2];
 	size_t	exit;
-	size_t	e_xy[2];
 	char	**map_arr;
 }			t_map;
+
+typedef struct s_player
+{
+	mlx_image_t	*player;
+	uint32_t	move_cnt;
+	int32_t		x;
+	int32_t		y;
+}				t_player;
 
 typedef struct s_anim
 {
@@ -106,25 +115,34 @@ typedef struct s_anim
 	double		fps;
 }				t_anim;
 
+typedef struct s_level
+{
+	char	**map;
+	int32_t	row;
+	int32_t	col;
+	int32_t	items;
+}			t_level;
+
 typedef struct s_game
 {
 	mlx_image_t	*layout[3];
-	mlx_image_t	*player;
-	t_map		*map;
-	double		elapsed_time;
 	mlx_t		*mlx;
-	int32_t		m_width;
-	int32_t		m_height;
-	t_anim		*coin;
+	int32_t		width;
+	int32_t		height;
 	uint32_t	sprite_size;
-	uint32_t	move_cnt;
+	double		elapsed_time;
+	int32_t		status;
+	t_player	pl;
+	t_anim		coin;
+	t_level		lvl;
 }			t_game;
 
-typedef enum e_xy
+typedef enum e_status
 {
-	X,
-	Y
-}	t_xy;
+	PLAY,
+	WIN,
+	LOSE
+}	t_status;
 
 typedef enum e_layout
 {
@@ -145,8 +163,10 @@ typedef enum e_anim_type
 /* ---------------------------- Initialisation ----------------------------- */
 
 void		so_map_init(t_map *map);
-void		so_game_init(t_game *game, t_map *map, t_anim *coin);
-void		so_coin_init(t_anim *coin);
+void		so_game_init(t_game *game, t_map *map);
+void		so_anim_init(t_anim *anim, int32_t cnt_frame, double speed);
+void		so_player_init(t_player *player, t_map *map);
+void		so_level_init(t_level *level, t_map *map);
 mlx_t		*so_mlx_init(t_game *game);
 
 mlx_image_t	**so_set_layout(t_game *g);
@@ -218,9 +238,6 @@ mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
 
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
-
-int	ft_min(int n1, int n2);
-
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
 /* ------------------ TESTING ------ END ------ TESTING --------------------- */
 

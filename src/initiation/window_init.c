@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 19:03:52 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:54:47 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,19 @@ mlx_t	*so_mlx_init(t_game *game)
 {
 	if (!is_map_size_valid(game, WIDTH, HEIGHT))
 	{
-		so_free_arr(game->map->map_arr, game->map->row);
+		so_free_arr(game->lvl.map, game->lvl.row);
 		so_exit_error("The map doesn't fit the maximum monitor size", 109);
 	}
-	game->mlx = mlx_init(game->m_width, game->m_height, NAME, true);
+	game->mlx = mlx_init(game->width, game->height, NAME, true);
 	if (!game->mlx)
 	{
-		so_free_arr(game->map->map_arr, game->map->row);
+		so_free_arr(game->lvl.map, game->lvl.row);
 		so_exit_error(mlx_strerror(mlx_errno), mlx_errno);
 	}
-	mlx_set_window_size(game->mlx, game->m_width, game->m_height);
+	mlx_set_window_size(game->mlx, game->width, game->height);
 	mlx_set_window_limit(game->mlx,
-		game->map->col * SPRITE_SIZE_MIN, game->map->row * SPRITE_SIZE_MIN,
-		game->map->col * game->sprite_size, game->map->row * game->sprite_size);
+		game->lvl.col * SPRITE_SIZE_MIN, game->lvl.row * SPRITE_SIZE_MIN,
+		game->lvl.col * game->sprite_size, game->lvl.row * game->sprite_size);
 	return (game->mlx);
 }
 
@@ -69,15 +69,15 @@ static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height)
 	int32_t		h_sprite;
 	uint32_t	sprite_size;
 
-	w_sprite = width / game->map->col;
-	h_sprite = height / game->map->row;
+	w_sprite = width / game->lvl.col;
+	h_sprite = height / game->lvl.row;
 	sprite_size = ft_min(w_sprite, h_sprite);
 	if (sprite_size < SPRITE_SIZE_MIN)
 		return (FALSE);
 	if (sprite_size > SPRITE_SIZE_MAX)
 		sprite_size = SPRITE_SIZE_MAX;
-	game->m_height = sprite_size * game->map->row;
-	game->m_width = sprite_size * game->map->col;
+	game->height = sprite_size * game->lvl.row;
+	game->width = sprite_size * game->lvl.col;
 	game->sprite_size = sprite_size;
 	return (TRUE);
 }

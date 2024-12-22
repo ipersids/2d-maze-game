@@ -6,62 +6,59 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:52:30 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 22:50:25 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:51:31 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-typedef struct s_test_main
-{
-	t_game	g;
-	t_map	map;
-	t_anim	coin;
-} t_test_main;
 
 int	main(int argc, char **argv)
 {
-	t_test_main t;
+	t_map	map;
+	t_game	game;
 
-	so_game_init(&t.g, &t.map, &t.coin);
-	so_validate_everything(argc, argv, t.g.map);
-	so_mlx_init(&t.g);
-	if (!so_set_layout(&t.g))
+	so_map_init(&map);
+	so_validate_everything(argc, argv, &map);
+	so_game_init(&game, &map);
+
+	so_mlx_init(&game);
+	if (!so_set_layout(&game))
 	{
-		so_free_arr(t.map.map_arr, t.map.row);
+		so_free_arr(game.lvl.map, game.lvl.row);
 		return(123);
 	}
 	/// TESTING >>>
-	mlx_image_to_window(t.g.mlx, t.g.layout[WHITEGRND], 0, 0);
-	mlx_image_to_window(t.g.mlx, t.g.layout[BACKGRND], 0, 0);
-	mlx_image_to_window(t.g.mlx, t.g.layout[FOREGRND], 0, 0);
+	mlx_image_to_window(game.mlx, game.layout[WHITEGRND], 0, 0);
+	mlx_image_to_window(game.mlx, game.layout[BACKGRND], 0, 0);
+	mlx_image_to_window(game.mlx, game.layout[FOREGRND], 0, 0);
 
-	t.g.player = so_load_sprite(
+	game.pl.player = so_load_sprite(
 		"textures/kenney/characters/yellow_character.png", \
-		t.g.mlx, t.g.sprite_size \
+		game.mlx, game.sprite_size \
 	);
-	if (!t.g.player)
+	if (!game.pl.player)
 	{
-		mlx_terminate(t.g.mlx);
-		so_free_arr(t.map.map_arr, t.map.row);
+		mlx_terminate(game.mlx);
+		so_free_arr(map.map_arr, map.row);
 		return -1;
 	}
-	mlx_image_to_window(t.g.mlx, t.g.player, t.g.map->p_xy[Y] * t.g.sprite_size, t.g.map->p_xy[X] * t.g.sprite_size);
+	mlx_image_to_window(game.mlx, game.pl.player, game.pl.x * game.sprite_size, game.pl.y * game.sprite_size);
 
-	if (!so_set_coin_animation(&t.g))
+	if (!so_set_coin_animation(&game))
 	{
 		printf("free\n");
-		so_destroy_game(&t.g);
+		so_destroy_game(&game);
 		return -1;
 	}
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	mlx_loop_hook(t.g.mlx, so_set_coin_hook, &t.g);
-	mlx_loop_hook(t.g.mlx, so_set_esc_hook, &t.g);
-	mlx_close_hook(t.g.mlx, so_set_close_hook, &t.g);
-	mlx_key_hook(t.g.mlx, so_set_move_hook, &t.g);
+	mlx_loop_hook(game.mlx, so_set_coin_hook, &game);
+	mlx_loop_hook(game.mlx, so_set_esc_hook, &game);
+	mlx_close_hook(game.mlx, so_set_close_hook, &game);
+	mlx_key_hook(game.mlx, so_set_move_hook, &game);
 	/// TESTING END <<<
 
-	mlx_loop(t.g.mlx);
-	so_destroy_game(&t.g);
+	mlx_loop(game.mlx);
+	so_destroy_game(&game);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:34:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/13 23:30:44 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:24:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /* --------------------- Private function prototypes ----------------------- */
 
-static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2]);
-static void		so_set_start_and_exit(t_map *map);
+static size_t	dfs(t_map *map, size_t *p_yx, int *vis, const int dir[4][2]);
+static void		so_set_start(t_map *map);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -32,11 +32,11 @@ int	is_map_playable(t_map *map)
 	size_t		items;
 	const int	direction[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-	so_set_start_and_exit(map);
+	so_set_start(map);
 	visited = (int *) ft_calloc(map->col * map->row, sizeof(int));
 	if (!visited)
 		return (111);
-	items = dfs(map, map->p_xy, visited, direction);
+	items = dfs(map, map->p_yx, visited, direction);
 	free(visited);
 	if (items == (map->item + map->exit))
 		return (0);
@@ -52,32 +52,32 @@ int	is_map_playable(t_map *map)
  * and exit.
  * 
  * @param map Pointer to the map structure.
- * @param p_xy Array containing the player's current x and y coordinates.
+ * @param p_yx Array containing the player's current x and y coordinates.
  * @param vis Pointer to the array tracking visited nodes.
  * @param dir Array of direction vectors for moving up, down, left, and right.
  * @return size_t The number of reachable items and exits.
  * 
  */
-static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2])
+static size_t	dfs(t_map *map, size_t *p_yx, int *vis, const int dir[4][2])
 {
 	size_t	items;
 	int		step;
 	size_t	new_xy[2];
 
-	if (p_xy[0] < 0 || p_xy[0] >= map->row || p_xy[1] < 0 || p_xy[1] >= map->col
-		|| vis[p_xy[0] * map->col + p_xy[1]]
-		|| map->map_arr[p_xy[0]][p_xy[1]] == MAP_CODE[1])
+	if (p_yx[0] < 0 || p_yx[0] >= map->row || p_yx[1] < 0 || p_yx[1] >= map->col
+		|| vis[p_yx[0] * map->col + p_yx[1]]
+		|| map->map_arr[p_yx[0]][p_yx[1]] == MAP_CODE[1])
 		return (0);
 	items = 0;
-	vis[p_xy[0] * map->col + p_xy[1]] = 1;
-	if (map->map_arr[p_xy[0]][p_xy[1]] == MAP_CODE[2]
-		|| map->map_arr[p_xy[0]][p_xy[1]] == MAP_CODE[3])
+	vis[p_yx[0] * map->col + p_yx[1]] = 1;
+	if (map->map_arr[p_yx[0]][p_yx[1]] == MAP_CODE[2]
+		|| map->map_arr[p_yx[0]][p_yx[1]] == MAP_CODE[3])
 		items++;
 	step = 0;
 	while (step < 4)
 	{
-		new_xy[0] = p_xy[0] + dir[step][0];
-		new_xy[1] = p_xy[1] + dir[step][1];
+		new_xy[0] = p_yx[0] + dir[step][0];
+		new_xy[1] = p_yx[1] + dir[step][1];
 		step++;
 		items += dfs(map, new_xy, vis, dir);
 	}
@@ -89,7 +89,7 @@ static size_t	dfs(t_map *map, size_t *p_xy, int *vis, const int dir[4][2])
  * 
  * @param map Pointer to the map structure.
  */
-static void	so_set_start_and_exit(t_map *map)
+static void	so_set_start(t_map *map)
 {
 	size_t	row;
 	size_t	col;
@@ -100,15 +100,10 @@ static void	so_set_start_and_exit(t_map *map)
 		col = 0;
 		while (map->map_arr[row][col] != '\0')
 		{
-			if (map->map_arr[row][col] == MAP_CODE[3])
-			{
-				map->e_xy[0] = row;
-				map->e_xy[1] = col;
-			}
 			if (map->map_arr[row][col] == MAP_CODE[4])
 			{
-				map->p_xy[0] = row;
-				map->p_xy[1] = col;
+				map->p_yx[0] = row;
+				map->p_yx[1] = col;
 			}
 			col++;
 		}

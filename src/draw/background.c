@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 17:11:05 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 15:06:07 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static const char	*get_bg_path(t_background_type type);
 static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX]);
-static int			get_background_type(t_map *map, size_t x, size_t y);
+static int			get_background_type(t_level *lvl, int32_t x, int32_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -30,19 +30,19 @@ static int			get_background_type(t_map *map, size_t x, size_t y);
 mlx_image_t	*so_draw_background(t_game *game)
 {
 	mlx_image_t	*images[BG_MAX];
-	size_t		x;
-	size_t		y;
+	int32_t		x;
+	int32_t		y;
 	int32_t		type;
 
 	if (!get_bg_images(game, images))
 		return (NULL);
 	y = 0;
-	while (y < game->map->row)
+	while (y < game->lvl.row)
 	{
 		x = 0;
-		while ('\0' != game->map->map_arr[y][x])
+		while ('\0' != game->lvl.map[y][x])
 		{
-			type = get_background_type(game->map, x, y);
+			type = get_background_type(&game->lvl, x, y);
 			so_draw_img(game->layout[BACKGRND], images[type], \
 						x * game->sprite_size, y * game->sprite_size);
 			x++;
@@ -114,29 +114,29 @@ static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX])
  * @param y The y-coordinate on the map.
  * @return int The background type for the given map position.
  */
-static int	get_background_type(t_map *map, size_t x, size_t y)
+static int	get_background_type(t_level *lvl, int32_t x, int32_t y)
 {
-	if (map->map_arr[y][x] == MAP_CODE[1])
+	if (lvl->map[y][x] == MAP_CODE[1])
 	{
 		if (0 == x && 0 == y)
 			return (CORNER_UL);
-		if (map->col - 1 == x && 0 == y)
+		if (lvl->col - 1 == x && 0 == y)
 			return (CORNER_UR);
-		if (0 == x && map->row - 1 == y)
+		if (0 == x && lvl->row - 1 == y)
 			return (CORNER_DL);
-		if (map->col - 1 == x && map->row - 1 == y)
+		if (lvl->col - 1 == x && lvl->row - 1 == y)
 			return (CORNER_DR);
 		if (0 == x)
 			return (WALL_L);
-		if (map->row - 1 == y)
+		if (lvl->row - 1 == y)
 			return (WALL_D);
 		if (0 == y)
 			return (WALL_U);
-		if (map->col - 1 == x)
+		if (lvl->col - 1 == x)
 			return (WALL_R);
 		return (FLOOR_WALL);
 	}
-	if (map->map_arr[y][x] == MAP_CODE[3])
+	if (lvl->map[y][x] == MAP_CODE[3])
 		return (WAY_OUT);
 	return (FLOOR_FREE);
 }

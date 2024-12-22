@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:34 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/21 22:30:52 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:42:32 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ mlx_image_t	**so_set_coin_animation(t_game *game)
 	i = 0;
 	while (i < COIN_CNT)
 	{
-		game->coin->img[i] = so_load_sprite(get_coin_path(i), game->mlx, \
+		game->coin.img[i] = so_load_sprite(get_coin_path(i), game->mlx, \
 											game->sprite_size);
-		if (!game->coin->img[i])
+		if (!game->coin.img[i])
 		{
-			so_destroy_images(game->mlx, i, game->coin->img);
+			so_destroy_images(game->mlx, i, game->coin.img);
 			return (NULL);
 		}
 		i++;
 	}
-	return (game->coin->img);
+	return (game->coin.img);
 }
 
 /**
@@ -58,7 +58,7 @@ void	so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type)
 	mlx_image_t	*src;
 
 	dst = game->layout[type];
-	src = game->coin->img[game->coin->curr_frame];
+	src = game->coin.img[game->coin.curr_frame];
 	so_draw_img(dst, src, x * game->sprite_size, y * game->sprite_size);
 }
 

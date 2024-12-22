@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/21 18:54:37 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/22 15:27:37 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ SRCS			:= src/check/arg_check.c src/check/dfs_algorithm.c src/check/map_check.c 
 				   src/error.c \
 				   src/memory.c \
 
-SRC_MAIN		:= src/main.c
+SRC_MAIN		:= main.c
 OBJS			:= $(SRCS:%.c=%.o)
 OBJ_MAIN		:= $(SRC_MAIN:%.c=%.o)
 
