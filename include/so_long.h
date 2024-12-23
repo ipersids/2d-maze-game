@@ -6,18 +6,13 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 00:53:24 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:42:29 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** 
  * 	@todo small things:
- *  1) 	dfs_algorithm.c -> dfs()
- * 		Add termination when all items are visited. 
- * 		Check "is_move_safe" separately.
- * 	2)	the image loading for bg and anim could be implemented on more abstract 
- * 		level.
- * 	3)	It might be a good idea to re-add a check for the actual monitor size.
+ * 	1) It might be a good idea to re-add a check for the actual monitor size.
  */
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -27,7 +22,7 @@
 # include <stdio.h>			// perror
 # include <string.h>		// strerror
 # include <errno.h>			// strerror dependency
-// # include <math.h>			// math library
+# include <math.h>			// math library
 
 # include "libft.h"			// libft library
 
@@ -190,7 +185,7 @@ mlx_t		*so_mlx_init(t_game *game);
 mlx_image_t	**so_set_layout(t_game *g);
 mlx_image_t	**so_set_coin_animation(t_game *game);
 void		so_clean_layout(t_game *game, t_layout type);
-void 		so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
+void		so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
 
 /* --------------------------------- Hooks --------------------------------- */
 
@@ -227,6 +222,9 @@ void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
 						uint32_t x, uint32_t y);
 mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
+
+mlx_image_t	**so_get_imgarray(t_game *g, mlx_image_t **images, int cnt, \
+								const char *(*get_path)(int));
 
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */
 /* ------------------ TESTING ----- START ----- TESTING --------------------- */

@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/23 01:09:54 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/23 12:34:32 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,14 +44,14 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c src/check/map_check.c
 				   src/check/map_read.c src/check/level_check.c \
 				   \
 				   src/draw/background.c src/draw/image.c src/draw/layout.c src/draw/sprite.c \
-				   src/draw/animation_coin.c \
+				   src/draw/animation_coin.c src/draw/image_array.c \
 				   \
 				   src/initiation/structure_init.c src/initiation/window_init.c \
 				   \
 				   src/hook/hook_close.c src/hook/hook_move.c src/hook/hook_anim_coin.c \
 				   \
-				   src/error.c \
-				   src/memory.c \
+				   src/error/error.c src/error/memory.c \
+				   \
 
 SRC_MAIN		:= main.c
 OBJS			:= $(SRCS:%.c=%.o)

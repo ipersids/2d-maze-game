@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:06:07 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:38:53 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* --------------------- Private function prototypes ----------------------- */
 
-static const char	*get_bg_path(t_background_type type);
+static const char	*get_bg_path(int index);
 static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX]);
 static int			get_background_type(t_level *lvl, int32_t x, int32_t y);
 
@@ -61,7 +61,7 @@ mlx_image_t	*so_draw_background(t_game *game)
  * @param type The background type.
  * @return const char* The file path for the background texture.
  */
-static const char	*get_bg_path(t_background_type type)
+static const char	*get_bg_path(int index)
 {
 	static char	list[BG_MAX][100] = {
 		"textures/kenney/background/corner_right_up.png",
@@ -77,7 +77,7 @@ static const char	*get_bg_path(t_background_type type)
 		"textures/kenney/background/exit_stairs_down.png"
 	};
 
-	return (list[type]);
+	return (list[index]);
 }
 
 /**
@@ -88,22 +88,12 @@ static const char	*get_bg_path(t_background_type type)
  * @return mlx_image_t** Array of pointers to the loaded background images, 
  * 						 or NULL if loading fails.
  */
-static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX])
+static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images)
 {
-	int	i;
+	mlx_image_t	**ptr;
 
-	i = 0;
-	while (i < BG_MAX)
-	{
-		images[i] = so_load_sprite(get_bg_path(i), g->mlx, g->sprite_size);
-		if (!images[i])
-		{
-			so_destroy_images(g->mlx, i, images);
-			return (NULL);
-		}
-		i++;
-	}
-	return (images);
+	ptr = so_get_imgarray(g, images, BG_MAX, get_bg_path);
+	return (ptr);
 }
 
 /**
