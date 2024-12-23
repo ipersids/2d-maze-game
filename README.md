@@ -5,21 +5,16 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 
 <details>
 <summary>Active tasks</summary>    
-
-- [ ] Mid-project refactoring and cleaning:
-	* Review and clean up header file.  
-	* Restructure game object hierarchy, content and review macros.  
-	* Optimize functions to reduce complexity, improve performance, and increase abstraction.   
-	* Improve error handling.    
+ 
 - [ ] Implement a basic game loop that handles rendering and events.   
+- [ ] Display the movement count on-screen. 
 
 
 </details>
 
 <details>
 <summary>Backlog</summary>   
-  
-- [ ] Display the movement count on-screen. 
+
 - [ ] Improve movement controls: collision detection.    
 - [ ] Implement game states:  
 	* Create layout for win and lose states.  
@@ -28,7 +23,6 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 - [ ] Implement enemies:  
 	* Add enemies with movement patterns and interactions with the player.  
 	* Add animation for enemy.
-- [ ] Window resizing support?  
 - [ ] Check how to add sounds whit mlx42.   
 
 </details>
@@ -61,6 +55,11 @@ The So Long project is a small 2D game that uses the MLX42 graphical library.
 - [x] Implement sprite animation for collectibles. 
 	* Load frames and set values to the structure.  
 	* Updates the coin animation based on the elapsed time and FPS.  
+- [x] Mid-project refactoring and cleaning:
+	* Review and clean up header file.  
+	* Restructure game object hierarchy, content and review macros.  
+	* Optimize functions to reduce complexity, improve performance, and increase abstraction.   
+	* Improve error handling.   
 
 </details>
 
