@@ -6,11 +6,15 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:16:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:30:22 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:39:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+/* --------------------- Private function prototypes ----------------------- */
+
+static void	draw_coin_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -43,10 +47,30 @@ void	so_set_coin_hook(void *param)
 			while ('\0' != g->lvl.map[y][x])
 			{
 				if (MAP_CODE[2] == g->lvl.map[y][x])
-					so_draw_anim(g, x, y, FOREGRND);
+					draw_coin_anim(g, x, y, FOREGRND);
 				x++;
 			}
 			y++;
 		}
 	}
+}
+
+/* ------------------- Private Function Implementation --------------------- */
+
+/**
+ * @brief Draws the current frame of the coin animation at the given position.
+ * 
+ * @param game Pointer to the game structure.
+ * @param x The x-coordinate where the animation frame should be drawn.
+ * @param y The y-coordinate where the animation frame should be drawn.
+ * @param type The layout type where the animation frame should be drawn.
+ */
+static void	draw_coin_anim(t_game *game, uint32_t x, uint32_t y, t_layout type)
+{
+	mlx_image_t	*dst;
+	mlx_image_t	*src;
+
+	dst = game->layout[type];
+	src = game->coin.img[game->coin.curr_frame];
+	so_draw_img(dst, src, x * game->sprite_size, y * game->sprite_size);
 }

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:11:16 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:28:46 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:50:58 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,20 @@ void	*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images)
 /**
  * @brief Frees all resources associated with the game.
  * 
- * @param game Pointer to the game structure.
+ * @param g Pointer to the game structure.
  */
-void	so_destroy_game(t_game *game)
+void	so_destroy_game(t_game *g)
 {
-	if (*game->layout)
-		so_destroy_images(game->mlx, LAY_MAX, game->layout);
-	if (game->coin.img[0])
-		so_destroy_images(game->mlx, game->coin.cnt_frame, game->coin.img);
-	if (game->pl.player)
-		mlx_delete_image(game->mlx, game->pl.player);
-	if (game->mlx)
-		mlx_terminate(game->mlx);
-	if (game->lvl.map)
-		so_free_arr(game->lvl.map, game->lvl.row);
+	if (*g->layout)
+		so_destroy_images(g->mlx, LAY_MAX, g->layout);
+	if (g->coin.img[0])
+		so_destroy_images(g->mlx, g->coin.cnt_frame, g->coin.img);
+	if (g->counter.img[0])
+		so_destroy_images(g->mlx, g->counter.cnt_frame, g->counter.img);
+	if (g->pl.player)
+		mlx_delete_image(g->mlx, g->pl.player);
+	if (g->mlx)
+		mlx_terminate(g->mlx);
+	if (g->lvl.map)
+		so_free_arr(g->lvl.map, g->lvl.row);
 }

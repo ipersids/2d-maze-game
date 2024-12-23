@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:16:43 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 14:55:30 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:23:28 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@
 mlx_image_t	**so_set_layout(t_game *g)
 {
 	int	i;
+	int	_height;
 
 	i = 0;
+	_height = g->height + g->sprite_size;
 	while (i < LAY_MAX)
 	{
 		if (WHITEGRND == i)
-			g->layout[i] = so_new_image(g->mlx, g->width, g->height, 255);
+			g->layout[i] = so_new_image(g->mlx, g->width, _height, 255);
 		else
-			g->layout[i] = so_new_image(g->mlx, g->width, g->height, 0);
+			g->layout[i] = so_new_image(g->mlx, g->width, _height, 0);
 		if (!g->layout[i])
 		{
 			so_destroy_images(g->mlx, i, g->layout);

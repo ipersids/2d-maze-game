@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:52:30 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 12:33:28 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:46:17 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,16 @@ int	main(int argc, char **argv)
 		so_destroy_game(&game);
 		return -1;
 	}
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+
+	if (!so_set_num_animation(&game))
+	{
+		printf("free\n");
+		so_destroy_game(&game);
+		return -1;
+	}
+
 	mlx_loop_hook(game.mlx, so_set_coin_hook, &game);
+	mlx_loop_hook(game.mlx, so_set_counter_hook, &game);
 	mlx_loop_hook(game.mlx, so_set_esc_hook, &game);
 	mlx_close_hook(game.mlx, so_set_close_hook, &game);
 	mlx_key_hook(game.mlx, so_set_move_hook, &game);

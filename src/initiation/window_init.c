@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 00:36:58 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:26:13 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@ static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height);
  */
 mlx_t	*so_mlx_init(t_game *game)
 {
-	if (!is_map_size_valid(game, WIDTH, HEIGHT))
-	{
-		so_free_arr(game->lvl.map, game->lvl.row);
-		so_exit_error(ERR_MAP_SIZE);
-	}
-	game->mlx = mlx_init(game->width, game->height, NAME, true);
+	game->mlx = mlx_init(WIDTH, HEIGHT, NAME, true);
 	if (!game->mlx)
 	{
 		so_free_arr(game->lvl.map, game->lvl.row);
 		so_exit_error(ERR_MLX42);
 	}
+	mlx_get_monitor_size(0, &game->width, &game->height);
+	if (!is_map_size_valid(game, game->width, game->height))
+	{
+		so_free_arr(game->lvl.map, game->lvl.row);
+		so_exit_error(ERR_MAP_SIZE);
+	}
 	mlx_set_window_size(game->mlx, game->width, game->height);
 	mlx_set_window_limit(game->mlx,
 		game->lvl.col * SPRITE_SIZE_MIN, game->lvl.row * SPRITE_SIZE_MIN,
-		game->lvl.col * game->sprite_size, game->lvl.row * game->sprite_size);
+		game->width, game->height);
 	return (game->mlx);
 }
 
@@ -70,13 +71,13 @@ static t_bool	is_map_size_valid(t_game *game, int32_t width, int32_t height)
 	uint32_t	sprite_size;
 
 	w_sprite = width / game->lvl.col;
-	h_sprite = height / game->lvl.row;
+	h_sprite = height / (game->lvl.row + 1);
 	sprite_size = ft_min(w_sprite, h_sprite);
 	if (sprite_size < SPRITE_SIZE_MIN)
 		return (FALSE);
 	if (sprite_size > SPRITE_SIZE_MAX)
 		sprite_size = SPRITE_SIZE_MAX;
-	game->height = sprite_size * game->lvl.row;
+	game->height = sprite_size * (game->lvl.row + 1);
 	game->width = sprite_size * game->lvl.col;
 	game->sprite_size = sprite_size;
 	return (TRUE);

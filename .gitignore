@@ -64,3 +64,4 @@ valgrind-out.txt
 # Tests
 test_*
 test/*
+maps/test
