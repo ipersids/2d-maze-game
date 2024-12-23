@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 15:20:49 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:51:42 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static int	is_line_valid(t_map *map, int32_t y)
  */
 static int	is_map_valid(t_map *map)
 {
+	if (SPRITE_SIZE_MIN > ft_min(WIDTH / map->col , HEIGHT / map->row))
+		return (ERR_MAP_SIZE);
 	if (1 != map->player)
 		return (ERR_PLAYER_CNT);
 	if (1 != map->exit)

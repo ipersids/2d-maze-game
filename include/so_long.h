@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 15:20:19 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:00:09 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 # include "libft.h"				// libft library
 
-# define WIDTH 1600				// max monitor resolution 3840x2160
-# define HEIGHT 900
+# define WIDTH 3840
+# define HEIGHT 2160
 # define NAME "So long game!"
 
 # define SPRITE_SIZE_MIN 32		// Minimum size for one sprite in pixels
