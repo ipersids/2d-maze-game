@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 16:00:09 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:25:50 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@
  */
 # define COIN_SPEED 1.0 	// 1 loop per second
 # define COIN_CNT 10		// 10 frames in the animation
+# define NUM_CNT 10			// 10 frames in the animation
+# define NUM_ARR_SIZE 6		// 6 digits maximum in the counter
 
 /**
  * @brief Structure representing the map.
@@ -128,6 +130,7 @@ typedef struct s_game
 	int32_t		status;				/**< Current status of the game. */
 	t_player	pl;					/**< Player information. */
 	t_anim		coin;				/**< Coin animation information. */
+	t_anim		counter;			/**< Counter animation information. */
 	t_level		lvl;				/**< Level information. */
 }				t_game;
 
@@ -177,6 +180,7 @@ typedef enum e_background_type
 	WALL_L,
 	WALL_R,
 	FLOOR_WALL,
+	FLOOR_TILE,
 	FLOOR_FREE,
 	WAY_OUT,
 	BG_MAX
@@ -204,6 +208,7 @@ char		**so_read_map(int fd);
 /* ---------------------- Graphics content management ---------------------- */
 
 mlx_image_t	**so_set_coin_animation(t_game *game);
+mlx_image_t	**so_set_num_animation(t_game *game);
 void		so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
 mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	**so_get_imgarray(t_game *g, mlx_image_t **images, int cnt, \
@@ -222,6 +227,7 @@ void		so_set_esc_hook(void *param);
 void		so_set_close_hook(void *param);
 void		so_set_move_hook(mlx_key_data_t keydata, void *param);
 void		so_set_coin_hook(void *param);
+void		so_set_counter_hook(void *param);
 
 /* ---------------------- Error and memory management ---------------------- */
 

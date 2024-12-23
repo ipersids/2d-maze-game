@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:53 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:10:27 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static const char	*get_bg_path(int index);
-static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t *images[BG_MAX]);
+static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images);
 static int			get_background_type(t_level *lvl, int32_t x, int32_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
@@ -37,10 +37,10 @@ mlx_image_t	*so_draw_background(t_game *game)
 	if (!get_bg_images(game, images))
 		return (NULL);
 	y = 0;
-	while (y < game->lvl.row)
+	while (y <= game->lvl.row)
 	{
 		x = 0;
-		while ('\0' != game->lvl.map[y][x])
+		while (game->lvl.col > x)
 		{
 			type = get_background_type(&game->lvl, x, y);
 			so_draw_img(game->layout[BACKGRND], images[type], \
@@ -73,6 +73,7 @@ static const char	*get_bg_path(int index)
 		"textures/kenney/background/wall_left.png",
 		"textures/kenney/background/wall_right.png",
 		"textures/kenney/background/floor_wall_tree.png",
+		"textures/kenney/background/floor_free_tiles.png",
 		"textures/kenney/background/floor_free_plants.png",
 		"textures/kenney/background/exit_stairs_down.png"
 	};
@@ -106,6 +107,8 @@ static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images)
  */
 static int	get_background_type(t_level *lvl, int32_t x, int32_t y)
 {
+	if (lvl->row == y)
+		return (FLOOR_TILE);
 	if (lvl->map[y][x] == MAP_CODE[1])
 	{
 		if (0 == x && 0 == y)

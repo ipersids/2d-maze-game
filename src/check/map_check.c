@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 15:51:42 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:31:31 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ static int	is_line_valid(t_map *map, int32_t y)
  * @brief Validates the map contents.
  * 
  * Ensures the map has exactly one player, one exit and at least one item,
- * checks that the map is surrounded by walls and playable.
+ * checks that the map is surrounded by walls and playable. Ensure that
+ * the map fits the maximum monitor resolution.
  * 
  * @param map A pointer to the map structure, which tracks map content.
  * @return int 0 if success. If an error occurs, returns error code.
@@ -105,7 +106,7 @@ static int	is_line_valid(t_map *map, int32_t y)
  */
 static int	is_map_valid(t_map *map)
 {
-	if (SPRITE_SIZE_MIN > ft_min(WIDTH / map->col , HEIGHT / map->row))
+	if (SPRITE_SIZE_MIN > ft_min(WIDTH / map->col, HEIGHT / (map->row + 1)))
 		return (ERR_MAP_SIZE);
 	if (1 != map->player)
 		return (ERR_PLAYER_CNT);

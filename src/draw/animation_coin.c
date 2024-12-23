@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:34 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 12:36:00 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:39:02 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,6 @@ mlx_image_t	**so_set_coin_animation(t_game *game)
 
 	ptr = so_get_imgarray(game, game->coin.img, COIN_CNT, get_coin_path);
 	return (ptr);
-}
-
-/**
- * @brief Draws the current frame of the coin animation at the given position.
- * 
- * @param game Pointer to the game structure.
- * @param x The x-coordinate where the animation frame should be drawn.
- * @param y The y-coordinate where the animation frame should be drawn.
- * @param type The layout type where the animation frame should be drawn.
- */
-void	so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type)
-{
-	mlx_image_t	*dst;
-	mlx_image_t	*src;
-
-	dst = game->layout[type];
-	src = game->coin.img[game->coin.curr_frame];
-	so_draw_img(dst, src, x * game->sprite_size, y * game->sprite_size);
 }
 
 /* ------------------- Private Function Implementation --------------------- */

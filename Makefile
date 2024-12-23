@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/23 12:34:32 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/23 18:44:57 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,18 @@ LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -ldl -lglfw -lm
 
 # Sources and objects
-SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c src/check/map_check.c \
-				   src/check/map_read.c src/check/level_check.c \
+SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
+				   src/check/map_check.c src/check/map_read.c \
+				   src/check/level_check.c \
 				   \
-				   src/draw/background.c src/draw/image.c src/draw/layout.c src/draw/sprite.c \
+				   src/draw/background.c src/draw/image.c src/draw/layout.c \
 				   src/draw/animation_coin.c src/draw/image_array.c \
+				   src/draw/animation_counter.c src/draw/sprite.c \
 				   \
 				   src/initiation/structure_init.c src/initiation/window_init.c \
 				   \
-				   src/hook/hook_close.c src/hook/hook_move.c src/hook/hook_anim_coin.c \
+				   src/hook/hook_close.c src/hook/hook_move.c \
+				   src/hook/hook_anim_coin.c src/hook/hook_anim_counter.c \
 				   \
 				   src/error/error.c src/error/memory.c \
 				   \
