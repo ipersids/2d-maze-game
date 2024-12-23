@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:44 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/13 23:49:02 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:21:21 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* --------------------- Private function prototypes ----------------------- */
 
-static char	**so_realloc_matrix(char **arr, size_t i, size_t *size);
+static char	**so_realloc_matrix(char **arr, int32_t i, int32_t *size);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -27,8 +27,8 @@ static char	**so_realloc_matrix(char **arr, size_t i, size_t *size);
  */
 char	**so_read_map(int fd)
 {
-	size_t	row;
-	size_t	capacity;
+	int32_t	row;
+	int32_t	capacity;
 	char	**matrix;
 	char	*nl;
 
@@ -68,10 +68,10 @@ char	**so_read_map(int fd)
  * @param size Pointer to the current size of the matrix, which will be updated.
  * @return char** Pointer to the reallocated matrix, or NULL if an error occurs.
  */
-static char	**so_realloc_matrix(char **arr, size_t i, size_t *size)
+static char	**so_realloc_matrix(char **arr, int32_t i, int32_t *size)
 {
 	char	**res;
-	size_t	j;
+	int32_t	j;
 
 	*size = *size * 2;
 	res = (char **) malloc(*size * sizeof(char *));

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/13 13:50:36 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:20:49 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,46 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static int	is_borders_valid(t_map *map, const char ch);
+static int	is_line_valid(t_map *map, int32_t y);
+static int	is_map_valid(t_map *map);
 
 /* --------------------------- Public Functions ---------------------------- */
+
+/**
+ * @brief Validates the map structure.
+ * 
+ * This function performs various checks to validate the map structure,
+ * ensuring it meets the required criteria for the game.
+ * 
+ * @param map Pointer to the map structure.
+ * @return int 0 if the map is valid, otherwise an error code.
+ */
+int	so_validate_map(t_map *map)
+{
+	int		check;
+	int32_t	i;
+
+	i = 0;
+	map->col = ft_strlen(map->map_arr[0]);
+	while (map->map_arr[map->row] != NULL)
+		map->row++;
+	if (0 == map->col)
+		return (ERR_EMPTY_MAP);
+	i = 0;
+	while (map->map_arr[i] != NULL)
+	{
+		check = is_line_valid(map, i);
+		if (check)
+			return (check);
+		i++;
+	}
+	check = is_map_valid(map);
+	if (check)
+		return (check);
+	return (0);
+}
+
+/* ------------------- Private Function Implementation --------------------- */
 
 /**
  * @brief Validates the content of a map line.
@@ -27,35 +65,31 @@ static int	is_borders_valid(t_map *map, const char ch);
  * 
  * @param map A pointer to the map structure.
  * @param y A current y-axis index (rows)
- * @return int 	0 if success. If an error occurs, 
- * 				the program return one of the codes:
- *					- 103: Invalid character detected in the map line.
- *					- 104: Incorrect number of columns.
+ * @return int 	0 if success. If an error occurs, returns error code.
  */
-int	is_line_valid(t_map *map, size_t y)
+static int	is_line_valid(t_map *map, int32_t y)
 {
-	size_t	i;
+	int32_t	i;
 
 	i = 0;
 	while ('\0' != map->map_arr[y][i])
 	{
 		if (ft_strchr(MAP_CODE, map->map_arr[y][i]) == NULL)
-		{
-			so_print_error("Invalid map: check forbidden characters.", 103);
-			return (103);
-		}
-		if (map->map_arr[y][i] == MAP_CODE[2])
+			return (ERR_INVALID_CH);
+		if (MAP_CODE[2] == map->map_arr[y][i])
 			map->item++;
-		if (map->map_arr[y][i] == MAP_CODE[3])
+		if (MAP_CODE[3] == map->map_arr[y][i])
 			map->exit++;
-		if (map->map_arr[y][i++] == MAP_CODE[4])
+		if (MAP_CODE[4] == map->map_arr[y][i])
+		{
+			map->p_yx[0] = y;
+			map->p_yx[1] = i;
 			map->player++;
+		}
+		i++;
 	}
-	if (i != map->col || 0 == i)
-	{
-		so_print_error("Invalid map: check the number of columns.", 104);
-		return (104);
-	}
+	if (0 == i || i != map->col)
+		return (ERR_RECTANGULAR);
 	return (0);
 }
 
@@ -63,43 +97,26 @@ int	is_line_valid(t_map *map, size_t y)
  * @brief Validates the map contents.
  * 
  * Ensures the map has exactly one player, one exit and at least one item,
- * checks that the map is surrounded by walls. If any validation fails, 
- * the program terminates with an error message.
+ * checks that the map is surrounded by walls and playable.
  * 
  * @param map A pointer to the map structure, which tracks map content.
- * @return int 	0 if success. If an error occurs, 
- * 				the program return one of the codes:
- *					- 106: More than one exit or player found in the map.
- *					- 107: There's no one collectible found in the map.
- *					- 108: The map isn't surrounded by walls.
+ * @return int 0 if success. If an error occurs, returns error code.
  *
  */
-int	is_map_valid(t_map *map)
+static int	is_map_valid(t_map *map)
 {
-	if (1 != map->exit || 1 != map->player)
-	{
-		so_print_error("Invalid map: wrong amount of exits/players.", 106);
-		return (106);
-	}
+	if (1 != map->player)
+		return (ERR_PLAYER_CNT);
+	if (1 != map->exit)
+		return (ERR_EXIT_CNT);
 	if (0 == map->item)
-	{
-		so_print_error("Invalid map: no one collectible found", 107);
-		return (107);
-	}
+		return (ERR_ITEM_CNT);
 	if (is_borders_valid(map, MAP_CODE[1]))
-	{
-		so_print_error("Invalid map: it isn't surrounded by walls", 108);
-		return (108);
-	}
-	if (is_map_playable(map))
-	{
-		so_print_error("Invalid map: there is no way to win", 112);
-		return (112);
-	}
+		return (ERR_BORDERS);
+	if (so_validate_map_playable(map))
+		return (ERR_DFS);
 	return (0);
 }
-
-/* ------------------- Private Function Implementation --------------------- */
 
 /**
  * @brief  Checks if the map rows are fully bordered 
@@ -112,12 +129,12 @@ int	is_map_valid(t_map *map)
  * @param map A pointer to the map structure.
  * @param ch The character to check for as the border.
  * @return int Returns 0 if the map's borders are correct, 
- * 				  otherwise returns `108` (error).
+ * 			   otherwise returns error code.
  */
 static int	is_borders_valid(t_map *map, const char ch)
 {
-	size_t	y;
-	size_t	i;
+	int32_t	y;
+	int32_t	i;
 
 	y = 0;
 	while (y < map->row)
@@ -128,16 +145,16 @@ static int	is_borders_valid(t_map *map, const char ch)
 			while ('\0' != map->map_arr[y][i])
 			{
 				if (map->map_arr[y][i] != ch)
-					return (108);
+					return (ERR_BORDERS);
 				i++;
 			}
 			y++;
 			continue ;
 		}
 		if (map->map_arr[y][0] != ch)
-			return (108);
+			return (ERR_BORDERS);
 		if (map->map_arr[y][map->col - 1] != ch)
-			return (108);
+			return (ERR_BORDERS);
 		y++;
 	}
 	return (0);
