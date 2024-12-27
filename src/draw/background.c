@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 17:10:27 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:31:59 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ static int			get_background_type(t_level *lvl, int32_t x, int32_t y);
  */
 mlx_image_t	*so_draw_background(t_game *game)
 {
-	mlx_image_t	*images[BG_MAX];
 	int32_t		x;
 	int32_t		y;
 	int32_t		type;
 
-	if (!get_bg_images(game, images))
+	if (!get_bg_images(game, game->src_img))
 		return (NULL);
 	y = 0;
 	while (y <= game->lvl.row)
@@ -43,13 +42,12 @@ mlx_image_t	*so_draw_background(t_game *game)
 		while (game->lvl.col > x)
 		{
 			type = get_background_type(&game->lvl, x, y);
-			so_draw_img(game->layout[BACKGRND], images[type], \
+			so_draw_img(game->layout[BACKGRND], game->src_img[type], \
 						x * game->sprite_size, y * game->sprite_size);
 			x++;
 		}
 		y++;
 	}
-	so_destroy_images(game->mlx, BG_MAX, images);
 	return (game->layout[BACKGRND]);
 }
 
@@ -75,7 +73,10 @@ static const char	*get_bg_path(int index)
 		"textures/kenney/background/floor_wall_tree.png",
 		"textures/kenney/background/floor_free_tiles.png",
 		"textures/kenney/background/floor_free_plants.png",
-		"textures/kenney/background/exit_stairs_down.png"
+		"textures/kenney/background/exit_stairs_down.png",
+		"textures/kenney/characters/green_character.png",
+		"textures/kenney/characters/red_character.png",
+		"textures/kenney/characters/yellow_character.png"
 	};
 
 	return (list[index]);

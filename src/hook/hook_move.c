@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:29:59 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:33:06 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
+static void	move_player(t_game *game, mlx_key_data_t keydata);
+static void	move_menu(t_game *game, mlx_key_data_t keydata);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -30,12 +32,38 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
 void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
+
+	game = param;
+	if (MENU == game->status)
+		move_menu(game, keydata);
+	if (PLAY == game->status)
+		move_player(game, keydata);
+}
+
+/* ------------------- Private Function Implementation --------------------- */
+
+static void	move_menu(t_game *game, mlx_key_data_t keydata)
+{
+	if (keydata.action == MLX_PRESS)
+	{
+		if (keydata.key == MLX_KEY_A || keydata.key == MLX_KEY_LEFT)
+		{
+			if (SCREEN_MENU_GREEN != game->screen.curr_frame)
+				game->screen.curr_frame--;
+		}
+		if (keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
+		{
+			if (SCREEN_MENU_YELLOW != game->screen.curr_frame)
+				game->screen.curr_frame++;
+		}
+	}
+}
+
+static void	move_player(t_game *game, mlx_key_data_t keydata)
+{
 	int32_t	y_pixel;
 	int32_t	x_pixel;
 
-	game = param;
-	if (game->status != PLAY)
-		return ;
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		y_pixel = game->pl.player->instances->y;
@@ -51,8 +79,6 @@ void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 		make_decision_to_move(game, x_pixel, y_pixel);
 	}
 }
-
-/* ------------------- Private Function Implementation --------------------- */
 
 /**
  * @brief Makes a decision to move the player based on the new position.

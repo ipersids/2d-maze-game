@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:47:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 19:43:58 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/25 22:06:12 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	so_set_counter_hook(void *param)
 	t_game	*g;
 
 	g = param;
+	if (g->status != PLAY)
+		return ;
 	i = 0;
 	size = NUM_ARR_SIZE;
 	if (g->lvl.col < size)
