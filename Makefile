@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/27 14:51:56 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/29 17:47:12 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,12 +53,12 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   \
 				   src/hook/hook_close.c src/hook/hook_move.c \
 				   src/hook/hook_anim_coin.c src/hook/hook_anim_counter.c \
-				   src/hook/hook_menu.c \
+				   src/hook/hook_game_state.c \
 				   \
 				   src/error/error.c src/error/memory.c \
 				   \
 
-SRC_MAIN		:= main.c
+SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
 OBJ_MAIN		:= $(SRC_MAIN:%.c=%.o)
 

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/26 16:31:59 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:29:23 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,89 +14,43 @@
 
 /* --------------------- Private function prototypes ----------------------- */
 
-static const char	*get_bg_path(int index);
-static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images);
-static int			get_background_type(t_level *lvl, int32_t x, int32_t y);
+static int	get_background_type(t_level *lvl, int32_t x, int32_t y);
 
 /* --------------------------- Public Functions ---------------------------- */
 
 /**
- * @brief Draws the map as a background image.
+ * @brief Draws the starting images to the layouts BACKGRND and ENEMYGRND.
  * 
- * @param game Pointer to the game structure containing the map.
- * @return mlx_image_t* Pointer to the newly created background image, 
- * 						or NULL if creation fails.
+ * This function draws the given map on the background layout (BACKGRND) and 
+ * empty tiles on the enemy layout (ENEMYGRND) to temporarily hide the map.
+ * 
+ * @param g Pointer to the game structure containing the map.
  */
-mlx_image_t	*so_draw_background(t_game *game)
+void	so_draw_background(t_game *g)
 {
 	int32_t		x;
 	int32_t		y;
 	int32_t		type;
 
-	if (!get_bg_images(game, game->src_img))
-		return (NULL);
 	y = 0;
-	while (y <= game->lvl.row)
+	while (y <= g->lvl.row)
 	{
 		x = 0;
-		while (game->lvl.col > x)
+		while (g->lvl.col > x)
 		{
-			type = get_background_type(&game->lvl, x, y);
-			so_draw_img(game->layout[BACKGRND], game->src_img[type], \
-						x * game->sprite_size, y * game->sprite_size);
+			type = get_background_type(&g->lvl, x, y);
+			so_draw_img(g->layout[BACKGRND], g->src_img[type], \
+						x * g->sprite_size, y * g->sprite_size);
+			if (WALL_R < type &&  g->lvl.row != y)
+				so_draw_img(g->layout[ENEMYGRND], g->src_img[FLOOR_F_EMPTY],\
+							x * g->sprite_size, y * g->sprite_size);
 			x++;
 		}
 		y++;
 	}
-	return (game->layout[BACKGRND]);
 }
 
 /* ------------------- Private Function Implementation --------------------- */
-
-/**
- * @brief Gets the file path for a background texture based on its type.
- * 
- * @param type The background type.
- * @return const char* The file path for the background texture.
- */
-static const char	*get_bg_path(int index)
-{
-	static char	list[BG_MAX][100] = {
-		"textures/kenney/background/corner_right_up.png",
-		"textures/kenney/background/corner_right_down.png",
-		"textures/kenney/background/corner_left_up.png",
-		"textures/kenney/background/corner_left_down.png",
-		"textures/kenney/background/wall_up.png",
-		"textures/kenney/background/wall_down.png",
-		"textures/kenney/background/wall_left.png",
-		"textures/kenney/background/wall_right.png",
-		"textures/kenney/background/floor_wall_tree.png",
-		"textures/kenney/background/floor_free_tiles.png",
-		"textures/kenney/background/floor_free_plants.png",
-		"textures/kenney/background/exit_stairs_down.png",
-		"textures/kenney/characters/green_character.png",
-		"textures/kenney/characters/red_character.png",
-		"textures/kenney/characters/yellow_character.png"
-	};
-
-	return (list[index]);
-}
-
-/**
- * @brief Loads background images for different background types.
- * 
- * @param g Pointer to the game structure.
- * @param images Array of pointers to store the loaded background images.
- * @return mlx_image_t** Array of pointers to the loaded background images, 
- * 						 or NULL if loading fails.
- */
-static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images)
-{
-	mlx_image_t	**ptr;
-
-	ptr = so_get_imgarray(g, images, BG_MAX, get_bg_path);
-	return (ptr);
-}
 
 /**
  * @brief Determines the background type for a given map position.
@@ -109,7 +63,7 @@ static mlx_image_t	**get_bg_images(t_game *g, mlx_image_t **images)
 static int	get_background_type(t_level *lvl, int32_t x, int32_t y)
 {
 	if (lvl->row == y)
-		return (FLOOR_TILE);
+		return (FLOOR_F_TILES);
 	if (lvl->map[y][x] == MAP_CODE[1])
 	{
 		if (0 == x && 0 == y)
@@ -128,9 +82,9 @@ static int	get_background_type(t_level *lvl, int32_t x, int32_t y)
 			return (WALL_U);
 		if (lvl->col - 1 == x)
 			return (WALL_R);
-		return (FLOOR_WALL);
+		return (FLOOR_W_TREE);
 	}
 	if (lvl->map[y][x] == MAP_CODE[3])
 		return (WAY_OUT);
-	return (FLOOR_FREE);
+	return (FLOOR_F_FLOWER);
 }

@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:01:50 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/27 17:04:06 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:40:19 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ static mlx_image_t	*resize_screen_img(t_game *game, mlx_image_t *img);
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Loads the menu, lose and win screen images for the game.
+ * 
+ * @param game Pointer to the game structure.
+ * @return mlx_image_t** Array of pointers to the loaded screen images, 
+ * 						 or NULL if loading fails.
+ */
 mlx_image_t	**so_get_screen_imgs(t_game *game)
 {
 	int				i;
@@ -43,6 +50,13 @@ mlx_image_t	**so_get_screen_imgs(t_game *game)
 	return (game->screen.img);
 }
 
+/**
+ * @brief Draws the source image centered on the destination image.
+ * 
+ * @param game Pointer to the game structure.
+ * @param dest Pointer to the destination image.
+ * @param src Pointer to the source image.
+ */
 void	so_draw_screen(t_game *game, mlx_image_t *dest, mlx_image_t *src)
 {
 	uint32_t	x_px;
@@ -54,7 +68,12 @@ void	so_draw_screen(t_game *game, mlx_image_t *dest, mlx_image_t *src)
 }
 
 /* ------------------- Private Function Implementation --------------------- */
-
+/**
+ * @brief Gets the file path for a screen image based on its index.
+ * 
+ * @param index The index of the screen image.
+ * @return const char* The file path for the screen image.
+ */
 static const char	*get_screen_path(int index)
 {
 	static char	list[SCREEN_MAX][100] = {
@@ -68,18 +87,25 @@ static const char	*get_screen_path(int index)
 	return (list[index]);
 }
 
+/**
+ * @brief Resizes the screen image to fit within the game window.
+ * 
+ * @param game Pointer to the game structure.
+ * @param img Pointer to the image to be resized.
+ * @return mlx_image_t* Pointer to the resized image.
+ */
 static mlx_image_t	*resize_screen_img(t_game *game, mlx_image_t *img)
 {
-	uint32_t	nwidth;
-	uint32_t	nheight;
+	double		scale;
+	uint32_t	_width;
 
-	nwidth = game->width / 2;
-	nheight = game->sprite_size * 3;
+	_width = game->width / 2;
 	if (game->width + game->sprite_size <= img->width)
-		nwidth = game->width - 10;
-	if (nwidth > img->width * 2)
-		nwidth = img->width * 2;
-	if (!mlx_resize_image(img, nwidth, nheight))
+		_width = game->width - 10;
+	if (_width > img->width * 2)
+		_width = img->width * 2;
+	scale = 1.0 * _width / img->width;
+	if (!mlx_resize_image(img, img->width *scale, img->height *scale))
 		return (NULL);
 	return (img);
 }

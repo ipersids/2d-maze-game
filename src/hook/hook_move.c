@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/27 17:33:06 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:44:23 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	move_menu(t_game *game, mlx_key_data_t keydata);
  * @brief Sets the hook for player movement based on key input.
  * 
  * This function handles player movement based on key input. 
- * It calls the function to make a decision to move the player.
+ * It calls the appropriate function to handle movement based on the current 
+ * game status (MENU or PLAY).
  * 
  * @param keydata The key data structure containing info about the key event.
  * @param param Pointer to the game structure.
@@ -42,6 +43,12 @@ void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Handles menu navigation based on key input.
+ * 
+ * @param game Pointer to the game structure.
+ * @param keydata The key data structure.
+ */
 static void	move_menu(t_game *game, mlx_key_data_t keydata)
 {
 	if (keydata.action == MLX_PRESS)
@@ -59,6 +66,16 @@ static void	move_menu(t_game *game, mlx_key_data_t keydata)
 	}
 }
 
+/**
+ * @brief Handles player movement based on key input.
+ * 
+ * This function updates the player's position based on the key input.
+ * It calculates the new position and calls the function to make a decision
+ * to move the player.
+ * 
+ * @param game Pointer to the game structure.
+ * @param keydata The key data structure.
+ */
 static void	move_player(t_game *game, mlx_key_data_t keydata)
 {
 	int32_t	y_pixel;
@@ -112,7 +129,7 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 	}
 	if (MAP_CODE[3] == game->lvl.map[y_arr][x_arr] && 0 == game->lvl.items)
 	{
-		ft_printf("You can go... Later! :)\n");
+		ft_printf("So, you won! Press ESC to close window :)\n");
 		game->status = WIN;
 	}
 }

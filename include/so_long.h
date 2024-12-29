@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/27 16:53:26 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:30:42 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,14 @@ typedef enum e_background_type
 	WALL_D,
 	WALL_L,
 	WALL_R,
-	FLOOR_WALL,
-	FLOOR_TILE,
-	FLOOR_FREE,
+	FLOOR_W_TREE,
+	FLOOR_W_BARREL,
+	FLOOR_W_CAMPFIRE,
+	FLOOR_W_DRAGON,
+	FLOOR_F_TILES,
+	FLOOR_F_FLOWER,
+	FLOOR_F_EMPTY,
+	FLOOR_F_GRASS,
 	WAY_OUT,
 	PL_GREEN,
 	PL_RED,
@@ -159,9 +164,10 @@ typedef struct s_player
  */
 typedef struct s_anim
 {
-	mlx_image_t	*img[ANIM_MAX_FRAMES];		/**< Array of pointers to the anim frames. */
+	mlx_image_t	*img[ANIM_MAX_FRAMES];	/**< Array of ptrs to the anim frames. */
 	int32_t		curr_frame;		/**< Current frame of the animation. */
 	int32_t		cnt_frame;		/**< Total number of frames in the anim. */
+	double		elapsed_time;	/**< Accumulate time */
 	double		speed;			/**< Speed of the animation. */
 	double		fps;			/**< Frames per second of the anim. */
 }				t_anim;
@@ -187,7 +193,6 @@ typedef struct s_game
 	int32_t		width;				/**< Width of the game window. */
 	int32_t		height;				/**< Height of the game window. */
 	uint32_t	sprite_size;		/**< Size of the sprites. */
-	double		elapsed_time;		/**< Elapsed time since the game started. */
 	int32_t		status;				/**< Current status of the game. */
 	t_player	pl;					/**< Player information. */
 	t_anim		coin;				/**< Coin animation information. */
@@ -210,7 +215,7 @@ mlx_t		*so_mlx_init(t_game *game);
 /* --------------------- Map and arguments validation  --------------------- */
 
 int			so_validate_map_playable(t_map *map);
-int			so_validate_level(char *path, t_map *map);
+void		so_validate_level(char *path, t_map *map);
 int			so_validate_path(char *path, int *fd);
 int			so_validate_map(t_map *map);
 
@@ -220,18 +225,18 @@ char		**so_read_map(int fd);
 
 mlx_image_t	**so_set_coin_animation(t_game *game);
 mlx_image_t	**so_set_num_animation(t_game *game);
-mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	**so_get_imgarray(t_game *g, mlx_image_t **images, int cnt, \
 								const char *(*get_path)(int));
-void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
-						uint32_t x, uint32_t y);
-uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
 mlx_image_t	**so_set_layout(t_game *g);
-void		so_clean_layout(t_game *game, t_layout type);
 mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size);
 mlx_image_t	**so_get_screen_imgs(t_game *game);
+uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
 void		so_draw_screen(t_game *game, mlx_image_t *dest, mlx_image_t *src);
+void		so_draw_background(t_game *game);
+void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
+						uint32_t x, uint32_t y);
+void		so_clean_layout(t_game *game, t_layout type);
 
 /* --------------------------------- Hooks --------------------------------- */
 
@@ -240,7 +245,7 @@ void		so_set_close_hook(void *param);
 void		so_set_move_hook(mlx_key_data_t keydata, void *param);
 void		so_set_coin_hook(void *param);
 void		so_set_counter_hook(void *param);
-void		so_set_menu_hook(void *param);
+void		so_set_screen_hook(void *param);
 
 /* ---------------------- Error and memory management ---------------------- */
 
