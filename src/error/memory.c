@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:11:16 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 17:50:58 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:07:51 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,16 @@ void	*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images)
  */
 void	so_destroy_game(t_game *g)
 {
-	if (*g->layout)
+	if (g->layout[0])
 		so_destroy_images(g->mlx, LAY_MAX, g->layout);
+	if (g->src_img[0])
+		so_destroy_images(g->mlx, BG_MAX, g->src_img);
 	if (g->coin.img[0])
 		so_destroy_images(g->mlx, g->coin.cnt_frame, g->coin.img);
 	if (g->counter.img[0])
 		so_destroy_images(g->mlx, g->counter.cnt_frame, g->counter.img);
-	if (g->pl.player)
-		mlx_delete_image(g->mlx, g->pl.player);
+	if (g->screen.img[0])
+		so_destroy_images(g->mlx, g->screen.cnt_frame, g->screen.img);
 	if (g->mlx)
 		mlx_terminate(g->mlx);
 	if (g->lvl.map)

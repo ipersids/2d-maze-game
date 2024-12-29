@@ -6,13 +6,14 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 19:25:50 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:30:42 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** 
  * 	@todo small things:
  * 	1) It might be a good idea to re-add a check for the actual monitor size.
+ * 	2) Move elapsed time to the animation structure.
  */
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -62,10 +63,75 @@
 /**
  * @brief Constants for animations
  */
+# define ANIM_MAX_FRAMES 10	// Maximum size of img array in anim struct
 # define COIN_SPEED 1.0 	// 1 loop per second
 # define COIN_CNT 10		// 10 frames in the animation
 # define NUM_CNT 10			// 10 frames in the animation
 # define NUM_ARR_SIZE 6		// 6 digits maximum in the counter
+
+/**
+ * @brief Enum representing the game status.
+ */
+typedef enum e_status
+{
+	MENU,
+	PLAY,
+	WIN,
+	LOSE
+}	t_status;
+
+/**
+ * @brief Enum representing the game screens (depend on status).
+ */
+typedef enum e_screen
+{
+	SCREEN_MENU_GREEN,
+	SCREEN_MENU_RED,
+	SCREEN_MENU_YELLOW,
+	SCREEN_WIN,
+	SCREEN_LOSE,
+	SCREEN_MAX
+}	t_screen;
+
+/**
+ * @brief Enum representing the layout types.
+ */
+typedef enum e_layout
+{
+	FOREGRND,
+	ENEMYGRND,
+	BACKGRND,
+	WHITEGRND,
+	LAY_MAX
+}	t_layout;
+
+/**
+ * @brief Enum representing the background types.
+ */
+typedef enum e_background_type
+{
+	CORNER_UR,
+	CORNER_DR,
+	CORNER_UL,
+	CORNER_DL,
+	WALL_U,
+	WALL_D,
+	WALL_L,
+	WALL_R,
+	FLOOR_W_TREE,
+	FLOOR_W_BARREL,
+	FLOOR_W_CAMPFIRE,
+	FLOOR_W_DRAGON,
+	FLOOR_F_TILES,
+	FLOOR_F_FLOWER,
+	FLOOR_F_EMPTY,
+	FLOOR_F_GRASS,
+	WAY_OUT,
+	PL_GREEN,
+	PL_RED,
+	PL_YELLOW,
+	BG_MAX
+}	t_background_type;
 
 /**
  * @brief Structure representing the map.
@@ -98,9 +164,10 @@ typedef struct s_player
  */
 typedef struct s_anim
 {
-	mlx_image_t	*img[10];		/**< Array of pointers to the anim frames. */
+	mlx_image_t	*img[ANIM_MAX_FRAMES];	/**< Array of ptrs to the anim frames. */
 	int32_t		curr_frame;		/**< Current frame of the animation. */
 	int32_t		cnt_frame;		/**< Total number of frames in the anim. */
+	double		elapsed_time;	/**< Accumulate time */
 	double		speed;			/**< Speed of the animation. */
 	double		fps;			/**< Frames per second of the anim. */
 }				t_anim;
@@ -121,70 +188,19 @@ typedef struct s_level
  */
 typedef struct s_game
 {
-	mlx_image_t	*layout[3];			/**< Array of ptrs to the layout images. */
+	mlx_image_t	*layout[LAY_MAX];	/**< Array of ptrs to the layout images. */
 	mlx_t		*mlx;				/**< Pointer to the MLX instance. */
 	int32_t		width;				/**< Width of the game window. */
 	int32_t		height;				/**< Height of the game window. */
 	uint32_t	sprite_size;		/**< Size of the sprites. */
-	double		elapsed_time;		/**< Elapsed time since the game started. */
 	int32_t		status;				/**< Current status of the game. */
 	t_player	pl;					/**< Player information. */
 	t_anim		coin;				/**< Coin animation information. */
 	t_anim		counter;			/**< Counter animation information. */
+	t_anim		screen;	/**< Resources for menu, win and lose screens. */
 	t_level		lvl;				/**< Level information. */
+	mlx_image_t	*src_img[BG_MAX];	/**< Recourses for drawing game word */
 }				t_game;
-
-/**
- * @brief Enum representing the game status.
- */
-typedef enum e_status
-{
-	PLAY,
-	WIN,
-	LOSE
-}	t_status;
-
-/**
- * @brief Enum representing the layout types.
- */
-typedef enum e_layout
-{
-	FOREGRND,
-	BACKGRND,
-	WHITEGRND,
-	LAY_MAX
-}	t_layout;
-
-/**
- * @brief Enum representing the animation types.
- */
-typedef enum e_anim_type
-{
-	ANIM_COIN,
-	ANIM_EXIT,
-	ANIM_ENEMY,
-	ANIM_MAX
-}	t_anim_type;
-
-/**
- * @brief Enum representing the background types.
- */
-typedef enum e_background_type
-{
-	CORNER_UR,
-	CORNER_DR,
-	CORNER_UL,
-	CORNER_DL,
-	WALL_U,
-	WALL_D,
-	WALL_L,
-	WALL_R,
-	FLOOR_WALL,
-	FLOOR_TILE,
-	FLOOR_FREE,
-	WAY_OUT,
-	BG_MAX
-}	t_background_type;
 
 /* ------------------------ Struct initialisation -------------------------- */
 
@@ -199,7 +215,7 @@ mlx_t		*so_mlx_init(t_game *game);
 /* --------------------- Map and arguments validation  --------------------- */
 
 int			so_validate_map_playable(t_map *map);
-int			so_validate_level(char *path, t_map *map);
+void		so_validate_level(char *path, t_map *map);
 int			so_validate_path(char *path, int *fd);
 int			so_validate_map(t_map *map);
 
@@ -209,17 +225,18 @@ char		**so_read_map(int fd);
 
 mlx_image_t	**so_set_coin_animation(t_game *game);
 mlx_image_t	**so_set_num_animation(t_game *game);
-void		so_draw_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
-mlx_image_t	*so_draw_background(t_game *game);
 mlx_image_t	**so_get_imgarray(t_game *g, mlx_image_t **images, int cnt, \
 								const char *(*get_path)(int));
-void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
-						uint32_t x, uint32_t y);
-uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
 mlx_image_t	*so_new_image(mlx_t *mlx, uint32_t w, uint32_t h, int channel);
 mlx_image_t	**so_set_layout(t_game *g);
-void		so_clean_layout(t_game *game, t_layout type);
 mlx_image_t	*so_load_sprite(const char *path, mlx_t *mlx, uint32_t sprite_size);
+mlx_image_t	**so_get_screen_imgs(t_game *game);
+uint32_t	so_get_pixel(mlx_image_t *img, uint32_t px_x, uint32_t px_y);
+void		so_draw_screen(t_game *game, mlx_image_t *dest, mlx_image_t *src);
+void		so_draw_background(t_game *game);
+void		so_draw_img(mlx_image_t *dest, mlx_image_t *s, \
+						uint32_t x, uint32_t y);
+void		so_clean_layout(t_game *game, t_layout type);
 
 /* --------------------------------- Hooks --------------------------------- */
 
@@ -228,6 +245,7 @@ void		so_set_close_hook(void *param);
 void		so_set_move_hook(mlx_key_data_t keydata, void *param);
 void		so_set_coin_hook(void *param);
 void		so_set_counter_hook(void *param);
+void		so_set_screen_hook(void *param);
 
 /* ---------------------- Error and memory management ---------------------- */
 

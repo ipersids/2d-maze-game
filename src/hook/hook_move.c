@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/22 15:29:59 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:44:23 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
+static void	move_player(t_game *game, mlx_key_data_t keydata);
+static void	move_menu(t_game *game, mlx_key_data_t keydata);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -22,7 +24,8 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
  * @brief Sets the hook for player movement based on key input.
  * 
  * This function handles player movement based on key input. 
- * It calls the function to make a decision to move the player.
+ * It calls the appropriate function to handle movement based on the current 
+ * game status (MENU or PLAY).
  * 
  * @param keydata The key data structure containing info about the key event.
  * @param param Pointer to the game structure.
@@ -30,12 +33,54 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px);
 void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
+
+	game = param;
+	if (MENU == game->status)
+		move_menu(game, keydata);
+	if (PLAY == game->status)
+		move_player(game, keydata);
+}
+
+/* ------------------- Private Function Implementation --------------------- */
+
+/**
+ * @brief Handles menu navigation based on key input.
+ * 
+ * @param game Pointer to the game structure.
+ * @param keydata The key data structure.
+ */
+static void	move_menu(t_game *game, mlx_key_data_t keydata)
+{
+	if (keydata.action == MLX_PRESS)
+	{
+		if (keydata.key == MLX_KEY_A || keydata.key == MLX_KEY_LEFT)
+		{
+			if (SCREEN_MENU_GREEN != game->screen.curr_frame)
+				game->screen.curr_frame--;
+		}
+		if (keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
+		{
+			if (SCREEN_MENU_YELLOW != game->screen.curr_frame)
+				game->screen.curr_frame++;
+		}
+	}
+}
+
+/**
+ * @brief Handles player movement based on key input.
+ * 
+ * This function updates the player's position based on the key input.
+ * It calculates the new position and calls the function to make a decision
+ * to move the player.
+ * 
+ * @param game Pointer to the game structure.
+ * @param keydata The key data structure.
+ */
+static void	move_player(t_game *game, mlx_key_data_t keydata)
+{
 	int32_t	y_pixel;
 	int32_t	x_pixel;
 
-	game = param;
-	if (game->status != PLAY)
-		return ;
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		y_pixel = game->pl.player->instances->y;
@@ -51,8 +96,6 @@ void	so_set_move_hook(mlx_key_data_t keydata, void *param)
 		make_decision_to_move(game, x_pixel, y_pixel);
 	}
 }
-
-/* ------------------- Private Function Implementation --------------------- */
 
 /**
  * @brief Makes a decision to move the player based on the new position.
@@ -86,7 +129,7 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 	}
 	if (MAP_CODE[3] == game->lvl.map[y_arr][x_arr] && 0 == game->lvl.items)
 	{
-		ft_printf("You can go... Later! :)\n");
+		ft_printf("So, you won! Press ESC to close window :)\n");
 		game->status = WIN;
 	}
 }

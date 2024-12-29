@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 17:51:12 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/28 00:05:09 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	so_game_init(t_game *game, t_map *map)
 	game->width = WIDTH;
 	game->height = HEIGHT;
 	game->sprite_size = SPRITE_SIZE_MAX;
-	game->elapsed_time = 0;
-	game->status = PLAY;
+	game->status = MENU;
 	so_player_init(&game->pl, map);
 	so_anim_init(&game->coin, COIN_CNT, COIN_SPEED);
 	so_anim_init(&game->counter, NUM_CNT, 1);
+	so_anim_init(&game->screen, SCREEN_MAX, 1);
 	so_level_init(&game->lvl, map);
 }
 
@@ -64,6 +64,7 @@ void	so_anim_init(t_anim *anim, int32_t cnt_frame, double speed)
 	anim->img[0] = NULL;
 	anim->cnt_frame = cnt_frame;
 	anim->curr_frame = 0;
+	anim->elapsed_time = 0.0;
 	anim->speed = speed;
 	anim->fps = 1.0 / (speed * cnt_frame);
 }

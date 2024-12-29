@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:16:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 18:39:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/25 22:16:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,30 @@ static void	draw_coin_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
  */
 void	so_set_coin_hook(void *param)
 {
-	t_game	*g;
-	int32_t	x;
-	int32_t	y;
+	t_game			*g;
+	static double	elapsed_time = 0;
+	int32_t			xy[2];
 
 	g = param;
-	g->elapsed_time += g->mlx->delta_time;
-	if (g->elapsed_time >= g->coin.fps)
+	if (PLAY != g->status)
+		return ;
+	elapsed_time += g->mlx->delta_time;
+	if (PLAY == g->status && elapsed_time >= g->coin.fps)
 	{
-		g->elapsed_time -= g->coin.fps;
+		elapsed_time -= g->coin.fps;
 		g->coin.curr_frame = (g->coin.curr_frame + 1) % g->coin.cnt_frame;
 		so_clean_layout(g, FOREGRND);
-		y = 0;
-		while (y < g->lvl.row)
+		xy[1] = 0;
+		while (xy[1] < g->lvl.row)
 		{
-			x = 0;
-			while ('\0' != g->lvl.map[y][x])
+			xy[0] = 0;
+			while ('\0' != g->lvl.map[xy[1]][xy[0]])
 			{
-				if (MAP_CODE[2] == g->lvl.map[y][x])
-					draw_coin_anim(g, x, y, FOREGRND);
-				x++;
+				if (MAP_CODE[2] == g->lvl.map[xy[1]][xy[0]])
+					draw_coin_anim(g, xy[0], xy[1], FOREGRND);
+				xy[0]++;
 			}
-			y++;
+			xy[1]++;
 		}
 	}
 }
