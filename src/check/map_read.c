@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:44 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 15:21:21 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:41:20 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	**so_realloc_matrix(char **arr, int32_t i, int32_t *size)
 	res = (char **) malloc(*size * sizeof(char *));
 	if (!res)
 	{
-		so_free_arr(arr, i);
+		so_free_arr((void **)arr, i);
 		return (NULL);
 	}
 	j = 0;

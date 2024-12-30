@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:43:51 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/27 23:22:14 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:41:42 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	so_validate_level(char *path, t_map *map)
 	check = so_validate_map(map);
 	if (check)
 	{
-		so_free_arr(map->map_arr, map->row);
+		so_free_arr((void **)map->map_arr, map->row);
 		so_exit_error(check);
 	}
 	ft_printf("%sMap is valid.%s\n", GREEN, DEFAULT);
