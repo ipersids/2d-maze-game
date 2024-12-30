@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:44:23 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:23:28 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 	{
 		ft_printf("Wow, coin!\n");
 		game->lvl.map[y_arr][x_arr] = 'c';
-		game->lvl.items--;
+		game->lvl.item--;
 	}
-	if (MAP_CODE[3] == game->lvl.map[y_arr][x_arr] && 0 == game->lvl.items)
+	if (MAP_CODE[3] == game->lvl.map[y_arr][x_arr] && 0 == game->lvl.item)
 	{
 		ft_printf("So, you won! Press ESC to close window :)\n");
 		game->status = WIN;

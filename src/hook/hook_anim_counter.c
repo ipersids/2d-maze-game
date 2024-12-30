@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 17:47:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/25 22:06:12 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:19:49 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void	so_set_counter_hook(void *param)
 	t_game	*g;
 
 	g = param;
-	if (g->status != PLAY)
+	if (MENU == g->status)
 		return ;
 	i = 0;
 	size = NUM_ARR_SIZE;
 	if (g->lvl.col < size)
 		size = size / 2;
 	get_array_of_nmb(g->pl.move_cnt, arr, size);
+	if (WIN == g->status || LOSE == g->status)
+		so_clean_layout(g, FOREGRND);
 	while (i < size)
 	{
 		so_draw_img(g->layout[FOREGRND], g->counter.img[arr[i]], \

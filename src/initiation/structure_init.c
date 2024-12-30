@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/28 00:05:09 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:23:40 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	so_map_init(t_map *map)
 	map->map_arr = NULL;
 	map->p_yx[0] = 0;
 	map->p_yx[1] = 0;
+	map->free_space = 0;
 }
 
 /**
@@ -93,6 +94,8 @@ void	so_level_init(t_level *level, t_map *map)
 {
 	level->map = map->map_arr;
 	level->col = map->col;
-	level->items = map->item;
+	level->item = map->item;
 	level->row = map->row;
+	level->free_space = map->free_space;
+	level->enemy = 0;
 }

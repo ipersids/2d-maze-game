@@ -6,15 +6,16 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:30:42 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:39:43 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /** 
  * 	@todo small things:
- * 	1) It might be a good idea to re-add a check for the actual monitor size.
- * 	2) Move elapsed time to the animation structure.
+ *	1)	<math.h> doesn't have rand(): write my own or could stdlib rand be used?
+ *		(use it in enemy_set)
  */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -23,7 +24,7 @@
 # include <stdio.h>				// perror
 # include <string.h>			// strerror
 # include <errno.h>				// strerror dependency
-# include <math.h>				// math library
+// # include <math.h>				// math library
 
 # include "libft.h"				// libft library
 
@@ -68,6 +69,12 @@
 # define COIN_CNT 10		// 10 frames in the animation
 # define NUM_CNT 10			// 10 frames in the animation
 # define NUM_ARR_SIZE 6		// 6 digits maximum in the counter
+
+/**
+ * @brief Constants for enemy
+ */
+# define DIFFICULTY 0.05	// % of free space on the map might be occupied by enemy 
+# define ENEMY_CODE 'X'		// code to place enemy on the map
 
 /**
  * @brief Enum representing the game status.
@@ -144,6 +151,7 @@ typedef struct s_map
 	int32_t		exit;		/**< Number of exits in the map. */
 	int32_t		item;		/**< Number of items in the map. */
 	int32_t		player;		/**< Number of players in the map. */
+	int32_t		free_space;	/**< Number of free spaces on the map */
 	int32_t		p_yx[2];	/**< Player's position (y, x). */
 	int32_t		e_yx[2];	/**< Exit's position (y, x). */
 }				t_map;
@@ -177,10 +185,12 @@ typedef struct s_anim
  */
 typedef struct s_level
 {
-	char		**map;	/**< Pointer to the map array. */
-	int32_t		col;	/**< Number of columns in the map. */
-	int32_t		row;	/**< Number of rows in the map. */
-	int32_t		items;	/**< Number of items in the level. */
+	char		**map;		/**< Pointer to the map array. */
+	int32_t		col;		/**< Number of columns in the map. */
+	int32_t		row;		/**< Number of rows in the map. */
+	int32_t		item;		/**< Number of items in the level. */
+	int32_t		free_space;	/**< Number of free spaces on the map */
+	int32_t		enemy;		/**< Number of enemies on the map */
 }				t_level;
 
 /**
@@ -247,6 +257,10 @@ void		so_set_coin_hook(void *param);
 void		so_set_counter_hook(void *param);
 void		so_set_screen_hook(void *param);
 
+/* -------------------------------- Enemies -------------------------------- */
+
+void		so_set_enemies(t_game *game, t_map *map);
+
 /* ---------------------- Error and memory management ---------------------- */
 
 /**
@@ -290,7 +304,7 @@ typedef enum s_error
 void		so_exit_error(int exit_code);
 void		so_print_error(int exit_code);
 
-void		so_free_arr(char **arr, size_t arr_size);
+void		so_free_arr(void **arr, size_t arr_size);
 void		*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images);
 void		so_destroy_game(t_game *game);
 

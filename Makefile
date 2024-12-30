@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/29 17:47:12 by ipersids         ###   ########.fr        #
+#    Updated: 2024/12/30 16:06:01 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_LIBFT_DIR)/include
 LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -L$(SUBM_LIBFT_DIR) -lft \
-				   -ldl -lglfw -lm
+				   -ldl -lglfw #-lm
 
 # Sources and objects
 SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
@@ -57,6 +57,7 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   \
 				   src/error/error.c src/error/memory.c \
 				   \
+				   src/enemy/enemy_set.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
