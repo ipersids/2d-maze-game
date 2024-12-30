@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:29:23 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:37:01 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	so_draw_background(t_game *g)
 			type = get_background_type(&g->lvl, x, y);
 			so_draw_img(g->layout[BACKGRND], g->src_img[type], \
 						x * g->sprite_size, y * g->sprite_size);
-			if (WALL_R < type &&  g->lvl.row != y)
-				so_draw_img(g->layout[ENEMYGRND], g->src_img[FLOOR_F_EMPTY],\
+			if (WALL_R < type && g->lvl.row != y)
+				so_draw_img(g->layout[ENEMYGRND], g->src_img[FLOOR_F_EMPTY], \
 							x * g->sprite_size, y * g->sprite_size);
 			x++;
 		}

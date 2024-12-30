@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:01:50 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:40:19 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:38:28 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static mlx_image_t	*resize_screen_img(t_game *game, mlx_image_t *img)
 	if (_width > img->width * 2)
 		_width = img->width * 2;
 	scale = 1.0 * _width / img->width;
-	if (!mlx_resize_image(img, img->width *scale, img->height *scale))
+	if (!mlx_resize_image(img, img->width * scale, img->height * scale))
 		return (NULL);
 	return (img);
 }

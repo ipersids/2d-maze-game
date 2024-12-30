@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:16:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/25 22:16:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:37:45 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void	so_set_coin_hook(void *param)
 	int32_t			xy[2];
 
 	g = param;
-	if (PLAY != g->status)
-		return ;
-	elapsed_time += g->mlx->delta_time;
+	if (PLAY == g->status)
+		elapsed_time += g->mlx->delta_time;
 	if (PLAY == g->status && elapsed_time >= g->coin.fps)
 	{
 		elapsed_time -= g->coin.fps;

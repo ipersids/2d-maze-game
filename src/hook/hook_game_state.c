@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 22:19:25 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:42:10 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:38:10 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	so_set_screen_hook(void *param)
  */
 static void	menu_handler(t_game *g)
 {
-	static	int	menu_is_init = 0;
+	static int	menu_is_init = 0;
 	int32_t		x;
 	int32_t		y;
 
