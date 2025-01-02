@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 16:39:43 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 02:21:12 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
  * 	@todo small things:
  *	1)	<math.h> doesn't have rand(): write my own or could stdlib rand be used?
  *		(use it in enemy_set)
+ *	2)	Try collision detection using pixels intervals instead of coordinates.
  */
 
 #ifndef SO_LONG_H
@@ -73,8 +74,11 @@
 /**
  * @brief Constants for enemy
  */
-# define DIFFICULTY 0.05	// % of free space on the map might be occupied by enemy 
-# define ENEMY_CODE 'X'		// code to place enemy on the map
+# define DIFFICULTY 0.05		// % of free space on the map occupied by enemy 
+# define ENEMY_CODE 'X'			// code to place enemy on the map
+# define ENEMY_MAX_FRAMES 32	// Maximum amount of frames for enemy animation
+# define ENEMY_ANIM_FRAMES 8	// Amount of frames for one direction animation
+# define ENEMY_SPEED 1.0		// 1 loop per second
 
 /**
  * @brief Enum representing the game status.
@@ -140,6 +144,15 @@ typedef enum e_background_type
 	BG_MAX
 }	t_background_type;
 
+typedef enum e_godir
+{
+	GO_UP,
+	GO_DOWN,
+	GO_LEFT,
+	GO_RIGHT,
+	GO_MAX
+}	t_godir;
+
 /**
  * @brief Structure representing the map.
  */
@@ -172,7 +185,7 @@ typedef struct s_player
  */
 typedef struct s_anim
 {
-	mlx_image_t	*img[ANIM_MAX_FRAMES];	/**< Array of ptrs to the anim frames. */
+	mlx_image_t	*img[ANIM_MAX_FRAMES];	/**< Array of ptrs to the frames. */
 	int32_t		curr_frame;		/**< Current frame of the animation. */
 	int32_t		cnt_frame;		/**< Total number of frames in the anim. */
 	double		elapsed_time;	/**< Accumulate time */
@@ -190,8 +203,19 @@ typedef struct s_level
 	int32_t		row;		/**< Number of rows in the map. */
 	int32_t		item;		/**< Number of items in the level. */
 	int32_t		free_space;	/**< Number of free spaces on the map */
-	int32_t		enemy;		/**< Number of enemies on the map */
 }				t_level;
+
+typedef struct s_enemy
+{
+	mlx_image_t	*img[ENEMY_MAX_FRAMES];	/**< Array of ptrs to the frames. */
+	int32_t		curr_frame;				/**< Current frame of the animation. */
+	int32_t		cnt_frame;				/**< Total number of frame. */
+	double		elapsed_time;			/**< Accumulate time */
+	double		speed;					/**< Speed of the animation. */
+	double		fps;					/**< Frames per second of the anim. */
+	uint32_t	**xyd;					/**< List of enemy x-, y-axis and dir.*/
+	int32_t		cnt;					/**< Size of `xyd` aray=enemies count.*/
+}				t_enemy;
 
 /**
  * @brief Structure representing the game.
@@ -207,10 +231,15 @@ typedef struct s_game
 	t_player	pl;					/**< Player information. */
 	t_anim		coin;				/**< Coin animation information. */
 	t_anim		counter;			/**< Counter animation information. */
-	t_anim		screen;	/**< Resources for menu, win and lose screens. */
+	t_anim		screen;				/**< Menu, win and lose screens. */
 	t_level		lvl;				/**< Level information. */
+	t_enemy		enemy;				/**< Enemy information. */
 	mlx_image_t	*src_img[BG_MAX];	/**< Recourses for drawing game word */
 }				t_game;
+
+/* --------------------------------- Core ---------------------------------- */
+
+void		so_general_loop_hook_init(t_game *game);
 
 /* ------------------------ Struct initialisation -------------------------- */
 
@@ -219,6 +248,7 @@ void		so_map_init(t_map *map);
 void		so_anim_init(t_anim *anim, int32_t cnt_frame, double speed);
 void		so_player_init(t_player *player, t_map *map);
 void		so_level_init(t_level *level, t_map *map);
+void		so_enemy_init(t_enemy *enemy, int cnt_frame, double speed);
 
 mlx_t		*so_mlx_init(t_game *game);
 
@@ -256,10 +286,12 @@ void		so_set_move_hook(mlx_key_data_t keydata, void *param);
 void		so_set_coin_hook(void *param);
 void		so_set_counter_hook(void *param);
 void		so_set_screen_hook(void *param);
+void		so_set_enemy_hook(void *param);
 
 /* -------------------------------- Enemies -------------------------------- */
 
-void		so_set_enemies(t_game *game, t_map *map);
+uint32_t	**so_place_enemies(t_game *game, t_map *map);
+mlx_image_t	**so_set_enemy_animation(t_game *game);
 
 /* ---------------------- Error and memory management ---------------------- */
 
@@ -307,5 +339,7 @@ void		so_print_error(int exit_code);
 void		so_free_arr(void **arr, size_t arr_size);
 void		*so_destroy_images(mlx_t *mlx, int32_t i, mlx_image_t **images);
 void		so_destroy_game(t_game *game);
+
+uint32_t	**so_allocate_arr(int size1, int size2);
 
 #endif

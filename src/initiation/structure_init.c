@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:52:31 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 14:23:40 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 21:55:16 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	so_game_init(t_game *game, t_map *map)
 	game->status = MENU;
 	so_player_init(&game->pl, map);
 	so_anim_init(&game->coin, COIN_CNT, COIN_SPEED);
-	so_anim_init(&game->counter, NUM_CNT, 1);
-	so_anim_init(&game->screen, SCREEN_MAX, 1);
+	so_anim_init(&game->counter, NUM_CNT, 0);
+	so_anim_init(&game->screen, SCREEN_MAX, 0);
 	so_level_init(&game->lvl, map);
+	so_enemy_init(&game->enemy, ENEMY_ANIM_FRAMES, ENEMY_SPEED);
 }
 
 /**
@@ -97,5 +98,4 @@ void	so_level_init(t_level *level, t_map *map)
 	level->item = map->item;
 	level->row = map->row;
 	level->free_space = map->free_space;
-	level->enemy = 0;
 }

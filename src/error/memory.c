@@ -6,13 +6,35 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:11:16 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 16:42:55 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/01 21:40:16 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 /* --------------------------- Public Functions ---------------------------- */
+
+uint32_t	**so_allocate_arr(int size1, int size2)
+{
+	int			i;
+	uint32_t	**arr;
+
+	arr = malloc(size1 * sizeof(uint32_t *));
+	if (!arr)
+		return (NULL);
+	i = 0;
+	while (size1 > i)
+	{
+		arr[i] = malloc(size2 * sizeof(uint32_t));
+		if (!arr[i])
+		{
+			so_free_arr((void **)arr, i);
+			return (NULL);
+		}
+		i++;
+	}
+	return (arr);
+}
 
 /**
  * @brief Frees a dynamically allocated array of strings.
@@ -77,8 +99,12 @@ void	so_destroy_game(t_game *g)
 		so_destroy_images(g->mlx, g->counter.cnt_frame, g->counter.img);
 	if (g->screen.img[0])
 		so_destroy_images(g->mlx, g->screen.cnt_frame, g->screen.img);
+	if (g->enemy.img[0])
+		so_destroy_images(g->mlx, ENEMY_MAX_FRAMES, g->enemy.img);
 	if (g->mlx)
 		mlx_terminate(g->mlx);
 	if (g->lvl.map)
 		so_free_arr((void **)g->lvl.map, g->lvl.row);
+	if (g->enemy.xyd)
+		so_free_arr((void **)g->enemy.xyd, g->enemy.cnt);
 }

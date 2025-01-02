@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:34:43 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 18:24:53 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/01 21:40:51 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,40 @@
 
 /* --------------------- Private function prototypes ----------------------- */
 
-static int	calculate_enemies(t_game *game, double difficulty);
-static int	**allocate_free_spaces_arr(t_game *game);
-static void	fill_free_spaces_arr(t_game *game, int **free_spaces);
-static int	place_enemy(t_game *game, t_map *map, int **free_spaces);
+static void	fill_free_spaces_arr(t_game *game, uint32_t **free_spaces);
+static void	fill_enemy_pos_arr(t_game *game, uint32_t **enemy_pos);
+static int	put_enemies(t_game *game, t_map *map, uint32_t **free_spaces);
 
 /* --------------------------- Public Functions ---------------------------- */
 
-void	so_set_enemies(t_game *game, t_map *map)
+uint32_t	**so_place_enemies(t_game *game, t_map *map)
 {
-	int	**free_spaces;
+	uint32_t	**free_spaces;
+	uint32_t	**enemy_pos;
 
-	game->lvl.enemy = calculate_enemies(game, DIFFICULTY);
-	ft_printf("Possible amount of enemies: %d\n", game->lvl.enemy);
-	if (0 == game->lvl.enemy)
-		return ;
-	free_spaces = allocate_free_spaces_arr(game);
+	game->enemy.cnt = (int32_t)(game->lvl.free_space * DIFFICULTY);
+	ft_printf("Possible amount of enemies: %d\n", game->enemy.cnt);
+	if (0 == game->enemy.cnt)
+		return (NULL);
+	free_spaces = so_allocate_arr(game->lvl.free_space, 2);
 	if (!free_spaces)
+		return (NULL);
+	fill_free_spaces_arr(game, free_spaces);
+	game->enemy.cnt = put_enemies(game, map, free_spaces);
+	enemy_pos = so_allocate_arr(game->enemy.cnt, 3);
+	if (!enemy_pos)
 	{
-		so_destroy_game(game);
-		so_exit_error(ERR_SYSTEM);
+		so_free_arr((void **)free_spaces, game->lvl.free_space);
+		return (NULL);
 	}
-	game->lvl.enemy = place_enemy(game, map, free_spaces);
-	ft_printf("Enemies were placed: %d\n", game->lvl.enemy);
+	fill_enemy_pos_arr(game, enemy_pos);
 	so_free_arr((void **)free_spaces, game->lvl.free_space);
+	return (enemy_pos);
 }
 
 /* ------------------- Private Function Implementation --------------------- */
 
-static int	calculate_enemies(t_game *game, double difficulty)
-{
-	game->lvl.enemy = (int32_t)(game->lvl.free_space * difficulty);
-	return (game->lvl.enemy);
-}
-
-static int	**allocate_free_spaces_arr(t_game *game)
-{
-	int	i;
-	int	**free_spaces;
-
-	free_spaces = (int **) malloc(game->lvl.free_space * sizeof(int *));
-	if (!free_spaces)
-		return (NULL);
-	i = 0;
-	while (game->lvl.free_space > i)
-	{
-		free_spaces[i] = (int *) malloc(2 * sizeof(int));
-		if (!free_spaces[i])
-		{
-			so_free_arr((void **)free_spaces, i);
-			return (NULL);
-		}
-		i++;
-	}
-	fill_free_spaces_arr(game, free_spaces);
-	return (free_spaces);
-}
-
-static void	fill_free_spaces_arr(t_game *game, int **free_spaces)
+static void	fill_free_spaces_arr(t_game *game, uint32_t **free_spaces)
 {
 	int	cnt;
 	int	row;
@@ -110,14 +86,14 @@ static void	fill_free_spaces_arr(t_game *game, int **free_spaces)
  * @param free_spaces 
  * @return int 
  */
-static int	place_enemy(t_game *game, t_map *map, int **free_spaces)
+static int	put_enemies(t_game *game, t_map *map, uint32_t **free_spaces)
 {
 	int	e;
 	int	i;
 
 	e = 0;
 	srand((unsigned long int)free_spaces[0]);
-	while (e < game->lvl.enemy && 0 != map->free_space)
+	while (e < game->enemy.cnt && 0 != map->free_space)
 	{
 		i = rand() % map->free_space;
 		game->lvl.map[free_spaces[i][1]][free_spaces[i][0]] = ENEMY_CODE;
@@ -130,4 +106,31 @@ static int	place_enemy(t_game *game, t_map *map, int **free_spaces)
 		free_spaces[i][1] = free_spaces[map->free_space][1];
 	}
 	return (e);
+}
+
+static void	fill_enemy_pos_arr(t_game *game, uint32_t **enemy_pos)
+{
+	int	i;
+	int	row;
+	int	col;
+
+	i = 0;
+	row = 0;
+	while (row < game->lvl.row && i < game->enemy.cnt)
+	{
+		col = 0;
+		while (col < game->lvl.col && i < game->enemy.cnt)
+		{
+			if (ENEMY_CODE == game->lvl.map[row][col])
+			{
+				enemy_pos[i][0] = col * game->sprite_size;
+				enemy_pos[i][1] = row * game->sprite_size;
+				enemy_pos[i][2] = rand() % GO_MAX;
+				i++;
+			}
+			col++;
+		}
+		row++;
+	}
+	game->enemy.xyd = enemy_pos;
 }

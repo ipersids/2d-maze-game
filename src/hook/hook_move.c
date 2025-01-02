@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:16:12 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 14:23:28 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/01 23:28:53 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ static void	make_decision_to_move(t_game *game, int32_t x_px, int32_t y_px)
 
 	y_arr = y_px / game->pl.player->width;
 	x_arr = x_px / game->pl.player->width;
-	if (MAP_CODE[1] == game->lvl.map[y_arr][x_arr])
+	if (MAP_CODE[1] == game->lvl.map[y_arr][x_arr] \
+		|| (y_px == game->pl.player->instances->y \
+		&& x_px == game->pl.player->instances->x))
 		return ;
 	game->pl.player->instances->y = y_px;
 	game->pl.player->instances->x = x_px;

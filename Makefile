@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/30 16:06:01 by ipersids         ###   ########.fr        #
+#    Updated: 2025/01/01 18:54:17 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   src/draw/screen.c \
 				   \
 				   src/initiation/structure_init.c src/initiation/window_init.c \
+				   src/initiation/enemy_init.c \
 				   \
 				   src/hook/hook_close.c src/hook/hook_move.c \
 				   src/hook/hook_anim_coin.c src/hook/hook_anim_counter.c \
@@ -57,7 +58,10 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   \
 				   src/error/error.c src/error/memory.c \
 				   \
-				   src/enemy/enemy_set.c \
+				   src/enemy/enemy_set.c src/enemy/animation_enemy.c \
+				   src/enemy/hook_anim_enemy.c \
+				   \
+				   src/core/hook.c \
 
 SRC_MAIN		:= src/main.c
 OBJS			:= $(SRCS:%.c=%.o)
