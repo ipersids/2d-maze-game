@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 16:46:44 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 02:17:58 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:11:53 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ static t_bool	is_player_here(t_game *g);
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Sets the hook for updating the enemy animation.
+ * 
+ * This function updates the enemy animation based on the elapsed time. 
+ * It increments the current frame of the enemy animation and redraws 
+ * the enemies on the enemy layout.
+ * It also handles enemy movement and checks for player collisions.
+ * 
+ * @param param Pointer to the game structure.
+ */
 void	so_set_enemy_hook(void *param)
 {
 	const int	dir[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
@@ -51,6 +61,17 @@ void	so_set_enemy_hook(void *param)
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Sets the next position for the enemy based on its current direction.
+ * 
+ * This function calculates the next position for the enemy based on its current
+ * direction and updates its coordinates. It also checks for collisions 
+ * with walls and other enemies, and changes direction if necessary.
+ * 
+ * @param g Pointer to the game structure.
+ * @param i Index of the enemy in the enemy array.
+ * @param dir Array of direction vectors.
+ */
 static void	set_next_position(t_game *g, int i, const int dir[4][2])
 {
 	uint32_t	x;
@@ -74,6 +95,15 @@ static void	set_next_position(t_game *g, int i, const int dir[4][2])
 	g->enemy.xyd[i][1] += (step * dir[g->enemy.xyd[i][2]][1]);
 }
 
+/**
+ * @brief Checks if the specified position is occupied by another enemy.
+ * 
+ * @param g Pointer to the game structure.
+ * @param i Index of the current enemy in the enemy array.
+ * @param x The x-coordinate of the position to check.
+ * @param y The y-coordinate of the position to check.
+ * @return t_bool True if the position is occupied, false otherwise.
+ */
 static t_bool	is_occupied(t_game *g, int i, int x, int y)
 {
 	int	j;
@@ -92,6 +122,12 @@ static t_bool	is_occupied(t_game *g, int i, int x, int y)
 	return (FALSE);
 }
 
+/**
+ * @brief Draws the enemy animation at the specified position.
+ * 
+ * @param g Pointer to the game structure.
+ * @param i Index of the enemy in the enemy array.
+ */
 static void	draw_enemy_anim(t_game *g, int i)
 {
 	mlx_image_t	*dst;
@@ -108,6 +144,13 @@ static void	draw_enemy_anim(t_game *g, int i)
 	so_draw_img(dst, src, px_x, px_y);
 }
 
+/**
+ * @brief Checks if the player is at the same position as any enemy.
+ * 
+ * @param g Pointer to the game structure.
+ * @return t_bool True if the player is at the same position as an enemy, 
+ * 				  false otherwise.
+ */
 static t_bool	is_player_here(t_game *g)
 {
 	int	x;

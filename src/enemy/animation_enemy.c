@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 20:41:04 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 02:17:41 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:17:13 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ static const char	*get_enemy_left_right_path(int32_t i_frame);
 
 /* --------------------------- Public Functions ---------------------------- */
 
+/**
+ * @brief Sets the enemy animation images.
+ * 
+ * This function loads the enemy animation images for up/down and left/right 
+ * movements and stores them in the game's enemy image array. 
+ * 
+ * @param game Pointer to the game structure.
+ * @return mlx_image_t** Array of pointers to the loaded enemy images, 
+ * 						 or NULL if loading fails.
+ */
 mlx_image_t	**so_set_enemy_animation(t_game *game)
 {
 	if (!so_get_imgarray(game, game->enemy.img, ENEMY_ANIM_FRAMES * 2, \
@@ -35,6 +45,12 @@ mlx_image_t	**so_set_enemy_animation(t_game *game)
 
 /* ------------------- Private Function Implementation --------------------- */
 
+/**
+ * @brief Gets the file path for an enemy up/down animation frame.
+ * 
+ * @param i_frame The frame index of the enemy animation.
+ * @return const char* The file path for the enemy animation frame.
+ */
 static const char	*get_enemy_up_down_path(int32_t i_frame)
 {
 	static char	list[ENEMY_MAX_FRAMES][100] = {
@@ -59,6 +75,12 @@ static const char	*get_enemy_up_down_path(int32_t i_frame)
 	return (list[i_frame]);
 }
 
+/**
+ * @brief Gets the file path for an enemy left/right animation frame.
+ * 
+ * @param i_frame The frame index of the enemy animation.
+ * @return const char* The file path for the enemy animation frame.
+ */
 static const char	*get_enemy_left_right_path(int32_t i_frame)
 {
 	static char	list[ENEMY_MAX_FRAMES][100] = {
