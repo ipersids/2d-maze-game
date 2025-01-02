@@ -6,16 +6,9 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 02:21:12 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:09:14 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/** 
- * 	@todo small things:
- *	1)	<math.h> doesn't have rand(): write my own or could stdlib rand be used?
- *		(use it in enemy_set)
- *	2)	Try collision detection using pixels intervals instead of coordinates.
- */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
@@ -25,7 +18,6 @@
 # include <stdio.h>				// perror
 # include <string.h>			// strerror
 # include <errno.h>				// strerror dependency
-// # include <math.h>				// math library
 
 # include "libft.h"				// libft library
 
@@ -79,6 +71,10 @@
 # define ENEMY_MAX_FRAMES 32	// Maximum amount of frames for enemy animation
 # define ENEMY_ANIM_FRAMES 8	// Amount of frames for one direction animation
 # define ENEMY_SPEED 1.0		// 1 loop per second
+
+# ifndef RAND_MAX
+#  define RAND_MAX 32767
+# endif
 
 /**
  * @brief Enum representing the game status.
@@ -158,15 +154,15 @@ typedef enum e_godir
  */
 typedef struct s_map
 {
-	char		**map_arr;	/**< Pointer to the map array. */
-	int32_t		col;		/**< Number of columns in the map. */
-	int32_t		row;		/**< Number of rows in the map. */
-	int32_t		exit;		/**< Number of exits in the map. */
-	int32_t		item;		/**< Number of items in the map. */
-	int32_t		player;		/**< Number of players in the map. */
-	int32_t		free_space;	/**< Number of free spaces on the map */
-	int32_t		p_yx[2];	/**< Player's position (y, x). */
-	int32_t		e_yx[2];	/**< Exit's position (y, x). */
+	char		**map_arr;
+	int32_t		col;
+	int32_t		row;
+	int32_t		exit;
+	int32_t		item;
+	int32_t		player;
+	int32_t		free_space;
+	int32_t		p_yx[2];
+	int32_t		e_yx[2];
 }				t_map;
 
 /**
@@ -174,10 +170,10 @@ typedef struct s_map
  */
 typedef struct s_player
 {
-	mlx_image_t	*player;	/**< Pointer to the player's image. */
-	uint32_t	move_cnt;	/**< Count of the player's moves. */
-	int32_t		x;			/**< X-coordinate of the player's position. */
-	int32_t		y;			/**< Y-coordinate of the player's position. */
+	mlx_image_t	*player;
+	uint32_t	move_cnt;
+	int32_t		x;
+	int32_t		y;
 }				t_player;
 
 /**
@@ -185,12 +181,12 @@ typedef struct s_player
  */
 typedef struct s_anim
 {
-	mlx_image_t	*img[ANIM_MAX_FRAMES];	/**< Array of ptrs to the frames. */
-	int32_t		curr_frame;		/**< Current frame of the animation. */
-	int32_t		cnt_frame;		/**< Total number of frames in the anim. */
-	double		elapsed_time;	/**< Accumulate time */
-	double		speed;			/**< Speed of the animation. */
-	double		fps;			/**< Frames per second of the anim. */
+	mlx_image_t	*img[ANIM_MAX_FRAMES];
+	int32_t		curr_frame;
+	int32_t		cnt_frame;
+	double		elapsed_time;
+	double		speed;
+	double		fps;
 }				t_anim;
 
 /**
@@ -198,23 +194,23 @@ typedef struct s_anim
  */
 typedef struct s_level
 {
-	char		**map;		/**< Pointer to the map array. */
-	int32_t		col;		/**< Number of columns in the map. */
-	int32_t		row;		/**< Number of rows in the map. */
-	int32_t		item;		/**< Number of items in the level. */
-	int32_t		free_space;	/**< Number of free spaces on the map */
+	char		**map;
+	int32_t		col;
+	int32_t		row;
+	int32_t		item;
+	int32_t		free_space;
 }				t_level;
 
 typedef struct s_enemy
 {
-	mlx_image_t	*img[ENEMY_MAX_FRAMES];	/**< Array of ptrs to the frames. */
-	int32_t		curr_frame;				/**< Current frame of the animation. */
-	int32_t		cnt_frame;				/**< Total number of frame. */
-	double		elapsed_time;			/**< Accumulate time */
-	double		speed;					/**< Speed of the animation. */
-	double		fps;					/**< Frames per second of the anim. */
-	uint32_t	**xyd;					/**< List of enemy x-, y-axis and dir.*/
-	int32_t		cnt;					/**< Size of `xyd` aray=enemies count.*/
+	mlx_image_t	*img[ENEMY_MAX_FRAMES];
+	int32_t		curr_frame;
+	int32_t		cnt_frame;
+	double		elapsed_time;
+	double		speed;
+	double		fps;
+	uint32_t	**xyd;
+	int32_t		cnt;
 }				t_enemy;
 
 /**
@@ -222,24 +218,20 @@ typedef struct s_enemy
  */
 typedef struct s_game
 {
-	mlx_image_t	*layout[LAY_MAX];	/**< Array of ptrs to the layout images. */
-	mlx_t		*mlx;				/**< Pointer to the MLX instance. */
-	int32_t		width;				/**< Width of the game window. */
-	int32_t		height;				/**< Height of the game window. */
-	uint32_t	sprite_size;		/**< Size of the sprites. */
-	int32_t		status;				/**< Current status of the game. */
-	t_player	pl;					/**< Player information. */
-	t_anim		coin;				/**< Coin animation information. */
-	t_anim		counter;			/**< Counter animation information. */
-	t_anim		screen;				/**< Menu, win and lose screens. */
-	t_level		lvl;				/**< Level information. */
-	t_enemy		enemy;				/**< Enemy information. */
-	mlx_image_t	*src_img[BG_MAX];	/**< Recourses for drawing game word */
+	mlx_image_t	*layout[LAY_MAX];
+	mlx_t		*mlx;
+	int32_t		width;
+	int32_t		height;
+	uint32_t	sprite_size;
+	int32_t		status;
+	t_player	pl;
+	t_anim		coin;
+	t_anim		counter;
+	t_anim		screen;
+	t_level		lvl;
+	t_enemy		enemy;
+	mlx_image_t	*src_img[BG_MAX];
 }				t_game;
-
-/* --------------------------------- Core ---------------------------------- */
-
-void		so_general_loop_hook_init(t_game *game);
 
 /* ------------------------ Struct initialisation -------------------------- */
 
@@ -288,10 +280,13 @@ void		so_set_counter_hook(void *param);
 void		so_set_screen_hook(void *param);
 void		so_set_enemy_hook(void *param);
 
+void		so_general_loop_hook_init(t_game *game);
+
 /* -------------------------------- Enemies -------------------------------- */
 
 uint32_t	**so_place_enemies(t_game *game, t_map *map);
 mlx_image_t	**so_set_enemy_animation(t_game *game);
+int			ft_rand(void);
 
 /* ---------------------- Error and memory management ---------------------- */
 

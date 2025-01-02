@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 13:59:51 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:38:21 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	so_validate_map(t_map *map)
 	int32_t	i;
 
 	i = 0;
+	if (NULL == map->map_arr[0])
+		return (ERR_EMPTY_MAP);
 	map->col = ft_strlen(map->map_arr[0]);
 	while (map->map_arr[map->row] != NULL)
 		map->row++;
-	if (0 == map->col)
-		return (ERR_EMPTY_MAP);
 	i = 0;
 	while (map->map_arr[i] != NULL)
 	{

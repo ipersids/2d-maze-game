@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 16:46:44 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 11:11:53 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:34:52 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	so_set_enemy_hook(void *param)
 	t_game		*g;
 
 	g = param;
-	if (PLAY != g->status)
+	if (PLAY != g->status || 0 == g->enemy.cnt)
 		return ;
 	g->enemy.elapsed_time += g->mlx->delta_time;
 	if (g->enemy.elapsed_time >= g->enemy.fps)
@@ -52,7 +52,7 @@ void	so_set_enemy_hook(void *param)
 			if (0 != g->pl.move_cnt)
 				set_next_position(g, i, dir);
 			draw_enemy_anim(g, i);
-			if (is_player_here(g))
+			if (is_player_here(g) && 0 != g->pl.move_cnt)
 				g->status = LOSE;
 			i++;
 		}
@@ -88,7 +88,7 @@ static void	set_next_position(t_game *g, int i, const int dir[4][2])
 	if (MAP_CODE[1] == g->lvl.map[y / g->sprite_size][x / g->sprite_size] \
 		|| is_occupied(g, i, x / g->sprite_size, y / g->sprite_size))
 	{
-		g->enemy.xyd[i][2] = rand() % GO_MAX;
+		g->enemy.xyd[i][2] = ft_rand() % GO_MAX;
 		return ;
 	}
 	g->enemy.xyd[i][0] += (step * dir[g->enemy.xyd[i][2]][0]);

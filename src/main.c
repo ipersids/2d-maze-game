@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:52:30 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/31 02:47:23 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:25:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	so_validate_level(argv[1], &map);
 	so_game_init(&game, &map);
 	so_mlx_init(&game);
-	if (!so_place_enemies(&game, &map))
+	if (!so_place_enemies(&game, &map) && 0 != game.enemy.cnt)
 	{
 		so_destroy_game(&game);
 		so_exit_error(ERR_SYSTEM);

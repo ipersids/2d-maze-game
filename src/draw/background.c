@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:20:07 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/30 13:37:01 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:05:17 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* --------------------- Private function prototypes ----------------------- */
 
 static int	get_background_type(t_level *lvl, int32_t x, int32_t y);
+static int	rand_floor_free(void);
+static int	rand_wall_free(void);
 
 /* --------------------------- Public Functions ---------------------------- */
 
@@ -82,9 +84,33 @@ static int	get_background_type(t_level *lvl, int32_t x, int32_t y)
 			return (WALL_U);
 		if (lvl->col - 1 == x)
 			return (WALL_R);
-		return (FLOOR_W_TREE);
+		return (rand_wall_free());
 	}
 	if (lvl->map[y][x] == MAP_CODE[3])
 		return (WAY_OUT);
+	return (rand_floor_free());
+}
+
+static int	rand_floor_free(void)
+{
+	int	num;
+
+	num = ft_rand() % 10;
+	if (num <= 6)
+		return (FLOOR_F_GRASS);
 	return (FLOOR_F_FLOWER);
+}
+
+static int	rand_wall_free(void)
+{
+	int	num;
+
+	num = ft_rand() % 10;
+	if (num <= 6)
+		return (FLOOR_W_TREE);
+	if (num <= 7)
+		return (FLOOR_W_BARREL);
+	if (num <= 8)
+		return (FLOOR_W_CAMPFIRE);
+	return (FLOOR_W_DRAGON);
 }

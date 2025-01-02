@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2025/01/02 11:07:26 by ipersids         ###   ########.fr        #
+#    Updated: 2025/01/02 13:24:40 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   src/draw/screen.c \
 				   \
 				   src/initiation/structure_init.c src/initiation/window_init.c \
-				   src/initiation/enemy_init.c \
+				   src/initiation/enemy_init.c src/enemy/ft_rand.c \
 				   \
 				   src/hook/hook_close.c src/hook/hook_move.c \
 				   src/hook/hook_anim_coin.c src/hook/hook_anim_counter.c \
