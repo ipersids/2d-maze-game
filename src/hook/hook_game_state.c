@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 22:19:25 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/29 17:42:10 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/01 23:45:34 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	so_set_screen_hook(void *param)
 	{
 		so_clean_layout(g, ENEMYGRND);
 		g->pl.player->enabled = false;
-		so_draw_screen(g, g->layout[FOREGRND], g->screen.img[SCREEN_WIN]);
+		so_draw_screen(g, g->layout[ENEMYGRND], g->screen.img[SCREEN_WIN]);
 	}
 	if (LOSE == g->status)
 	{
 		so_clean_layout(g, ENEMYGRND);
 		so_clean_layout(g, FOREGRND);
 		g->pl.player->enabled = false;
-		so_draw_screen(g, g->layout[FOREGRND], g->screen.img[SCREEN_WIN]);
+		so_draw_screen(g, g->layout[ENEMYGRND], g->screen.img[SCREEN_LOSE]);
 	}
 }
 
@@ -61,7 +61,7 @@ void	so_set_screen_hook(void *param)
  */
 static void	menu_handler(t_game *g)
 {
-	static	int	menu_is_init = 0;
+	static int	menu_is_init = 0;
 	int32_t		x;
 	int32_t		y;
 

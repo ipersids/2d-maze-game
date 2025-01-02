@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:04:08 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 19:31:31 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:59:51 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,13 @@ static int	is_line_valid(t_map *map, int32_t y)
 	{
 		if (ft_strchr(MAP_CODE, map->map_arr[y][i]) == NULL)
 			return (ERR_INVALID_CH);
-		if (MAP_CODE[2] == map->map_arr[y][i])
+		if (MAP_CODE[0] == map->map_arr[y][i])
+			map->free_space++;
+		else if (MAP_CODE[2] == map->map_arr[y][i])
 			map->item++;
-		if (MAP_CODE[3] == map->map_arr[y][i])
+		else if (MAP_CODE[3] == map->map_arr[y][i])
 			map->exit++;
-		if (MAP_CODE[4] == map->map_arr[y][i])
+		else if (MAP_CODE[4] == map->map_arr[y][i])
 		{
 			map->p_yx[0] = y;
 			map->p_yx[1] = i;

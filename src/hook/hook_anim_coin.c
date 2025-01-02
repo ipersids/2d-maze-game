@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:16:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/25 22:16:37 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/01 16:49:21 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ static void	draw_coin_anim(t_game *game, uint32_t x, uint32_t y, t_layout type);
 void	so_set_coin_hook(void *param)
 {
 	t_game			*g;
-	static double	elapsed_time = 0;
 	int32_t			xy[2];
 
 	g = param;
 	if (PLAY != g->status)
 		return ;
-	elapsed_time += g->mlx->delta_time;
-	if (PLAY == g->status && elapsed_time >= g->coin.fps)
+	g->coin.elapsed_time += g->mlx->delta_time;
+	if (g->coin.elapsed_time >= g->coin.fps)
 	{
-		elapsed_time -= g->coin.fps;
+		g->coin.elapsed_time -= g->coin.fps;
 		g->coin.curr_frame = (g->coin.curr_frame + 1) % g->coin.cnt_frame;
 		so_clean_layout(g, FOREGRND);
 		xy[1] = 0;

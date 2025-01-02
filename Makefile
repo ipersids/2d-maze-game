@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2024/12/29 17:47:12 by ipersids         ###   ########.fr        #
+#    Updated: 2025/01/02 11:07:26 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_LIBFT_DIR)/include
 LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -L$(SUBM_LIBFT_DIR) -lft \
-				   -ldl -lglfw -lm
+				   -ldl -lglfw #-lm
 
 # Sources and objects
 SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
@@ -50,12 +50,16 @@ SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
 				   src/draw/screen.c \
 				   \
 				   src/initiation/structure_init.c src/initiation/window_init.c \
+				   src/initiation/enemy_init.c \
 				   \
 				   src/hook/hook_close.c src/hook/hook_move.c \
 				   src/hook/hook_anim_coin.c src/hook/hook_anim_counter.c \
-				   src/hook/hook_game_state.c \
+				   src/hook/hook_game_state.c src/hook/hook.c \
 				   \
 				   src/error/error.c src/error/memory.c \
+				   \
+				   src/enemy/enemy_set.c src/enemy/animation_enemy.c \
+				   src/enemy/hook_anim_enemy.c \
 				   \
 
 SRC_MAIN		:= src/main.c

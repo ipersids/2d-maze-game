@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:53:11 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 16:26:13 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:42:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ mlx_t	*so_mlx_init(t_game *game)
 	game->mlx = mlx_init(WIDTH, HEIGHT, NAME, true);
 	if (!game->mlx)
 	{
-		so_free_arr(game->lvl.map, game->lvl.row);
+		so_free_arr((void **)game->lvl.map, game->lvl.row);
 		so_exit_error(ERR_MLX42);
 	}
 	mlx_get_monitor_size(0, &game->width, &game->height);
 	if (!is_map_size_valid(game, game->width, game->height))
 	{
-		so_free_arr(game->lvl.map, game->lvl.row);
+		so_free_arr((void **)game->lvl.map, game->lvl.row);
 		so_exit_error(ERR_MAP_SIZE);
 	}
 	mlx_set_window_size(game->mlx, game->width, game->height);

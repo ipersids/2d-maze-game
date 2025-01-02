@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:34:03 by ipersids          #+#    #+#             */
-/*   Updated: 2024/12/23 15:20:33 by ipersids         ###   ########.fr       */
+/*   Updated: 2024/12/30 18:16:37 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static int32_t	dfs(t_map *map, int32_t *p_yx, int *vis, const int dir[4][2])
 
 	if (p_yx[0] < 0 || p_yx[0] >= map->row || p_yx[1] < 0 || p_yx[1] >= map->col
 		|| vis[p_yx[0] * map->col + p_yx[1]]
-		|| map->map_arr[p_yx[0]][p_yx[1]] == MAP_CODE[1])
+		|| MAP_CODE[1] == map->map_arr[p_yx[0]][p_yx[1]]
+		|| ENEMY_CODE == map->map_arr[p_yx[0]][p_yx[1]])
 		return (0);
 	items = 0;
 	vis[p_yx[0] * map->col + p_yx[1]] = 1;
@@ -72,7 +73,7 @@ static int32_t	dfs(t_map *map, int32_t *p_yx, int *vis, const int dir[4][2])
 		|| map->map_arr[p_yx[0]][p_yx[1]] == MAP_CODE[3])
 		items++;
 	step = 0;
-	while (step < 4)
+	while (4 > step)
 	{
 		new_xy[0] = p_yx[0] + dir[step][0];
 		new_xy[1] = p_yx[1] + dir[step][1];
