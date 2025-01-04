@@ -8,9 +8,9 @@
 
 <h1> So Long</h1> 
 
-<video width="600" controls>
-  <source src="textures/readme-gif/preview-game-win.mov" alt="Game demonstration (win screen)" type="video/mp4">
-</video>
+<picture>
+		<img src="textures/readme-gif/preview-game-win.gif" alt="Game demonstration (win screen)">
+</picture>  
 
 </div>
 
@@ -78,8 +78,8 @@ Made by **Julia Persidskaia**.
 
 <div align="center">... and Thanks for All the Fish. 🐟 
 
-<video width="600" controls>
-  <source src="textures/readme-gif/preview-game-over.mov" alt="Game demonstration (win screen)" type="video/mp4">
-</video>
+<picture>
+		<img src="textures/readme-gif/preview-game-over.gif" alt="Game demonstration (win screen)">
+</picture>  
 
 </div>
