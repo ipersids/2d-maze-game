@@ -1,64 +1,85 @@
 # hive-core-so-long
-The So Long project is a small 2D game that uses the MLX42 graphical library.
+<div align="center">
+	<picture>
+		<img src="https://github.com/ayogun/42-project-badges/blob/main/badges/so_longm.png" alt="42 The 'So Long' school project with a bonus badge.">
+	</picture>  
 
-### Project plan
+<p><a href="https://www.hive.fi/en/curriculum">Hive (42 School Network)</a></p>  
 
-<details>
-<summary>Active tasks</summary>    
+<h1> So Long</h1> 
 
-- [ ] Check how to add sounds whit mlx42. 
-- [ ] Testing
-- [ ] Finalize documentation.
+<video width="600" controls>
+  <source src="textures/readme-gif/preview-game-win.mov" alt="Game demonstration (win screen)" type="video/mp4">
+</video>
 
-</details>
+</div>
 
-<details>
-<summary>Done</summary>  
+#### Introduction
+So Long is a fun little 2D maze game where player need to collect all the coins and find the way out to win. No need to worry about creating a map with enemies; the game will automatically add them if there’s enough space, and it’ll still be totally playable. 
 
-- [x] Program input validation:    
-    * Takes exactly 2 parameters: `<program> <path>`.   
-    * Map file has a `.ber` extension.    
-    * Path to the file is valid. 
-- [x] Map reading and general validation:  
-	* Map is rectangular.
-	* There is exactly one start position and one exit position.  
-	* There is at least one collectible item.  
-	* Map is surrounded by walls. 
-	* Map fits the monitor size.
-- [x] Check if the map is playable:  
-	* There's a valid path between the start and exit.  
-	* All collectibles are reachable. 
-- [x] Display the game background in the window.  
-	* Load sprites for walls, obstacles and empty spaces.  
-- [x] Handle user input:
-	* Implement movement in 4 directions: up, down, left, and right.  
-	* Handle closing the window with ESC.
-- [x] Handle player interaction with collectibles and counter:  
-	* Detect the collectables and unset it on the map.  
-	* Decrease amount of collectables to handle the exit from the game later.  
-	* Print number of movements to stdout.
-- [x] Implement sprite animation for collectibles. 
-	* Load frames and set values to the structure.  
-	* Updates the coin animation based on the elapsed time and FPS.  
-- [x] Mid-project refactoring and cleaning:
-	* Review and clean up header file.  
-	* Restructure game object hierarchy, content and review macros.  
-	* Optimize functions to reduce complexity, improve performance, and increase abstraction.   
-	* Improve error handling.   
-- [x] Display the movement count on-screen. 
-- [x] Implement game states:  
-	* Create layout for win and lose states.  
-	* Add main menu.  
-	* Allow player to choose a character at the start of the game.   
-- [x] Implement enemies:  
-	* Add enemies with movement patterns and interactions with the player.  
-	* Add animation for enemy.
-	* Detect collision with player.  
-- [x] Implement a final game loop that handles rendering and events. 
+### Features  
+1) **Main menu:** Player can choose your character (colored: green, red, or yellow):  
+	* Use the arrow keys `←` | `→` or `A` | `D` to pick a color.  
+	* Press `Enter` to start the game.  
+2) **Win and lose screens.**  
+3) **Enemies generated automatically:** The game adds enemies based on the map with this logic:  
+	* 5% of the free spaces on the map can have enemies (this is for an "easy" difficulty level).  
+	* The game will still make sure it's playable, so if it’s not, no enemies will be placed.  
+	* Enemies are placed randomly on free cells using a pseudo-random number generator (`ft_rand()` from `libf`).   
+	* Enemies won’t start moving until the player makes their first move, giving you some time to figure things out.  
+4) **Animation support:** Enemies and collectibles have smooth animations, and everything runs at the same speed (FPS is based on speed and the number of frames in the animation).  
+5) **Custom map support:**  
+	* Map needs to be rectangular, surrounded by walls (`1`), and include exactly one player (`P`) and one exit (`E`), with at least one collectible (`C`).  
+	* The rest of the map can have `0` as free spaces.  
+	* The map file needs to have a `.ber` extension.  
+	* The game will check the map and automatically generate the visuals if it’s valid.   
+6) **Error handling:** If something goes wrong, a clear error message will be shown in `stdout`. There are a few types of errors:  
+	* Custom errors if there’s something wrong with the map.  
+	* Errors from the `MLX42` library if there's a problem on that side.  
+	* System errors, like if there’s an issue with memory or reading the file.  
 
-</details>
+### Controls
+| Key         | Action                      |
+|-------------|-----------------------------|
+| `W` or `↑`  | Move Up                     |
+| `A` or `←`  | Move Left                   |
+| `S` or `↓`  | Move Down                   |
+| `D` or `→`  | Move Right                  |
+| `ESC`       | Exit the Game               |
+| `Enter`     | Start the game (main menu)  |
 
+### Setup  
+**1. Clone the Repository**  
+To clone the repository along with its submodules `MLX42` and `libft`, run:
+```bash
+git clone --recurse-submodules https://github.com/ipersids/hive-core-so-long.git so-long
+cd so-long
+```
+**2. Build the project:**  
+```bash
+make
+```
+
+Other commands:  
+	* `make clean` will remove all .o' files from the directory.  
+	* `make fclean` will remove all .o' and executable files.  
+	* `make re` will trigger the fclean command and rebuild the program.   
+
+**3. Run the game:**
+To run the game with a map, use:
+```bash
+./so_long maps/map.ber
+```
+**4. Enjoy 😎**
 
 ______________
 Made by **Julia Persidskaia**.  
 [LinkedIn](https://www.linkedin.com/in/iuliia-persidskaia/)
+
+<div align="center">... and Thanks for All the Fish. 🐟 
+
+<video width="600" controls>
+  <source src="textures/readme-gif/preview-game-over.mov" alt="Game demonstration (win screen)" type="video/mp4">
+</video>
+
+</div>

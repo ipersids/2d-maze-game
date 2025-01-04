@@ -6,7 +6,7 @@
 #    By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 12:58:07 by ipersids          #+#    #+#              #
-#    Updated: 2025/01/04 15:08:34 by ipersids         ###   ########.fr        #
+#    Updated: 2025/01/04 18:23:06 by ipersids         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 HDRS			:= -Iinclude -I$(SUBM_MLX_DIR)/include -I$(SUBM_LIBFT_DIR)/include
 LIBS			:= -L$(SUBM_MLX_DIR)/build -lmlx42 \
 				   -L$(SUBM_LIBFT_DIR) -lft \
-				   -ldl -lglfw #-lm
+				   -ldl -lglfw
 
 # Sources and objects
 SRCS			:= src/check/path_check.c src/check/dfs_algorithm.c \
@@ -88,6 +88,7 @@ re: fclean all
 
 # Rule: update submodule MLX42 --init
 update-submodule:
+	git submodule init
 	git submodule update --recursive
 
 # Rule: build Submodule MLX42
@@ -95,20 +96,5 @@ build-submodule:
 	cd $(SUBM_MLX_DIR) && cmake -B build && cmake --build build -j4
 	@echo "\nMLX42 is ready.\n"
 	$(MAKE) -C $(SUBM_LIBFT_DIR) 
-
-# TESTING
-TEST_NAME		:= test_main
-TEST_SRCS		:= test/test_main.c
-TEST_OBJS		:= $(TEST_SRCS:%.c=%.o)
-
-test: update-submodule build-submodule $(TEST_NAME)
-
-$(TEST_NAME): $(TEST_OBJS) $(OBJS)
-	$(CC) $(CFLAGS) -g $(TEST_OBJS) $(OBJS) $(HDRS) $(LIBS) -o $(TEST_NAME) -I.
-
-tclean: clean
-	$(RM) $(TEST_NAME) $(TEST_OBJS)
-
-
 
 .PHONY: all clean fclean re update-submodule build-submodule
