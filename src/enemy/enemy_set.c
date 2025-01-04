@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 13:34:43 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 11:15:24 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/04 13:09:51 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,9 @@ static int	put_enemies(t_game *game, t_map *map, uint32_t **free_spaces)
 	int	i;
 
 	e = 0;
-	srand((unsigned long int)free_spaces[0]);
 	while (e < game->enemy.cnt && 0 != map->free_space)
 	{
-		i = rand() % map->free_space;
+		i = ft_rand() % map->free_space;
 		game->lvl.map[free_spaces[i][1]][free_spaces[i][0]] = ENEMY_CODE;
 		if (so_validate_map_playable(map))
 			game->lvl.map[free_spaces[i][1]][free_spaces[i][0]] = MAP_CODE[0];
@@ -144,7 +143,7 @@ static void	fill_enemy_pos_arr(t_game *game, uint32_t **enemy_pos)
 			{
 				enemy_pos[i][0] = col * game->sprite_size;
 				enemy_pos[i][1] = row * game->sprite_size;
-				enemy_pos[i][2] = rand() % GO_MAX;
+				enemy_pos[i][2] = ft_rand() % GO_MAX;
 				i++;
 			}
 			col++;

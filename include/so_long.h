@@ -6,7 +6,7 @@
 /*   By: ipersids <ipersids@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:52:27 by ipersids          #+#    #+#             */
-/*   Updated: 2025/01/02 18:09:14 by ipersids         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:08:14 by ipersids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,6 @@
 # define ENEMY_MAX_FRAMES 32	// Maximum amount of frames for enemy animation
 # define ENEMY_ANIM_FRAMES 8	// Amount of frames for one direction animation
 # define ENEMY_SPEED 1.0		// 1 loop per second
-
-# ifndef RAND_MAX
-#  define RAND_MAX 32767
-# endif
 
 /**
  * @brief Enum representing the game status.
@@ -286,7 +282,6 @@ void		so_general_loop_hook_init(t_game *game);
 
 uint32_t	**so_place_enemies(t_game *game, t_map *map);
 mlx_image_t	**so_set_enemy_animation(t_game *game);
-int			ft_rand(void);
 
 /* ---------------------- Error and memory management ---------------------- */
 
