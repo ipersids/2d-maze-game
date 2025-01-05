@@ -18,7 +18,7 @@
 So Long is a fun little 2D maze game where player need to collect all the coins and find the way out to win. No need to worry about creating a map with enemies; the game will automatically add them if there’s enough space, and it’ll still be totally playable. 
 
 ### Features  
-1) **Main menu:** Player can choose your character (colored: green, red, or yellow):  
+1) **Main menu:** Player can choose the character (colored: green, red, or yellow):  
 	* Use the arrow keys `←` | `→` or `A` | `D` to pick a color.  
 	* Press `Enter` to start the game.  
 2) **Win and lose screens.**  
@@ -26,7 +26,7 @@ So Long is a fun little 2D maze game where player need to collect all the coins 
 	* 5% of the free spaces on the map can have enemies (this is for an "easy" difficulty level).  
 	* The game will still make sure it's playable, so if it’s not, no enemies will be placed.  
 	* Enemies are placed randomly on free cells using a pseudo-random number generator (`ft_rand()` from `libf`).   
-	* Enemies won’t start moving until the player makes their first move, giving you some time to figure things out.  
+	* Enemies won’t start moving until the player makes their first move, giving some time to figure things out.  
 4) **Animation support:** Enemies and collectibles have smooth animations, and everything runs at the same speed (FPS is based on speed and the number of frames in the animation).  
 5) **Custom map support:**  
 	* Map needs to be rectangular, surrounded by walls (`1`), and include exactly one player (`P`) and one exit (`E`), with at least one collectible (`C`).  
