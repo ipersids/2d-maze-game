@@ -1,4 +1,3 @@
-# hive-core-so-long
 <div align="center">
 	<picture>
 		<img src="https://github.com/ayogun/42-project-badges/blob/main/badges/so_longm.png" alt="42 The 'So Long' school project with a bonus badge.">
