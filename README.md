@@ -1,11 +1,6 @@
 <div align="center">
-	<picture>
-		<img src="https://github.com/ayogun/42-project-badges/blob/main/badges/so_longm.png" alt="42 The 'So Long' school project with a bonus badge.">
-	</picture>  
 
-<p><a href="https://www.hive.fi/en/curriculum">Hive (42 School Network)</a></p>  
-
-<h1> So Long</h1> 
+<h1>2D Maze Game 'So Long'</h1> 
 
 <picture>
 		<img src="textures/readme-gif/preview-game-win.gif" alt="Game demonstration (win screen)">
@@ -51,7 +46,7 @@ So Long is a fun little 2D maze game where player need to collect all the coins 
 **1. Clone the Repository**  
 To clone the repository along with its submodules `MLX42` and `libft`, run:
 ```bash
-git clone --recurse-submodules https://github.com/ipersids/hive-core-so-long.git so-long
+git clone --recurse-submodules https://github.com/ipersids/2d-maze-game.git so-long
 cd so-long
 ```
 **2. Build the project:**  
